@@ -4,8 +4,6 @@ import { connectDB } from './db/connection.js';
 import { NewsItem } from './db/models.js';
 import { updateCache } from './utils/cache.js';
 import config from '../config/default.js';
-import axios from 'axios';
-
 const parser = new Parser({
   timeout: 10000,
   customFields: {
@@ -28,61 +26,6 @@ const categoryKeywords = {
   regulation: ['sec', 'regulation', 'law', 'legal', 'compliance', 'ban', 'etf', 'approval'],
   mining: ['mining', 'hash rate', 'miner', 'proof of work', 'pool', 'bitcoin mining']
 };
-
-// Scrape image URL from article HTML (for sources without images in RSS)
-async function scrapeImageUrl(url, source) {
-  // Only scrape for specific sources that don't include images in RSS
-  if (!['The Block'].includes(source)) {
-    return null;
-  }
-
-  try {
-    const response = await axios.get(url, {
-      timeout: 5000,
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; CryptoNewsBot/1.0)'
-      }
-    });
-
-    // Try to find featured image in various patterns
-    const html = response.data;
-
-    // Open Graph image
-    const ogMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i);
-    if (ogMatch && ogMatch[1]) {
-      return ogMatch[1];
-    }
-
-    // Twitter image
-    const twitterMatch = html.match(/<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i);
-    if (twitterMatch && twitterMatch[1]) {
-      return twitterMatch[1];
-    }
-
-    // First img in article content (The Block specific)
-    const articleImgMatch = html.match(/<article[^>]*>.*?<img[^>]+src=["']([^"']+)["']/is);
-    if (articleImgMatch && articleImgMatch[1]) {
-      return articleImgMatch[1];
-    }
-
-    // Featured image div
-    const featuredMatch = html.match(/class=["']featured-image[^"']*["'][^>]*>.*?<img[^>]+src=["']([^"']+)["']/is);
-    if (featuredMatch && featuredMatch[1]) {
-      return featuredMatch[1];
-    }
-
-    // Hero image
-    const heroMatch = html.match(/class=["']hero[^"']*["'][^>]*>.*?<img[^>]+src=["']([^"']+)["']/is);
-    if (heroMatch && heroMatch[1]) {
-      return heroMatch[1];
-    }
-
-    return null;
-  } catch (error) {
-    console.error(`Error scraping image from ${url}:`, error.message);
-    return null;
-  }
-}
 
 // Extract image URL from various RSS fields
 function extractImageUrl(item) {
@@ -141,16 +84,7 @@ async function fetchFeed(source) {
 
     for (const item of feed.items.slice(0, 50)) {
       const tags = categorizeItem(item);
-      let imageUrl = extractImageUrl(item);
-
-      // For The Block, scrape the article page if no image found in RSS
-      if (!imageUrl && source.name === 'The Block' && item.link) {
-        console.log(`  Scraping image for: ${item.title?.substring(0, 50)}...`);
-        imageUrl = await scrapeImageUrl(item.link, source.name);
-        if (imageUrl) {
-          console.log(`    Found: ${imageUrl.substring(0, 60)}...`);
-        }
-      }
+      const imageUrl = extractImageUrl(item);
 
       items.push({
         guid: item.guid || item.link,

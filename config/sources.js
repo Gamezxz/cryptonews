@@ -28,13 +28,6 @@ export const sources = [
     priority: 1,
     enabled: true
   },
-  {
-    name: 'The Block',
-    url: 'https://www.theblock.co/rss.xml',
-    category: 'general',
-    priority: 1,
-    enabled: true
-  },
   // Exchange Blogs
   {
     name: 'Binance Blog',
