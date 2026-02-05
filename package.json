@@ -1,0 +1,25 @@
+{
+  "name": "cryptonews-aggregator",
+  "version": "1.0.0",
+  "description": "Crypto news aggregator with RSS feeds and MongoDB",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "fetch": "node src/fetcher.js",
+    "generate": "node src/generator.js",
+    "cache": "node src/utils/cache.js"
+  },
+  "dependencies": {
+    "rss-parser": "^3.13.0",
+    "node-cron": "^3.0.3",
+    "axios": "^1.7.0",
+    "ejs": "^3.1.10",
+    "express": "^4.19.0",
+    "mongoose": "^8.5.0",
+    "dotenv": "^16.4.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
