@@ -56,21 +56,6 @@ export const sources = [
     category: 'exchanges',
     priority: 2,
     enabled: true
-  },
-  // Reddit Communities
-  {
-    name: 'r/CryptoCurrency',
-    url: 'https://www.reddit.com/r/CryptoCurrency.rss',
-    category: 'reddit',
-    priority: 3,
-    enabled: true
-  },
-  {
-    name: 'r/Bitcoin',
-    url: 'https://www.reddit.com/r/Bitcoin.rss',
-    category: 'reddit',
-    priority: 3,
-    enabled: true
   }
 ];
 
@@ -82,7 +67,6 @@ export const categories = [
   { id: 'nft', name: 'NFTs', icon: '🖼️' },
   { id: 'altcoins', name: 'Altcoins', icon: '🪙' },
   { id: 'exchanges', name: 'Exchanges', icon: '🔄' },
-  { id: 'reddit', name: 'Reddit', icon: '💬' },
   { id: 'regulation', name: 'Regulation', icon: '⚖️' },
   { id: 'mining', name: 'Mining', icon: '⛏️' }
 ];
