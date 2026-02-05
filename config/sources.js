@@ -28,6 +28,27 @@ export const sources = [
     priority: 1,
     enabled: true
   },
+  {
+    name: 'Bitcoin Magazine',
+    url: 'https://bitcoinmagazine.com/.rss/full/',
+    category: 'general',
+    priority: 1,
+    enabled: true
+  },
+  {
+    name: 'BeInCrypto',
+    url: 'https://beincrypto.com/feed/',
+    category: 'general',
+    priority: 1,
+    enabled: true
+  },
+  {
+    name: 'Blockworks',
+    url: 'https://blockworks.co/feed',
+    category: 'general',
+    priority: 1,
+    enabled: true
+  },
   // Exchange Blogs
   {
     name: 'Binance Blog',
