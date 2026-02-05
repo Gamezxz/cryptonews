@@ -73,16 +73,4 @@ export const sources = [
   }
 ];
 
-export const categories = [
-  { id: 'all', name: 'All News', icon: '📰' },
-  { id: 'bitcoin', name: 'Bitcoin', icon: '₿' },
-  { id: 'ethereum', name: 'Ethereum', icon: 'Ξ' },
-  { id: 'defi', name: 'DeFi', icon: '💰' },
-  { id: 'nft', name: 'NFTs', icon: '🖼️' },
-  { id: 'altcoins', name: 'Altcoins', icon: '🪙' },
-  { id: 'exchanges', name: 'Exchanges', icon: '🔄' },
-  { id: 'regulation', name: 'Regulation', icon: '⚖️' },
-  { id: 'mining', name: 'Mining', icon: '⛏️' }
-];
-
-export default { sources, categories };
+export default { sources };

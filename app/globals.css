@@ -74,8 +74,8 @@ body {
   margin-top: 4px;
 }
 
-/* Navigation */
-.category-nav {
+/* Tag Filter */
+.tag-filter {
   background-color: var(--bg-primary);
   border-bottom: 1px solid var(--border-color);
   overflow-x: auto;
@@ -83,35 +83,42 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-.category-nav .container {
+.tag-filter .container {
   display: flex;
   gap: 8px;
   padding: 16px 20px;
 }
 
-.nav-item {
+.tag-btn {
   display: inline-flex;
   align-items: center;
-  padding: 8px 16px;
-  border-radius: var(--radius-md);
+  padding: 6px 14px;
+  border-radius: 20px;
   color: var(--text-secondary);
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
   transition: all 0.2s ease;
   background-color: transparent;
-  border: 1px solid transparent;
+  border: 1px solid var(--border-color);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
-.nav-item:hover {
-  background-color: var(--bg-secondary);
-  color: var(--text-primary);
-}
-
-.nav-item.active {
-  background-color: var(--accent-color);
+.tag-btn:hover {
   color: white;
+  border-color: transparent;
 }
+
+.tag-btn.tag-all:hover, .tag-btn.tag-all.active { background-color: var(--accent-color); color: white; border-color: transparent; }
+.tag-btn.tag-bitcoin:hover, .tag-btn.tag-bitcoin.active { background-color: #f97316; color: white; border-color: transparent; }
+.tag-btn.tag-ethereum:hover, .tag-btn.tag-ethereum.active { background-color: #8b5cf6; color: white; border-color: transparent; }
+.tag-btn.tag-defi:hover, .tag-btn.tag-defi.active { background-color: #22c55e; color: white; border-color: transparent; }
+.tag-btn.tag-nft:hover, .tag-btn.tag-nft.active { background-color: #ec4899; color: white; border-color: transparent; }
+.tag-btn.tag-altcoins:hover, .tag-btn.tag-altcoins.active { background-color: #3b82f6; color: white; border-color: transparent; }
+.tag-btn.tag-exchanges:hover, .tag-btn.tag-exchanges.active { background-color: #6366f1; color: white; border-color: transparent; }
+.tag-btn.tag-regulation:hover, .tag-btn.tag-regulation.active { background-color: #64748b; color: white; border-color: transparent; }
+.tag-btn.tag-mining:hover, .tag-btn.tag-mining.active { background-color: #d97706; color: white; border-color: transparent; }
 
 /* Main Content */
 .main-content {
@@ -364,7 +371,7 @@ body {
     font-size: 24px;
   }
 
-  .category-nav .container {
+  .tag-filter .container {
     padding: 12px 16px;
   }
 }

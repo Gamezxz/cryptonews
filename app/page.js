@@ -1,5 +1,5 @@
 import Header from '../components/Header';
-import NewsCard from '../components/NewsCard';
+import NewsFeed from '../components/NewsFeed';
 import Footer from '../components/Footer';
 import { getNews } from '../src/fetcher.js';
 
@@ -14,7 +14,7 @@ export async function generateMetadata() {
 
 async function getNewsData() {
   try {
-    return await getNews('all', 100);
+    return await getNews('all', 200);
   } catch (error) {
     console.error('Error fetching news:', error);
     return [];
@@ -23,35 +23,11 @@ async function getNewsData() {
 
 export default async function HomePage() {
   const news = await getNewsData();
-  const lastUpdated = new Date().toISOString();
 
   return (
     <>
-      <Header currentCategory="all" />
-
-      <main className="main-content">
-        <div className="container">
-          <div className="news-header">
-            <h2>Latest News</h2>
-            <span className="last-updated">
-              Updated: {new Date(lastUpdated).toLocaleString()}
-            </span>
-          </div>
-
-          <div className="news-grid">
-            {news.map((item, index) => (
-              <NewsCard key={item.guid} item={item} index={index} />
-            ))}
-          </div>
-
-          {news.length === 0 && (
-            <div className="empty-state">
-              <p>No news found. Check back soon!</p>
-            </div>
-          )}
-        </div>
-      </main>
-
+      <Header />
+      <NewsFeed news={JSON.parse(JSON.stringify(news))} />
       <Footer />
     </>
   );
