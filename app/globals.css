@@ -275,6 +275,16 @@ body {
   letter-spacing: 0.5px;
 }
 
+.tag-bitcoin { background-color: #f97316; }
+.tag-ethereum { background-color: #8b5cf6; }
+.tag-defi { background-color: #22c55e; }
+.tag-nft { background-color: #ec4899; }
+.tag-altcoins { background-color: #3b82f6; }
+.tag-exchanges { background-color: #6366f1; }
+.tag-regulation { background-color: #64748b; }
+.tag-mining { background-color: #d97706; }
+.tag-general { background-color: var(--accent-color); }
+
 .news-title {
   margin-bottom: 12px;
 }

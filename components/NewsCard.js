@@ -37,7 +37,6 @@ function getGradient(category) {
     nft: 'from-pink-500 to-rose-500',
     altcoins: 'from-blue-500 to-cyan-500',
     exchanges: 'from-indigo-500 to-violet-500',
-    reddit: 'from-orange-600 to-red-500',
     regulation: 'from-slate-500 to-gray-600',
     mining: 'from-amber-600 to-yellow-600',
     general: 'from-teal-500 to-cyan-500'
@@ -58,13 +57,16 @@ export default function NewsCard({ item, index }) {
       nft: '🖼️',
       altcoins: '🪙',
       exchanges: '🔄',
-      reddit: '💬',
       regulation: '⚖️',
       mining: '⛏️',
       general: '📰'
     };
     return icons[category] || icons.general;
   };
+
+  const tags = item.categories && item.categories.length > 0
+    ? item.categories
+    : [item.category];
 
   return (
     <article className="news-card" style={{ animationDelay: `${index * 0.02}s` }}>
@@ -89,7 +91,9 @@ export default function NewsCard({ item, index }) {
       <div className="news-content">
         <div className="news-source">
           <span className="source-badge">{item.source}</span>
-          <span className="category-badge">{item.category}</span>
+          {tags.map((tag) => (
+            <span key={tag} className={`category-badge tag-${tag}`}>{tag}</span>
+          ))}
         </div>
         <h3 className="news-title">
           <a href={item.link} target="_blank" rel="noopener noreferrer">

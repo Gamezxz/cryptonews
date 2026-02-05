@@ -115,19 +115,20 @@ function extractImageUrl(item) {
   return null;
 }
 
-// Categorize news item based on keywords
+// Categorize news item based on keywords — returns all matching tags
 function categorizeItem(item) {
   const title = (item.title || '').toLowerCase();
   const content = (item.contentSnippet || item.content || '').toLowerCase();
   const text = `${title} ${content}`;
 
+  const matched = [];
   for (const [category, keywords] of Object.entries(categoryKeywords)) {
     if (keywords.some(keyword => text.includes(keyword))) {
-      return category;
+      matched.push(category);
     }
   }
 
-  return 'general';
+  return matched.length > 0 ? matched : ['general'];
 }
 
 // Fetch single RSS feed
@@ -139,7 +140,7 @@ async function fetchFeed(source) {
     const feed = await parser.parseURL(source.url);
 
     for (const item of feed.items.slice(0, 50)) {
-      const category = categorizeItem(item);
+      const tags = categorizeItem(item);
       let imageUrl = extractImageUrl(item);
 
       // For The Block, scrape the article page if no image found in RSS
@@ -159,10 +160,10 @@ async function fetchFeed(source) {
         content: item.contentSnippet || item.content || '',
         author: item.author || item.creator || source.name,
         enclosure: imageUrl || item.enclosure?.url || null,
-        categories: item.categories || [],
+        categories: tags,
         source: source.name,
         sourceCategory: source.category,
-        category: category
+        category: tags[0]
       });
     }
 
