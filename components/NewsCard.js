@@ -44,6 +44,18 @@ function getGradient(category) {
   return gradients[category] || gradients.general;
 }
 
+function timeAgo(dateStr) {
+  const now = new Date();
+  const date = new Date(dateStr);
+  const diff = Math.floor((now - date) / 1000);
+
+  if (diff < 60) return 'just now';
+  if (diff < 3600) return `${Math.floor(diff / 60)} mins ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
+  if (diff < 604800) return `${Math.floor(diff / 86400)} days ago`;
+  return date.toLocaleDateString();
+}
+
 export default function NewsCard({ item, index }) {
   const imageUrl = getImageUrl(item);
   const gradient = getGradient(item.category);
@@ -103,7 +115,7 @@ export default function NewsCard({ item, index }) {
         <p className="news-excerpt">{item.content?.substring(0, 120) || ''}...</p>
         <div className="news-meta">
           <time dateTime={item.pubDate}>
-            {new Date(item.pubDate).toLocaleDateString()}
+            {timeAgo(item.pubDate)}
           </time>
         </div>
       </div>
