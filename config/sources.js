@@ -71,13 +71,6 @@ export const sources = [
     enabled: true
   },
   {
-    name: 'The Block',
-    url: 'https://www.theblock.co/rss.xml',
-    category: 'general',
-    priority: 1,
-    enabled: true
-  },
-  {
     name: 'AMBCrypto',
     url: 'https://ambcrypto.com/feed/',
     category: 'general',
