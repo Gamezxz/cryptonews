@@ -11,7 +11,8 @@ const parser = new Parser({
     item: [
       ['media:content', 'media'],
       ['enclosure', 'enclosure'],
-      ['description', 'description']
+      ['description', 'description'],
+      ['content:encoded', 'contentEncoded']
     ]
   }
 });
@@ -26,6 +27,37 @@ const categoryKeywords = {
   regulation: ['sec', 'regulation', 'law', 'legal', 'compliance', 'ban', 'etf', 'approval'],
   mining: ['mining', 'hash rate', 'miner', 'proof of work', 'pool', 'bitcoin mining']
 };
+
+// Extract image URL from various fields
+function extractImageUrl(item) {
+  // Check enclosure first
+  if (item.enclosure?.url) {
+    return item.enclosure.url;
+  }
+
+  // Try media:content
+  if (item.media?.['$']?.url) {
+    return item.media['$'].url;
+  }
+
+  // Try content:encoded (HTML content)
+  if (item.contentEncoded) {
+    const imgMatch = item.contentEncoded.match(/<img[^>]+src=["']([^"']+)["']/i);
+    if (imgMatch && imgMatch[1]) {
+      return imgMatch[1];
+    }
+  }
+
+  // Try content field
+  if (item.content) {
+    const imgMatch = item.content.match(/<img[^>]+src=["']([^"']+)["']/i);
+    if (imgMatch && imgMatch[1]) {
+      return imgMatch[1];
+    }
+  }
+
+  return null;
+}
 
 // Categorize news item based on keywords
 function categorizeItem(item) {
@@ -52,6 +84,7 @@ async function fetchFeed(source) {
 
     for (const item of feed.items.slice(0, 50)) {
       const category = categorizeItem(item);
+      const imageUrl = extractImageUrl(item);
       items.push({
         guid: item.guid || item.link,
         title: item.title || 'Untitled',
@@ -59,7 +92,7 @@ async function fetchFeed(source) {
         pubDate: item.pubDate ? new Date(item.pubDate) : new Date(),
         content: item.contentSnippet || item.content || '',
         author: item.author || item.creator || source.name,
-        enclosure: item.enclosure?.url || null,
+        enclosure: imageUrl || item.enclosure?.url || null,
         categories: item.categories || [],
         source: source.name,
         sourceCategory: source.category,
