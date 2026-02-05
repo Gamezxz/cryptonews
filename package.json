@@ -7,19 +7,27 @@
   "scripts": {
     "start": "node src/index.js",
     "fetch": "node src/fetcher.js",
-    "generate": "node src/generator.js",
-    "cache": "node src/utils/cache.js"
+    "dev": "next dev",
+    "build": "next build",
+    "build:static": "next build && next export"
   },
   "dependencies": {
-    "rss-parser": "^3.13.0",
-    "node-cron": "^3.0.3",
     "axios": "^1.7.0",
-    "ejs": "^3.1.10",
-    "express": "^4.19.0",
+    "dotenv": "^16.4.5",
+    "express": "^5.2.1",
     "mongoose": "^8.5.0",
-    "dotenv": "^16.4.5"
+    "next": "^16.1.6",
+    "node-cron": "^3.0.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "rss-parser": "^3.13.0"
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.24",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18"
   }
 }

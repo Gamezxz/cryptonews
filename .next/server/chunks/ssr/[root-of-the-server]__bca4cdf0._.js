@@ -1,0 +1,3 @@
+module.exports=[4047,a=>{a.v({className:"inter_396b12ce-module__rRjk0G__className"})},62925,a=>{"use strict";var b=a.i(7997),c=a.i(4047);let d={className:c.default.className,style:{fontFamily:"'Inter', 'Inter Fallback'",fontStyle:"normal"}};function e({children:a}){return(0,b.jsx)("html",{lang:"en",children:(0,b.jsx)("body",{className:d.className,children:a})})}null!=c.default.variable&&(d.variable=c.default.variable),a.s(["default",()=>e,"metadata",0,{title:"Crypto News Aggregator",description:"Latest cryptocurrency news from top sources"}],62925)}];
+
+//# sourceMappingURL=%5Broot-of-the-server%5D__bca4cdf0._.js.map

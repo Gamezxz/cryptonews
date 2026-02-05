@@ -2,12 +2,23 @@ import 'dotenv/config';
 import express from 'express';
 import { connectDB, disconnectDB } from './db/connection.js';
 import { startScheduler } from './scheduler.js';
-import { generateSite } from './generator.js';
 import { getNews } from './fetcher.js';
+import { execSync } from 'child_process';
 import config from '../config/default.js';
 
 const app = express();
 const PORT = config.server.port;
+
+// Build static site function
+async function buildStaticSite() {
+  console.log('Building Next.js static site...');
+  try {
+    execSync('npm run build', { stdio: 'inherit' });
+    console.log('Static site built successfully');
+  } catch (err) {
+    console.error('Build failed:', err.message);
+  }
+}
 
 async function main() {
   console.log('=== Crypto News Aggregator ===');
@@ -23,6 +34,9 @@ async function main() {
   } catch (err) {
     console.error('Startup fetch failed:', err.message);
   }
+
+  // Build static site
+  await buildStaticSite();
 
   // Start the scheduler (fetches every 1 minute by default)
   startScheduler();
@@ -47,23 +61,23 @@ async function main() {
     }
   });
 
-  // API endpoint to trigger manual refresh
+  // API endpoint to trigger manual refresh and rebuild
   app.get('/api/refresh', async (req, res) => {
     try {
       const { fetchAllSources } = await import('./fetcher.js');
       await fetchAllSources();
-      await generateSite();
-      res.json({ success: true, message: 'News refreshed successfully' });
+      await buildStaticSite();
+      res.json({ success: true, message: 'News refreshed and site rebuilt' });
     } catch (err) {
       res.status(500).json({ success: false, error: err.message });
     }
   });
 
-  // API endpoint to regenerate static site
-  app.get('/api/regenerate', async (req, res) => {
+  // API endpoint to rebuild static site
+  app.get('/api/rebuild', async (req, res) => {
     try {
-      await generateSite();
-      res.json({ success: true, message: 'Site regenerated successfully' });
+      await buildStaticSite();
+      res.json({ success: true, message: 'Site rebuilt successfully' });
     } catch (err) {
       res.status(500).json({ success: false, error: err.message });
     }
@@ -83,14 +97,6 @@ async function main() {
     console.log(`Server running at http://localhost:${PORT}`);
     console.log(`Cron schedule: ${config.scheduler.cronSchedule}`);
   });
-
-  // Initial site generation
-  try {
-    await generateSite();
-    console.log('Initial site generation complete');
-  } catch (err) {
-    console.error('Initial generation failed:', err.message);
-  }
 
   // Graceful shutdown
   process.on('SIGINT', async () => {
