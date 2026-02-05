@@ -59,6 +59,7 @@ const newsItemSchema = new mongoose.Schema({
 
 // Index for efficient queries
 newsItemSchema.index({ category: 1, pubDate: -1 });
+newsItemSchema.index({ categories: 1, pubDate: -1 });
 newsItemSchema.index({ source: 1, pubDate: -1 });
 
 // Upsert by guid

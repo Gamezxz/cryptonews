@@ -224,11 +224,11 @@ export async function fetchAllSources() {
   return allItems;
 }
 
-// Get news from MongoDB with optional category filter
+// Get news from MongoDB with optional category filter (searches tags array)
 export async function getNews(category = null, limit = 200) {
   await connectDB();
 
-  const query = category && category !== 'all' ? { category } : {};
+  const query = category && category !== 'all' ? { categories: category } : {};
   const items = await NewsItem.find(query)
     .sort({ pubDate: -1 })
     .limit(limit)
