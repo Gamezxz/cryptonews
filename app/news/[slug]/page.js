@@ -11,7 +11,7 @@ export async function generateStaticParams() {
 
   const items = await NewsItem.find({ slug: { $exists: true, $ne: null } })
     .sort({ pubDate: -1 })
-    .limit(200)
+    .limit(1000)
     .select('slug')
     .lean();
 
