@@ -192,11 +192,11 @@ export async function batchScrapeRecent(limit = 10) {
   return { success, failed };
 }
 
-// Continuous mode: scrape one article every 60 seconds, runs forever
+// Continuous mode: scrape articles back-to-back without delay
 export async function continuousScrape() {
   await connectDB();
   console.log("=== Continuous Scrape Mode ===");
-  console.log("Processing 1 article every 60 seconds...\n");
+  console.log("Processing articles back-to-back...\n");
 
   let total = 0;
   let success = 0;
@@ -238,10 +238,9 @@ export async function continuousScrape() {
     } catch (err) {
       console.error(`Loop error: ${err.message}`);
       failed++;
+      // Brief pause on error to avoid tight error loops
+      await new Promise((r) => setTimeout(r, 5000));
     }
-
-    // Wait 60 seconds before next
-    await new Promise((r) => setTimeout(r, 60000));
   }
 }
 
