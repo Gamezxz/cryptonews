@@ -112,7 +112,8 @@ export default function AdminDashboard() {
     setActionLoading(action);
     socketRef.current.emit("action", action);
     // Also call the API directly
-    fetch(`${API_URL}/api/${action === "refresh" ? "refresh" : "rebuild"}`)
+    const apiPath = action === "refresh" ? "refresh" : action === "recreate-cache" ? "recreate-cache" : "rebuild";
+    fetch(`${API_URL}/api/${apiPath}`)
       .then(() => setActionLoading(""))
       .catch(() => setActionLoading(""));
   }
