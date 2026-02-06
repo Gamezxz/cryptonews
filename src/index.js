@@ -127,6 +127,29 @@ async function main() {
     }
   });
 
+  // Get single news item by slug
+  app.get("/api/news/by-slug/:slug", async (req, res) => {
+    try {
+      const article = await NewsItem.findOne({ slug: req.params.slug }).lean();
+      if (!article) {
+        return res.status(404).json({ success: false, error: "Not found" });
+      }
+      // Get related articles
+      const related = await NewsItem.find({
+        _id: { $ne: article._id },
+        categories: { $in: article.categories || [article.category] },
+      })
+        .sort({ pubDate: -1 })
+        .limit(4)
+        .select("title translatedTitle source pubDate slug category")
+        .lean();
+
+      res.json({ success: true, data: article, related });
+    } catch (err) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
   // Get single news item by ID
   app.get("/api/news/:id", async (req, res) => {
     try {
