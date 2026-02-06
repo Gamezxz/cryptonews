@@ -12,6 +12,7 @@
     "build:static": "next build && next export"
   },
   "dependencies": {
+    "@extractus/article-extractor": "^8.0.20",
     "axios": "^1.7.0",
     "dotenv": "^16.4.5",
     "express": "^5.2.1",
