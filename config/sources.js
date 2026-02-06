@@ -1,160 +1,153 @@
 export const sources = [
   // Popular Crypto Media
   {
-    name: 'CoinDesk',
-    url: 'https://www.coindesk.com/arc/outboundfeeds/rss/',
-    category: 'general',
+    name: "CoinDesk",
+    url: "https://www.coindesk.com/arc/outboundfeeds/rss/",
+    category: "general",
     priority: 1,
-    enabled: true
+    enabled: true,
   },
   {
-    name: 'Cointelegraph',
-    url: 'https://cointelegraph.com/rss',
-    category: 'general',
+    name: "Cointelegraph",
+    url: "https://cointelegraph.com/rss",
+    category: "general",
     priority: 1,
-    enabled: true
+    enabled: true,
   },
   {
-    name: 'CryptoSlate',
-    url: 'https://cryptoslate.com/feed/',
-    category: 'general',
+    name: "CryptoSlate",
+    url: "https://cryptoslate.com/feed/",
+    category: "general",
     priority: 1,
-    enabled: true
+    enabled: true,
   },
   {
-    name: 'Decrypt',
-    url: 'https://decrypt.co/feed',
-    category: 'general',
+    name: "Decrypt",
+    url: "https://decrypt.co/feed",
+    category: "general",
     priority: 1,
-    enabled: true
+    enabled: true,
   },
   {
-    name: 'Bitcoin Magazine',
-    url: 'https://bitcoinmagazine.com/.rss/full/',
-    category: 'general',
+    name: "Bitcoin Magazine",
+    url: "https://bitcoinmagazine.com/.rss/full/",
+    category: "general",
     priority: 1,
-    enabled: true
+    enabled: false, // 403 Forbidden
   },
   {
-    name: 'BeInCrypto',
-    url: 'https://beincrypto.com/feed/',
-    category: 'general',
+    name: "BeInCrypto",
+    url: "https://beincrypto.com/feed/",
+    category: "general",
     priority: 1,
-    enabled: true
+    enabled: true,
   },
   {
-    name: 'Blockworks',
-    url: 'https://blockworks.co/feed',
-    category: 'general',
+    name: "Blockworks",
+    url: "https://blockworks.co/feed",
+    category: "general",
     priority: 1,
-    enabled: true
+    enabled: true,
   },
   {
-    name: 'Crypto Briefing',
-    url: 'https://cryptobriefing.com/feed/',
-    category: 'general',
+    name: "Crypto Briefing",
+    url: "https://cryptobriefing.com/feed/",
+    category: "general",
     priority: 1,
-    enabled: true
+    enabled: true,
   },
   {
-    name: 'Bitcoin.com',
-    url: 'https://news.bitcoin.com/feed/',
-    category: 'general',
+    name: "Bitcoin.com",
+    url: "https://news.bitcoin.com/feed/",
+    category: "general",
     priority: 1,
-    enabled: true
+    enabled: true,
   },
   {
-    name: 'CryptoNews.com',
-    url: 'https://cryptonews.com/news/feed/',
-    category: 'general',
+    name: "CryptoNews.com",
+    url: "https://cryptonews.com/news/feed/",
+    category: "general",
     priority: 1,
-    enabled: true
+    enabled: true,
   },
   {
-    name: 'AMBCrypto',
-    url: 'https://ambcrypto.com/feed/',
-    category: 'general',
+    name: "AMBCrypto",
+    url: "https://ambcrypto.com/feed/",
+    category: "general",
     priority: 1,
-    enabled: true
+    enabled: true,
   },
   {
-    name: 'CryptoPotato',
-    url: 'https://cryptopotato.com/feed/',
-    category: 'general',
+    name: "CryptoPotato",
+    url: "https://cryptopotato.com/feed/",
+    category: "general",
     priority: 1,
-    enabled: true
+    enabled: true,
   },
   {
-    name: 'WatcherGuru',
-    url: 'https://watcher.guru/news/feed',
-    category: 'general',
+    name: "WatcherGuru",
+    url: "https://watcher.guru/news/feed",
+    category: "general",
     priority: 1,
-    enabled: true
+    enabled: true,
   },
   {
-    name: 'U.Today',
-    url: 'https://u.today/rss',
-    category: 'general',
+    name: "U.Today",
+    url: "https://u.today/rss",
+    category: "general",
     priority: 1,
-    enabled: true
+    enabled: true,
   },
   {
-    name: 'CoinGape',
-    url: 'https://coingape.com/feed/',
-    category: 'general',
+    name: "CoinGape",
+    url: "https://coingape.com/feed/",
+    category: "general",
     priority: 1,
-    enabled: true
+    enabled: false, // 403 Forbidden
   },
   {
-    name: 'DailyCoin',
-    url: 'https://dailycoin.com/feed/',
-    category: 'general',
+    name: "DailyCoin",
+    url: "https://dailycoin.com/feed/",
+    category: "general",
     priority: 1,
-    enabled: true
+    enabled: true,
   },
   {
-    name: 'Finance Magnates',
-    url: 'https://www.financemagnates.com/feed/',
-    category: 'general',
+    name: "Coinpedia",
+    url: "https://coinpedia.org/feed/",
+    category: "general",
     priority: 1,
-    enabled: true
+    enabled: true,
   },
   {
-    name: 'Coinpedia',
-    url: 'https://coinpedia.org/feed/',
-    category: 'general',
+    name: "Investing.com",
+    url: "https://www.investing.com/rss/news.rss",
+    category: "general",
     priority: 1,
-    enabled: true
-  },
-  {
-    name: 'Investing.com',
-    url: 'https://www.investing.com/rss/news.rss',
-    category: 'general',
-    priority: 1,
-    enabled: true
+    enabled: true,
   },
   // Exchange Blogs
   {
-    name: 'Binance Blog',
-    url: 'https://www.binance.com/en/blog/rss',
-    category: 'exchanges',
+    name: "Binance Blog",
+    url: "https://www.binance.com/en/blog/rss",
+    category: "exchanges",
     priority: 2,
-    enabled: true
+    enabled: false, // XML parse error
   },
   {
-    name: 'Coinbase Blog',
-    url: 'https://blog.coinbase.com/rss',
-    category: 'exchanges',
+    name: "Coinbase Blog",
+    url: "https://blog.coinbase.com/rss",
+    category: "exchanges",
     priority: 2,
-    enabled: true
+    enabled: false, // XML attribute error
   },
   {
-    name: 'Kraken Blog',
-    url: 'https://blog.kraken.com/feed/',
-    category: 'exchanges',
+    name: "Kraken Blog",
+    url: "https://blog.kraken.com/feed/",
+    category: "exchanges",
     priority: 2,
-    enabled: true
-  }
+    enabled: true,
+  },
 ];
 
 export default { sources };

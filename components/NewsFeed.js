@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import NewsCard from './NewsCard';
 
 const tags = [
@@ -15,8 +15,31 @@ const tags = [
   { id: 'mining', name: 'Mining' },
 ];
 
-export default function NewsFeed({ news }) {
+export default function NewsFeed({ news: initialNews }) {
   const [activeTag, setActiveTag] = useState('all');
+  const [news, setNews] = useState(initialNews);
+  const [lastUpdate, setLastUpdate] = useState(new Date());
+
+  // Auto-refresh every 60 seconds
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const res = await fetch('http://localhost:13002/api/news?limit=200');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && json.data) {
+            setNews(json.data);
+            setLastUpdate(new Date());
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch news:', err);
+      }
+    };
+
+    const interval = setInterval(fetchNews, 60000); // 60 seconds
+    return () => clearInterval(interval);
+  }, []);
 
   const filtered = activeTag === 'all'
     ? news

@@ -627,6 +627,12 @@ body::after {
   letter-spacing: 0.05em;
 }
 
+.news-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
 .news-meta .meta-arrow {
   font-size: 10px;
   color: var(--text-muted);

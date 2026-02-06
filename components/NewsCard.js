@@ -89,9 +89,6 @@ export default function NewsCard({ item, index }) {
                item.sentiment === 'bearish' ? '↓ Bearish' : '— Neutral'}
             </span>
           )}
-          {tags.map((tag) => (
-            <span key={tag} className={`category-badge tag-${tag}`}>{tag}</span>
-          ))}
         </div>
         <h3 className="news-title">
           <a href={item.link} target="_blank" rel="noopener noreferrer">
@@ -126,6 +123,11 @@ export default function NewsCard({ item, index }) {
           <time dateTime={item.pubDate}>
             {timeAgo(item.pubDate)}
           </time>
+          <div className="news-tags">
+            {tags.map((tag) => (
+              <span key={tag} className={`category-badge tag-${tag}`}>{tag}</span>
+            ))}
+          </div>
         </div>
       </div>
     </article>

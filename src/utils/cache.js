@@ -34,17 +34,27 @@ export async function updateCache() {
   }
 }
 
-// Load from JSON cache
+// Load from JSON cache - auto-create if not exists
 export async function loadCache() {
   await ensureCacheDir();
 
+  const cachePath = path.join(CACHE_DIR, 'cache.json');
+
   try {
-    const cachePath = path.join(CACHE_DIR, 'cache.json');
     const data = await fs.readFile(cachePath, 'utf-8');
     return JSON.parse(data);
   } catch (err) {
-    console.log('No cache found, returning empty array');
-    return [];
+    // File doesn't exist - create it now
+    console.log('No cache found, creating new cache...');
+    await updateCache();
+
+    // Try reading again
+    try {
+      const data = await fs.readFile(cachePath, 'utf-8');
+      return JSON.parse(data);
+    } catch {
+      return [];
+    }
   }
 }
 
