@@ -1970,6 +1970,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/crypto-sell-off-intensifies-as-bitcoin-and-altcoins-fall-further": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/crypto-sell-off-intensifies-as-bitcoin-and-altcoins-fall-further.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/crypto-sentiment-at-lowest-point-since-2022-crash-as-bitcoin-tanks-to-60k": {
       "experimentalBypassFor": [
         {
@@ -2393,30 +2417,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/finders-latest-survey-predicts-bitcoin-at-133k-by-end-of-2026.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/from-safe-haven-to-stress-test-gold-and-silver-prices-feel-the-heat": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/from-safe-haven-to-stress-test-gold-and-silver-prices-feel-the-heat.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
