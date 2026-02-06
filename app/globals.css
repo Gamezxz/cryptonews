@@ -267,6 +267,34 @@ body::after {
     background: #d97706;
 }
 
+.live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #22c55e;
+    border: 1px solid #22c55e40;
+    background: #22c55e10;
+    font-family: var(--font-mono);
+}
+
+.live-indicator::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: pulse-live 2s ease-in-out infinite;
+}
+
+@keyframes pulse-live {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
 .tag-btn.tag-all:hover {
     border-color: var(--accent);
     color: var(--accent);
