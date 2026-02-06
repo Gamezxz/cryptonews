@@ -84,6 +84,16 @@ async function main() {
     }
   });
 
+  app.get("/api/recreate-cache", async (req, res) => {
+    try {
+      await updateCache();
+      activityBus.emit("admin", { message: "Cache recreated manually" });
+      res.json({ success: true, message: "Cache.json recreated successfully" });
+    } catch (err) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
   // Get single news item by ID
   app.get("/api/news/:id", async (req, res) => {
     try {
