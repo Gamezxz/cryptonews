@@ -6,8 +6,10 @@ import { updateCache } from "./utils/cache.js";
 import { activityBus } from "./dashboard.js";
 import { generateMarketInsight } from "./insight.js";
 
-const DELAY_BETWEEN_ITEMS = 2000; // 2 seconds
-const IDLE_WAIT = 30000; // 30 seconds when nothing to do
+const TRANSLATE_BATCH_SIZE = 5; // Translate 5 items per API call
+const DELAY_BETWEEN_BATCHES = 1000; // 1 second between batches
+const DELAY_BETWEEN_SCRAPES = 2000; // 2 seconds between scrapes
+const IDLE_WAIT = 15000; // 15 seconds when nothing to do
 const INSIGHT_INTERVAL = 10; // Generate insight every N translations
 
 let running = false;
@@ -18,41 +20,25 @@ export async function startProcessor() {
   running = true;
 
   await connectDB();
-  console.log("[Processor] Started — continuous translate + scrape");
+  console.log("[Processor] Started — batch translate, then scrape");
 
   // Generate initial market insight on startup
   generateMarketInsight().catch(() => {});
 
   while (running) {
     try {
-      // Find one untranslated item
-      const item = await NewsItem.findOne({
-        translatedTitle: { $in: ["", null] },
-      })
-        .sort({ pubDate: -1 })
-        .lean();
+      // Phase 1: Batch translate all untranslated items (priority)
+      const translated = await translatePhase();
 
-      if (!item) {
-        // Nothing to translate, check for unscrapped items
-        const unscrapped = await NewsItem.findOne({
-          scrapingStatus: { $in: ["", "pending", null] },
-          link: { $exists: true, $ne: "" },
-        })
-          .sort({ pubDate: -1 })
-          .lean();
+      // Phase 2: Scrape one item (lower priority, don't block translations)
+      if (!translated) {
+        const scraped = await scrapePhase();
 
-        if (unscrapped) {
-          // Scrape only
-          await processItem(null, unscrapped);
-        } else {
+        if (!scraped) {
           // Nothing to do at all
           await new Promise((r) => setTimeout(r, IDLE_WAIT));
         }
-        continue;
       }
-
-      // Translate this item
-      await processItem(item, item);
     } catch (err) {
       console.error("[Processor] Error:", err.message);
       activityBus.emit("error", {
@@ -64,22 +50,30 @@ export async function startProcessor() {
   }
 }
 
-async function processItem(translateItem, scrapeItem) {
-  const title = (translateItem || scrapeItem).title?.substring(0, 60);
+// Batch translate up to TRANSLATE_BATCH_SIZE items in one API call
+async function translatePhase() {
+  const items = await NewsItem.find({
+    translatedTitle: { $in: ["", null] },
+  })
+    .sort({ pubDate: -1 })
+    .limit(TRANSLATE_BATCH_SIZE)
+    .lean();
 
-  // Step 1: Translate (if needed)
-  if (translateItem && !translateItem.translatedTitle) {
-    activityBus.emit("translate_log", {
-      message: `📝 Translating: ${title}...`,
-    });
+  if (items.length === 0) return false;
 
-    try {
-      const results = await translateBatch([translateItem]);
+  activityBus.emit("translate_log", {
+    message: `📝 Batch translating ${items.length} items...`,
+  });
 
-      if (results.length > 0 && results[0].translatedTitle) {
-        const r = results[0];
+  try {
+    const results = await translateBatch(items);
+
+    let successCount = 0;
+    for (const r of results) {
+      const item = items[r.id];
+      if (item && r.translatedTitle) {
         await NewsItem.updateOne(
-          { _id: translateItem._id },
+          { _id: item._id },
           {
             translatedTitle: r.translatedTitle,
             translatedContent: r.translatedContent,
@@ -90,66 +84,80 @@ async function processItem(translateItem, scrapeItem) {
           message: `  ✓ ${r.translatedTitle.substring(0, 50)}... [${r.sentiment}]`,
           status: "ok",
         });
-        activityBus.emit("translate", { count: 1, errors: 0 });
-
-        // Generate market insight every N translations
+        successCount++;
         translateCounter++;
-        if (translateCounter % INSIGHT_INTERVAL === 0) {
-          generateMarketInsight().catch(() => {});
-        }
-      } else {
-        activityBus.emit("translate_log", {
-          message: `  ✗ Translation failed: ${title}`,
-          status: "error",
-        });
       }
-    } catch (err) {
+    }
+
+    if (successCount > 0) {
+      activityBus.emit("translate", { count: successCount, errors: items.length - successCount });
+
+      // Generate market insight every N translations
+      if (translateCounter % INSIGHT_INTERVAL < successCount) {
+        generateMarketInsight().catch(() => {});
+      }
+
+      // Update cache after batch
+      await updateCache();
+      activityBus.emit("news_update");
+    } else {
       activityBus.emit("translate_log", {
-        message: `  ✗ Translation error: ${err.message}`,
+        message: `  ✗ Batch translation failed`,
         status: "error",
       });
     }
+  } catch (err) {
+    activityBus.emit("translate_log", {
+      message: `  ✗ Translation error: ${err.message}`,
+      status: "error",
+    });
   }
 
-  // Step 2: Scrape + Summarize (if needed)
-  if (scrapeItem) {
-    const scrapeStatus = (
-      await NewsItem.findById(scrapeItem._id).select("scrapingStatus").lean()
-    )?.scrapingStatus;
+  await new Promise((r) => setTimeout(r, DELAY_BETWEEN_BATCHES));
+  return true;
+}
 
-    if (!scrapeStatus || scrapeStatus === "" || scrapeStatus === "pending") {
+// Scrape one unscrapped item
+async function scrapePhase() {
+  const unscrapped = await NewsItem.findOne({
+    scrapingStatus: { $in: ["", "pending", null] },
+    link: { $exists: true, $ne: "" },
+  })
+    .sort({ pubDate: -1 })
+    .lean();
+
+  if (!unscrapped) return false;
+
+  const title = unscrapped.title?.substring(0, 60);
+  activityBus.emit("translate_log", {
+    message: `🔍 Scraping: ${title}...`,
+  });
+
+  try {
+    const result = await scrapeAndSummarize(unscrapped._id);
+    if (result) {
       activityBus.emit("translate_log", {
-        message: `🔍 Scraping: ${title}...`,
+        message: `  ✓ Scraped + summarized`,
+        status: "ok",
       });
-
-      try {
-        const result = await scrapeAndSummarize(scrapeItem._id);
-        if (result) {
-          activityBus.emit("translate_log", {
-            message: `  ✓ Scraped + summarized`,
-            status: "ok",
-          });
-        } else {
-          activityBus.emit("translate_log", {
-            message: `  ✗ Scrape failed`,
-            status: "error",
-          });
-        }
-      } catch (err) {
-        activityBus.emit("translate_log", {
-          message: `  ✗ Scrape error: ${err.message}`,
-          status: "error",
-        });
-      }
+    } else {
+      activityBus.emit("translate_log", {
+        message: `  ✗ Scrape failed`,
+        status: "error",
+      });
     }
+  } catch (err) {
+    activityBus.emit("translate_log", {
+      message: `  ✗ Scrape error: ${err.message}`,
+      status: "error",
+    });
   }
 
-  // Step 3: Update cache + notify frontend
   await updateCache();
   activityBus.emit("news_update");
 
-  // Rate limit delay
-  await new Promise((r) => setTimeout(r, DELAY_BETWEEN_ITEMS));
+  await new Promise((r) => setTimeout(r, DELAY_BETWEEN_SCRAPES));
+  return true;
 }
 
 export function stopProcessor() {
