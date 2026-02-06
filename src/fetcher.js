@@ -223,48 +223,83 @@ async function fetchFeed(source) {
   return items;
 }
 
+// Run async tasks with concurrency limit
+async function pLimit(tasks, limit) {
+  const results = [];
+  let index = 0;
+
+  async function runNext() {
+    while (index < tasks.length) {
+      const i = index++;
+      results[i] = await tasks[i]();
+    }
+  }
+
+  const workers = Array.from({ length: Math.min(limit, tasks.length) }, () => runNext());
+  await Promise.all(workers);
+  return results;
+}
+
 // Fetch all enabled sources and save to MongoDB
 export async function fetchAllSources() {
   await connectDB();
 
   const enabledSources = sources.filter(s => s.enabled);
-  const allItems = [];
 
-  console.log(`Fetching from ${enabledSources.length} sources...`);
+  console.log(`Fetching from ${enabledSources.length} sources (parallel)...`);
+  const startTime = Date.now();
 
-  for (const source of enabledSources) {
-    const items = await fetchFeed(source);
-    allItems.push(...items);
-  }
+  // Parallel fetch with concurrency limit of 5
+  const feedResults = await pLimit(
+    enabledSources.map(source => () => fetchFeed(source)),
+    5
+  );
+
+  const allItems = feedResults.flat();
 
   if (allItems.length === 0) {
     console.log('No items fetched');
     return [];
   }
 
-  // Save to MongoDB with upsert (no summarization - use translation instead)
-  let savedCount = 0;
-  let updatedCount = 0;
+  // Generate slugs for all new items first
+  const existingGuids = new Set(
+    (await NewsItem.find({ guid: { $in: allItems.map(i => i.guid) } }).select('guid').lean())
+      .map(i => i.guid)
+  );
 
   for (const item of allItems) {
-    try {
-      const existing = await NewsItem.findOne({ guid: item.guid }).select('_id slug').lean();
-
-      if (existing) {
-        await NewsItem.updateOne({ _id: existing._id }, item);
-        updatedCount++;
-      } else {
-        // New article: generate slug
-        item.slug = await createSlug(item.title);
-        await NewsItem.create(item);
-        savedCount++;
-      }
-    } catch (error) {
-      console.error(`Error saving item ${item.guid}:`, error.message);
+    if (!existingGuids.has(item.guid)) {
+      item.slug = await createSlug(item.title);
     }
   }
 
-  console.log(`MongoDB: ${savedCount} new, ${updatedCount} updated`);
+  // Bulk upsert using bulkWrite
+  const bulkOps = allItems.map(item => ({
+    updateOne: {
+      filter: { guid: item.guid },
+      update: { $set: item, $setOnInsert: { fetchedAt: new Date() } },
+      upsert: true,
+    }
+  }));
+
+  let savedCount = 0;
+  let updatedCount = 0;
+
+  try {
+    // Process in chunks of 100 to avoid oversized bulkWrite
+    for (let i = 0; i < bulkOps.length; i += 100) {
+      const chunk = bulkOps.slice(i, i + 100);
+      const result = await NewsItem.bulkWrite(chunk, { ordered: false });
+      savedCount += result.upsertedCount || 0;
+      updatedCount += result.modifiedCount || 0;
+    }
+  } catch (error) {
+    console.error(`BulkWrite error: ${error.message}`);
+  }
+
+  const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+  console.log(`MongoDB: ${savedCount} new, ${updatedCount} updated (${elapsed}s)`);
 
   activityBus.emit("fetch", { saved: savedCount, updated: updatedCount });
 

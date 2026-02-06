@@ -164,7 +164,7 @@ export async function scrapeAndSummarize(newsItemId) {
   return { ...item.toObject(), ...updateData };
 }
 
-// Batch scrape recent articles that haven't been scraped yet
+// Batch scrape recent articles that haven't been scraped yet (parallel)
 export async function batchScrapeRecent(limit = 10) {
   await connectDB();
 
@@ -176,22 +176,32 @@ export async function batchScrapeRecent(limit = 10) {
     .limit(limit)
     .lean();
 
-  console.log(`\nBatch scraping ${items.length} articles...`);
+  console.log(`\nBatch scraping ${items.length} articles (3 concurrent)...`);
 
   let success = 0;
   let failed = 0;
+  const concurrency = 3;
 
-  for (const item of items) {
-    const result = await scrapeAndSummarize(item._id);
-    if (result) {
-      success++;
-    } else {
-      failed++;
+  // Process in chunks of 3
+  for (let i = 0; i < items.length; i += concurrency) {
+    const chunk = items.slice(i, i + concurrency);
+    const results = await Promise.allSettled(
+      chunk.map(item => scrapeAndSummarize(item._id))
+    );
+
+    for (const r of results) {
+      if (r.status === 'fulfilled' && r.value) {
+        success++;
+      } else {
+        failed++;
+      }
     }
 
-    // Delay between items
-    if (items.indexOf(item) < items.length - 1) {
-      await new Promise((r) => setTimeout(r, 5000));
+    console.log(`  Progress: ${success + failed}/${items.length} (${success} ok, ${failed} fail)`);
+
+    // Brief delay between chunks
+    if (i + concurrency < items.length) {
+      await new Promise((r) => setTimeout(r, 1000));
     }
   }
 
