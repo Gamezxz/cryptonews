@@ -50,6 +50,9 @@ export default function NewsFeed({ news: initialNews }) {
         item.categories?.includes(activeTag) || item.category === activeTag
       );
 
+  const visible = filtered.slice(0, visibleCount);
+  const hasMore = visibleCount < filtered.length;
+
   return (
     <>
       <div className="tag-filter">
