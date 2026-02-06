@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="container">
         <div className="footer-inner">
           <div className="footer-text">
-            <span>NEXUS</span> // Crypto Intelligence Feed
+            <span>Cryptonews.in.th</span> // Crypto Intelligence Feed
           </div>
           <div className="footer-meta">
             22+ Sources &middot; Auto-Updated
