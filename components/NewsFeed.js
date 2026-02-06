@@ -34,7 +34,7 @@ export default function NewsFeed({ news: initialNews }) {
   // Fetch latest news from cache API
   const fetchNews = useCallback(async () => {
     try {
-      const res = await fetch(`${API_URL}/api/cache?limit=500`);
+      const res = await fetch(`${getBaseUrl()}/api/cache?limit=500`);
       if (res.ok) {
         const json = await res.json();
         if (json.success && json.data) {
