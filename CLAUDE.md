@@ -64,4 +64,4 @@ npx pm2 save
 - **AI API**: GLM-4.5 via Z.ai (key in `src/fetcher.js` and `src/scraper.js`)
 - **Bilingual**: All content displayed in TH + EN
 - **CSS**: Dark brutalist theme, amber accent (`#f59e0b`), monospace (JetBrains Mono)
-- **Disabled sources**: Bitcoin Magazine, CoinGape, CryptoNews.com (Cloudflare 403), Binance Blog, Coinbase Blog (XML errors)
+- **Disabled sources**: Bitcoin Magazine, CoinGape, CryptoNews.com, Investing.com (Cloudflare 403), Binance Blog, Coinbase Blog (XML errors)
