@@ -46,19 +46,14 @@ export default function NewsCard({ item, index }) {
   const imageUrl = getImageUrl(item);
   const gradient = getGradient(item.category);
   const [imageError, setImageError] = useState(false);
-  const [showFullContent, setShowFullContent] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
-
   const tags = item.categories && item.categories.length > 0
     ? item.categories
     : [item.category];
 
-  // Use AI summary if available, otherwise fall back to content
-  const excerpt = item.summary || item.content?.substring(0, 120) || '';
-  const fullContent = item.content || '';
+  const displayContent = item.summary || item.content || '';
 
   return (
-    <article className={`news-card ${isExpanded ? 'expanded' : ''}`} style={{ animationDelay: `${index * 0.03}s` }}>
+    <article className="news-card" style={{ animationDelay: `${index * 0.03}s` }}>
       <div className="news-image">
         {imageUrl && !imageError ? (
           <img
@@ -86,37 +81,32 @@ export default function NewsCard({ item, index }) {
         <div className="news-source">
           <span className="source-badge">{item.source}</span>
           {item.summary && <span className="summary-badge">AI</span>}
+          {item.translatedTitle && <span className="translate-badge">TH</span>}
+          {item.sentiment && (
+            <span className={`sentiment-badge sentiment-${item.sentiment}`}>
+              {item.sentiment === 'bullish' ? '↑ Bullish' :
+               item.sentiment === 'bearish' ? '↓ Bearish' : '— Neutral'}
+            </span>
+          )}
           {tags.map((tag) => (
             <span key={tag} className={`category-badge tag-${tag}`}>{tag}</span>
           ))}
         </div>
         <h3 className="news-title">
           <a href={item.link} target="_blank" rel="noopener noreferrer">
-            {item.title}
+            {item.translatedTitle || item.title}
           </a>
         </h3>
-
-        {!showFullContent ? (
-          <p className="news-excerpt">{excerpt}...</p>
-        ) : (
-          <div className="news-full-content">
-            <p className="content-text">{fullContent}</p>
-          </div>
+        {item.translatedTitle && (
+          <p className="news-original-title">{item.title}</p>
         )}
+
+        <p className="news-excerpt">{displayContent}</p>
 
         <div className="news-meta">
           <time dateTime={item.pubDate}>
             {timeAgo(item.pubDate)}
           </time>
-          <button
-            className="expand-btn"
-            onClick={() => {
-              setShowFullContent(!showFullContent);
-              setIsExpanded(!isExpanded);
-            }}
-          >
-            {showFullContent ? 'Show less' : 'Read more'}
-          </button>
         </div>
       </div>
     </article>

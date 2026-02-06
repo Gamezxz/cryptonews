@@ -53,6 +53,19 @@ const newsItemSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  translatedTitle: {
+    type: String,
+    default: ''
+  },
+  translatedContent: {
+    type: String,
+    default: ''
+  },
+  sentiment: {
+    type: String,
+    enum: ['bullish', 'bearish', 'neutral', ''],
+    default: ''
+  },
   fetchedAt: {
     type: Date,
     default: Date.now
