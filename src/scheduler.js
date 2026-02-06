@@ -1,6 +1,8 @@
 import cron from "node-cron";
+import { execSync } from "child_process";
 import { fetchAllSources, backfillTranslations } from "./fetcher.js";
 import { batchScrapeRecent } from "./scraper.js";
+import { updateCache } from "./utils/cache.js";
 import { activityBus } from "./dashboard.js";
 import config from "../config/default.js";
 
