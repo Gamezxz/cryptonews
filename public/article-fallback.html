@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loading... | Cryptonews</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-void: #0a0a0b;
+  --bg-card: #111113;
+  --bg-elevated: #18181b;
+  --bg-surface: #1f1f23;
+  --border-subtle: #1f1f23;
+  --border-mid: #27272b;
+  --accent: #f59e0b;
+  --accent-dim: #b45309;
+  --green: #22c55e;
+  --red: #ef4444;
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-muted: #52525b;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:var(--font-mono); background:var(--bg-void); color:var(--text-primary); line-height:1.6; min-height:100vh; }
+
+/* Header */
+.site-header { background:var(--bg-card); border-bottom:1px solid var(--border-subtle); padding:12px 0; }
+.header-inner { max-width:1200px; margin:0 auto; padding:0 24px; display:flex; align-items:center; justify-content:space-between; }
+.header-text h1 { font-family:var(--font-display); font-size:20px; font-weight:700; color:var(--text-primary); }
+.header-text h1 a { color:inherit; text-decoration:none; }
+.header-text h1 span { color:var(--accent); }
+
+/* Article */
+.article-detail { max-width:800px; margin:0 auto; padding:24px 32px 60px; }
+.article-nav { margin-bottom:24px; }
+.back-link { display:inline-flex; align-items:center; gap:6px; color:var(--accent); text-decoration:none; font-size:13px; text-transform:uppercase; letter-spacing:0.1em; }
+.back-link:hover { color:#fbbf24; }
+.article-hero { width:100%; height:360px; border-radius:4px; overflow:hidden; margin-bottom:24px; border:1px solid #222; }
+.article-hero img { width:100%; height:100%; object-fit:cover; }
+.article-header { margin-bottom:32px; }
+.article-badges { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+.source-badge { font-size:10px; font-weight:700; padding:3px 8px; background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.3); color:var(--accent); border-radius:3px; text-transform:uppercase; letter-spacing:0.1em; }
+.sentiment-badge { font-size:10px; font-weight:600; padding:3px 8px; border-radius:3px; letter-spacing:0.05em; }
+.sentiment-bullish { background:rgba(34,197,94,0.15); border:1px solid rgba(34,197,94,0.3); color:var(--green); }
+.sentiment-bearish { background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); color:var(--red); }
+.sentiment-neutral { background:rgba(255,255,255,0.06); border:1px solid #333; color:#888; }
+.article-title-main { font-family:var(--font-display); font-size:28px; font-weight:700; color:#f0f0f0; line-height:1.3; margin-bottom:8px; }
+.article-title-original { font-size:14px; color:#666; font-style:italic; margin-bottom:16px; }
+.article-meta-row { display:flex; align-items:center; flex-wrap:wrap; gap:10px; font-size:12px; color:#666; }
+.meta-separator { color:#333; }
+.category-badge { font-size:9px; font-weight:600; padding:2px 6px; background:rgba(255,255,255,0.06); border:1px solid #333; border-radius:3px; color:#888; text-transform:uppercase; }
+
+/* Summary Box */
+.summary-box { background:rgba(245,158,11,0.04); border:1px solid rgba(245,158,11,0.2); border-radius:4px; padding:24px; margin-bottom:32px; position:relative; }
+.summary-box::before { content:""; position:absolute; top:0; left:0; width:3px; height:100%; background:var(--accent); border-radius:3px 0 0 3px; }
+.summary-box-empty { background:rgba(255,255,255,0.02); border-color:#333; }
+.summary-box-empty::before { background:#444; }
+.summary-header { display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+.summary-icon { font-size:10px; font-weight:700; padding:3px 8px; background:var(--accent); color:#000; border-radius:3px; text-transform:uppercase; letter-spacing:0.1em; }
+.summary-header h2 { font-size:13px; font-weight:600; color:#aaa; text-transform:uppercase; letter-spacing:0.1em; }
+.summary-section { position:relative; padding-left:36px; margin-bottom:12px; }
+.summary-section p { font-size:14px; line-height:1.7; color:#ccc; }
+.lang-label { position:absolute; left:0; top:0; font-size:9px; font-weight:700; padding:1px 4px; border-radius:3px; }
+.lang-th { background:rgba(245,158,11,0.2); color:var(--accent); }
+.lang-en { background:rgba(59,130,246,0.2); color:#60a5fa; }
+.lang-divider { height:1px; background:rgba(255,255,255,0.06); margin:8px 0; }
+.key-points { margin-top:16px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.06); }
+.key-points h3 { font-size:11px; color:#888; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; }
+.key-points ul { list-style:none; padding:0; }
+.key-points li { position:relative; padding-left:16px; font-size:13px; line-height:1.6; color:#bbb; margin-bottom:6px; }
+.key-points li::before { content:">"; position:absolute; left:0; color:var(--accent); font-weight:700; }
+
+/* Article Body */
+.section-label { font-size:11px; color:#666; text-transform:uppercase; letter-spacing:0.15em; margin-bottom:16px; padding-bottom:8px; border-bottom:1px solid #222; }
+.article-full-text p { font-size:15px; line-height:1.8; color:#ccc; margin-bottom:16px; }
+.bilingual-section { position:relative; padding-left:36px; }
+.article-source-link { margin-bottom:40px; padding:16px; background:rgba(255,255,255,0.02); border:1px solid #222; border-radius:4px; }
+.article-source-link a { font-size:13px; color:var(--accent); text-decoration:none; letter-spacing:0.03em; }
+.article-source-link a:hover { color:#fbbf24; }
+
+/* Related */
+.related-articles { margin-top:40px; }
+.related-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+.related-card { display:block; padding:16px; background:rgba(255,255,255,0.02); border:1px solid #222; border-radius:4px; text-decoration:none; transition:all 0.2s; }
+.related-card:hover { border-color:var(--accent); }
+.related-source { font-size:10px; color:#666; text-transform:uppercase; letter-spacing:0.1em; }
+.related-card h3 { font-size:13px; color:#ddd; line-height:1.4; margin:6px 0; }
+.related-card time { font-size:11px; color:#555; }
+
+/* Loading / Error */
+.loading-state, .error-state { text-align:center; padding:100px 20px; }
+.loading-spinner { width:32px; height:32px; border:3px solid #333; border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 16px; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.loading-state p, .error-state p { font-size:12px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.1em; }
+.error-state h2 { color:var(--text-secondary); margin-bottom:8px; }
+.summary-pending { font-size:13px; color:#666; font-style:italic; }
+
+/* Footer */
+.site-footer { background:var(--bg-card); border-top:1px solid var(--border-subtle); padding:20px 0; margin-top:48px; }
+.footer-inner { max-width:1200px; margin:0 auto; padding:0 24px; display:flex; justify-content:space-between; align-items:center; }
+.footer-text { font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.12em; }
+.footer-text span { color:var(--accent); }
+
+@media (max-width:768px) {
+  .article-detail { padding:16px; }
+  .article-hero { height:200px; }
+  .article-title-main { font-size:22px; }
+  .summary-box { padding:16px; }
+  .related-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-text">
+      <h1><a href="/">CRYPTO<span>NEWS</span></a></h1>
+    </div>
+  </div>
+</header>
+
+<div id="app" class="article-detail">
+  <nav class="article-nav">
+    <a href="/" class="back-link"><span>&larr;</span> Back to Feed</a>
+  </nav>
+  <div class="loading-state">
+    <div class="loading-spinner"></div>
+    <p>Loading article...</p>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-text">CRYPTO<span>NEWS</span> AGGREGATOR</div>
+  </div>
+</footer>
+
+<script>
+(async function() {
+  const slug = window.location.pathname.split('/news/')[1]?.replace(/\/$/, '');
+  if (!slug) { showError('Invalid article URL'); return; }
+
+  try {
+    const res = await fetch(`${window.location.origin}/api/news/by-slug/${slug}`);
+    const json = await res.json();
+    if (!json.success || !json.data) { showError('Article not found'); return; }
+
+    document.title = `${json.data.translatedTitle || json.data.title} | Cryptonews`;
+    renderArticle(json.data, json.related || []);
+  } catch(e) {
+    showError('Failed to load article');
+  }
+
+  function showError(msg) {
+    document.getElementById('app').innerHTML = `
+      <nav class="article-nav"><a href="/" class="back-link"><span>&larr;</span> Back to Feed</a></nav>
+      <div class="error-state"><h2>Article Not Found</h2><p>${msg}</p></div>`;
+  }
+
+  function timeAgo(dateStr) {
+    const diff = Math.floor((new Date() - new Date(dateStr)) / 1000);
+    if (diff < 60) return 'just now';
+    if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+    if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+    if (diff < 604800) return Math.floor(diff/86400) + 'd ago';
+    return new Date(dateStr).toLocaleDateString();
+  }
+
+  function esc(s) {
+    const d = document.createElement('div');
+    d.textContent = s || '';
+    return d.innerHTML;
+  }
+
+  function renderArticle(a, related) {
+    const tags = (a.categories?.length > 0 ? a.categories : [a.category]).filter(Boolean);
+    const imageUrl = a.enclosure || (a.content?.match(/<img[^>]+src=["']([^"']+)["']/i)?.[1]) || null;
+    const hasSummary = a.aiSummary || a.aiSummaryThai;
+    const hasFullContent = a.fullContent && a.fullContent.length > 100;
+
+    let html = `<nav class="article-nav"><a href="/" class="back-link"><span>&larr;</span> Back to Feed</a></nav>`;
+
+    // Hero image
+    if (imageUrl) {
+      html += `<div class="article-hero"><img src="${esc(imageUrl)}" alt="${esc(a.title)}" onerror="this.parentElement.style.display='none'"></div>`;
+    }
+
+    // Header
+    html += `<header class="article-header"><div class="article-badges">`;
+    html += `<span class="source-badge">${esc(a.source)}</span>`;
+    if (a.sentiment) {
+      const sl = a.sentiment === 'bullish' ? '&uarr; Bullish' : a.sentiment === 'bearish' ? '&darr; Bearish' : '&mdash; Neutral';
+      html += `<span class="sentiment-badge sentiment-${a.sentiment}">${sl}</span>`;
+    }
+    html += `</div>`;
+    html += `<h1 class="article-title-main">${esc(a.translatedTitle || a.title)}</h1>`;
+    if (a.translatedTitle) html += `<p class="article-title-original">${esc(a.title)}</p>`;
+    html += `<div class="article-meta-row"><time>${timeAgo(a.pubDate)}</time><span class="meta-separator">//</span><span>${esc(a.author || a.source)}</span>`;
+    html += `<div>${tags.map(t => `<span class="category-badge">${esc(t)}</span>`).join(' ')}</div></div></header>`;
+
+    // Summary
+    if (hasSummary) {
+      html += `<section class="summary-box"><div class="summary-header"><span class="summary-icon">AI</span><h2>Summary</h2></div>`;
+      if (a.aiSummaryThai) html += `<div class="summary-section"><span class="lang-label lang-th">TH</span><p>${esc(a.aiSummaryThai)}</p></div>`;
+      if (a.aiSummary && a.aiSummaryThai) html += `<div class="lang-divider"></div>`;
+      if (a.aiSummary) html += `<div class="summary-section"><span class="lang-label lang-en">EN</span><p>${esc(a.aiSummary)}</p></div>`;
+      if (a.keyPoints?.length > 0) {
+        html += `<div class="key-points"><h3>Key Points</h3><ul>${a.keyPoints.map(p => `<li>${esc(p)}</li>`).join('')}</ul></div>`;
+      }
+      html += `</section>`;
+    } else {
+      html += `<section class="summary-box summary-box-empty"><div class="summary-header"><span class="summary-icon">AI</span><h2>Summary</h2></div><p class="summary-pending">AI is processing this article. Summary will be available soon.</p></section>`;
+    }
+
+    // Article Body
+    html += `<section class="article-body"><h2 class="section-label">Article</h2>`;
+    if (hasFullContent) {
+      html += `<div class="article-full-text">${a.fullContent.split('\n').filter(p=>p.trim()).map(p=>`<p>${esc(p)}</p>`).join('')}</div>`;
+    } else {
+      html += `<div class="article-full-text">`;
+      if (a.translatedContent) html += `<div class="bilingual-section"><span class="lang-label lang-th">TH</span><p>${esc(a.translatedContent)}</p></div>`;
+      if (a.translatedContent && a.content) html += `<div class="lang-divider"></div>`;
+      if (a.content) html += `<div class="bilingual-section"><span class="lang-label lang-en">EN</span><p>${esc(a.content)}</p></div>`;
+      html += `</div>`;
+    }
+    html += `</section>`;
+
+    // Source link
+    html += `<div class="article-source-link"><a href="${esc(a.link)}" target="_blank" rel="noopener noreferrer">Read original at ${esc(a.source)} &rarr;</a></div>`;
+
+    // Related
+    if (related.length > 0) {
+      html += `<section class="related-articles"><h2 class="section-label">Related</h2><div class="related-grid">`;
+      related.forEach(r => {
+        html += `<a href="/news/${esc(r.slug || r._id)}/" class="related-card"><span class="related-source">${esc(r.source)}</span><h3>${esc(r.translatedTitle || r.title)}</h3><time>${timeAgo(r.pubDate)}</time></a>`;
+      });
+      html += `</div></section>`;
+    }
+
+    document.getElementById('app').innerHTML = html;
+  }
+})();
+</script>
+</body>
+</html>

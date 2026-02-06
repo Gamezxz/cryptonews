@@ -8066,6 +8066,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/market-wipes-out-1-trillion-as-xrp-leads-sell-off-and-ai-edges-in": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/market-wipes-out-1-trillion-as-xrp-leads-sell-off-and-ai-edges-in.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/markets-plunge-as-bitcoin-and-silver-just-triggered-a-global-margin-call-after-i": {
       "experimentalBypassFor": [
         {
