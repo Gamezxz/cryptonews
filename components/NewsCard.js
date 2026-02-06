@@ -46,14 +46,17 @@ export default function NewsCard({ item, index }) {
   const imageUrl = getImageUrl(item);
   const gradient = getGradient(item.category);
   const [imageError, setImageError] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const tags = item.categories && item.categories.length > 0
     ? item.categories
     : [item.category];
 
-  const displayContent = item.summary || item.content || '';
+  // Use translated content if available, otherwise original content
+  const fullContent = item.translatedContent || item.content || '';
+  const hasContent = fullContent.length > 0;
 
   return (
-    <article className="news-card" style={{ animationDelay: `${index * 0.03}s` }}>
+    <article className={`news-card ${expanded ? 'expanded' : ''}`} style={{ animationDelay: `${index * 0.03}s` }}>
       <div className="news-image">
         {imageUrl && !imageError ? (
           <img
@@ -80,8 +83,7 @@ export default function NewsCard({ item, index }) {
       <div className="news-content">
         <div className="news-source">
           <span className="source-badge">{item.source}</span>
-          {item.summary && <span className="summary-badge">AI</span>}
-          {item.translatedTitle && <span className="translate-badge">TH</span>}
+          {item.translatedContent && <span className="translate-badge">TH</span>}
           {item.sentiment && (
             <span className={`sentiment-badge sentiment-${item.sentiment}`}>
               {item.sentiment === 'bullish' ? '↑ Bullish' :
@@ -101,12 +103,21 @@ export default function NewsCard({ item, index }) {
           <p className="news-original-title">{item.title}</p>
         )}
 
-        <p className="news-excerpt">{displayContent}</p>
+        {hasContent && (
+          <div className={`news-full-content ${expanded ? 'show' : ''}`}>
+            <p>{fullContent}</p>
+          </div>
+        )}
 
         <div className="news-meta">
           <time dateTime={item.pubDate}>
             {timeAgo(item.pubDate)}
           </time>
+          {hasContent && (
+            <button className="expand-btn" onClick={() => setExpanded(!expanded)}>
+              {expanded ? 'ย่อ' : 'อ่านเพิ่ม'}
+            </button>
+          )}
         </div>
       </div>
     </article>
