@@ -8,6 +8,7 @@ import { scrapeAndSummarize } from "./scraper.js";
 import { NewsItem } from "./db/models.js";
 import { execSync } from "child_process";
 import { initDashboard, activityBus } from "./dashboard.js";
+import { updateCache } from "./utils/cache.js";
 import config from "../config/default.js";
 
 const app = express();
