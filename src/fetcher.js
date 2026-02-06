@@ -248,15 +248,15 @@ export async function fetchAllSources() {
 
   for (const item of allItems) {
     try {
-      const dbResult = await NewsItem.findOneAndUpdate(
-        { guid: item.guid },
-        item,
-        { upsert: true, new: false }
-      );
+      const existing = await NewsItem.findOne({ guid: item.guid }).select('_id slug').lean();
 
-      if (dbResult) {
+      if (existing) {
+        await NewsItem.updateOne({ _id: existing._id }, item);
         updatedCount++;
       } else {
+        // New article: generate slug
+        item.slug = await createSlug(item.title);
+        await NewsItem.create(item);
         savedCount++;
       }
     } catch (error) {
