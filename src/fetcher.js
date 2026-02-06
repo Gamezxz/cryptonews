@@ -37,7 +37,7 @@ const AI_BASE_URL = 'https://api.z.ai/api/coding/paas/v4';
 
 // AI Batch Translation + Sentiment Analysis using GLM-4.7 via Z.ai API
 // Translates up to 10 news items in a single API call
-async function translateBatch(items) {
+export async function translateBatch(items) {
   if (!items || items.length === 0) return [];
 
   // Prepare batch input (limit content to 500 chars each)
