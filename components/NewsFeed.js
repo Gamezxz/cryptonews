@@ -1,7 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { io } from 'socket.io-client';
 import NewsCard from './NewsCard';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:13002';
 
 const tags = [
   { id: 'all', name: 'All' },
@@ -20,29 +23,56 @@ const PAGE_SIZE = 20;
 export default function NewsFeed({ news: initialNews }) {
   const [activeTag, setActiveTag] = useState('all');
   const [news, setNews] = useState(initialNews);
-  const [lastUpdate, setLastUpdate] = useState(new Date());
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [connected, setConnected] = useState(false);
+  const socketRef = useRef(null);
 
-  // Auto-refresh every 60 seconds
-  useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const res = await fetch('http://localhost:13002/api/news?limit=200');
-        if (res.ok) {
-          const json = await res.json();
-          if (json.success && json.data) {
-            setNews(json.data);
-            setLastUpdate(new Date());
-          }
+  // Fetch latest news from cache API
+  const fetchNews = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_URL}/api/cache?limit=500`);
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success && json.data) {
+          setNews(json.data);
         }
-      } catch (err) {
-        console.error('Failed to fetch news:', err);
       }
-    };
-
-    const interval = setInterval(fetchNews, 60000); // 60 seconds
-    return () => clearInterval(interval);
+    } catch (err) {
+      // Silent fail — will retry
+    }
   }, []);
+
+  useEffect(() => {
+    // Connect Socket.IO for real-time updates
+    const socket = io(API_URL, {
+      path: '/socket.io',
+      transports: ['websocket', 'polling'],
+    });
+    socketRef.current = socket;
+
+    socket.on('connect', () => setConnected(true));
+    socket.on('disconnect', () => setConnected(false));
+
+    // Real-time: server pushes news_update when cache.json changes
+    socket.on('news_update', () => {
+      fetchNews();
+    });
+
+    // Initial fetch from API (fresher than static build data)
+    fetchNews();
+
+    // Fallback polling every 30s in case socket disconnects
+    const fallback = setInterval(() => {
+      if (!socketRef.current?.connected) {
+        fetchNews();
+      }
+    }, 30000);
+
+    return () => {
+      socket.disconnect();
+      clearInterval(fallback);
+    };
+  }, [fetchNews]);
 
   const filtered = activeTag === 'all'
     ? news
@@ -66,6 +96,9 @@ export default function NewsFeed({ news: initialNews }) {
               {tag.name}
             </button>
           ))}
+          {connected && (
+            <span className="live-indicator">LIVE</span>
+          )}
         </div>
       </div>
 
