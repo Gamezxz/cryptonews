@@ -3,7 +3,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { io } from 'socket.io-client';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:13002';
+function getBaseUrl() {
+  if (typeof window !== 'undefined') return window.location.origin;
+  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:13002';
+}
 
 export default function MarketInsight() {
   const [insight, setInsight] = useState(null);
@@ -11,7 +14,7 @@ export default function MarketInsight() {
 
   const fetchInsight = useCallback(async () => {
     try {
-      const res = await fetch(`${API_URL}/api/insight`);
+      const res = await fetch(`${getBaseUrl()}/api/insight`);
       if (res.ok) {
         const json = await res.json();
         if (json.success && json.data) {

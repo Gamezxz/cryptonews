@@ -146,30 +146,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/40b-erased-in-4-months-is-strategys-bitcoin-bet-backfiring": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/40b-erased-in-4-months-is-strategys-bitcoin-bet-backfiring.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/4mln-hyperliquid-whale-opens-3x-sol-short-trouble-ahead-for-solana": {
       "experimentalBypassFor": [
         {
@@ -737,30 +713,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/bitcoin-falls-below-2021-peak-2-reasons-you-should-be-excited.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/bitcoin-giant-strategy-records-124-billion-q4-loss-as-mstr-shares-hit-18-month-l": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/bitcoin-giant-strategy-records-124-billion-q4-loss-as-mstr-shares-hit-18-month-l.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -2618,6 +2570,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/is-it-ethereums-sunset-eth-sold-by-top-tier-whales-and-funds": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/is-it-ethereums-sunset-eth-sold-by-top-tier-whales-and-funds.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/is-shiba-inu-at-its-bottom-or-will-shibs-price-crash-further": {
       "experimentalBypassFor": [
         {
@@ -3665,6 +3641,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/solana-drops-15-hits-2-year-low-can-sol-bulls-hold-70.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/solana-price-prediction-for-february-2026-will-sol-reclaim-100-or-drop-to-60": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/solana-price-prediction-for-february-2026-will-sol-reclaim-100-or-drop-to-60.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
