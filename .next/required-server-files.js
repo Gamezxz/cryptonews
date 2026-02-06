@@ -101,7 +101,7 @@ self.__SERVER_FILES_MANIFEST={
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "/Users/game/Project/new_cryptonews",
+    "outputFileTracingRoot": "/Users/game/Project/cryptonews",
     "cacheComponents": false,
     "cacheLife": {
       "default": {
@@ -295,11 +295,11 @@ self.__SERVER_FILES_MANIFEST={
     "configFileName": "next.config.js",
     "skipTrailingSlashRedirect": true,
     "turbopack": {
-      "root": "/Users/game/Project/new_cryptonews"
+      "root": "/Users/game/Project/cryptonews"
     },
     "distDirRoot": "output"
   },
-  "appDir": "/Users/game/Project/new_cryptonews",
+  "appDir": "/Users/game/Project/cryptonews",
   "relativeAppDir": "",
   "files": [
     ".next/routes-manifest.json",
