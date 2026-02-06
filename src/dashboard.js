@@ -213,9 +213,7 @@ export function initDashboard(httpServer) {
           await updateCache();
           addActivity("admin", "Cache recreated successfully");
         } else if (action === "translate") {
-          addActivity("admin", "Admin triggered force translate");
-          const result = await backfillTranslations(100);
-          addActivity("translate", `Translated ${result.translatedCount} articles`, result.errorCount ? `${result.errorCount} errors` : "");
+          addActivity("admin", "Processor handles translation continuously");
         }
         socket.emit("action_ack", { action, status: "done" });
       } catch (err) {
