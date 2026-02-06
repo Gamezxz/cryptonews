@@ -61,7 +61,7 @@ export default function NewsFeed({ news: initialNews }) {
             <button
               key={tag.id}
               className={`tag-btn tag-${tag.id} ${activeTag === tag.id ? 'active' : ''}`}
-              onClick={() => setActiveTag(tag.id)}
+              onClick={() => { setActiveTag(tag.id); setVisibleCount(PAGE_SIZE); }}
             >
               {tag.name}
             </button>
