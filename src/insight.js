@@ -94,7 +94,7 @@ Rules:
           "Content-Type": "application/json",
           Authorization: `Bearer ${AI_API_KEY}`,
         },
-        timeout: 60000,
+        timeout: 120000,
       },
     );
 
