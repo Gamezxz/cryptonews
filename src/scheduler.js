@@ -1,8 +1,16 @@
 import cron from 'node-cron';
-import { fetchAllSources } from './fetcher.js';
+import { fetchAllSources, backfillTranslations } from './fetcher.js';
 import config from '../config/default.js';
 
 let scheduledTask = null;
+
+// Fetch news and then translate new items
+async function fetchAndTranslate() {
+  await fetchAllSources();
+  // Translate latest 20 untranslated items after each fetch
+  console.log('🌐 Auto-translating new items...');
+  await backfillTranslations(20);
+}
 
 export function startScheduler() {
   if (scheduledTask) {
@@ -12,18 +20,18 @@ export function startScheduler() {
 
   console.log(`Starting scheduler with cron: ${config.scheduler.cronSchedule}`);
 
-  // Initial fetch
-  fetchAllSources().catch(err => {
+  // Initial fetch + translate
+  fetchAndTranslate().catch(err => {
     console.error('Initial fetch failed:', err.message);
   });
 
-  // Schedule recurring fetches
+  // Schedule recurring fetches + translations
   scheduledTask = cron.schedule(config.scheduler.cronSchedule, async () => {
     const timestamp = new Date().toISOString();
-    console.log(`[${timestamp}] Running scheduled fetch...`);
+    console.log(`[${timestamp}] Running scheduled fetch + translate...`);
 
     try {
-      await fetchAllSources();
+      await fetchAndTranslate();
     } catch (err) {
       console.error('Scheduled fetch failed:', err.message);
     }

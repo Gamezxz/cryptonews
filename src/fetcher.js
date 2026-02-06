@@ -33,54 +33,16 @@ const categoryKeywords = {
 const AI_API_KEY = 'REDACTED_API_KEY';
 const AI_BASE_URL = 'https://api.z.ai/api/coding/paas/v4';
 
-// AI Summary using GLM-4.5 via Z.ai API
-async function summarizeArticle(title, content) {
-  const textToSummarize = content || title;
-
-  try {
-    const response = await axios.post(
-      `${AI_BASE_URL}/chat/completions`,
-      {
-        model: 'glm-4.5',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are a crypto news summarizer. Provide concise, informative summaries in 1-2 sentences (max 50 words). Focus on key facts and implications. Use Thai language.'
-          },
-          {
-            role: 'user',
-            content: `สรุปข่าว crypto นี้:\n\nหัวข้อ: ${title}\n\nเนื้อหา: ${textToSummarize.substring(0, 2000)}`
-          }
-        ],
-        max_tokens: 150,
-        temperature: 0.3
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${AI_API_KEY}`,
-          'Content-Type': 'application/json'
-        },
-        timeout: 30000
-      }
-    );
-
-    return response.data.choices[0]?.message?.content?.trim() || '';
-  } catch (error) {
-    console.error(`AI Summary error: ${error.message}`);
-    return '';
-  }
-}
-
 // AI Batch Translation + Sentiment Analysis using GLM-4.5 via Z.ai API
 // Translates up to 10 news items in a single API call
 async function translateBatch(items) {
   if (!items || items.length === 0) return [];
 
-  // Prepare batch input
+  // Prepare batch input (limit content to 500 chars each)
   const newsItems = items.map((item, idx) => ({
     id: idx,
     title: item.title,
-    content: (item.content || '').substring(0, 1500)
+    content: (item.content || '').substring(0, 500)
   }));
 
   const inputText = newsItems.map(n =>
@@ -278,31 +240,15 @@ export async function fetchAllSources() {
     return [];
   }
 
-  // Save to MongoDB with upsert
+  // Save to MongoDB with upsert (no summarization - use translation instead)
   let savedCount = 0;
   let updatedCount = 0;
-  let summarizedCount = 0;
 
   for (const item of allItems) {
     try {
-      const existing = await NewsItem.findOne({ guid: item.guid });
-
-      // Only summarize items WITHOUT summary (both new and existing)
-      let summary = existing?.summary || '';
-      if (!summary && item.title) {
-        console.log(`  Summarizing: ${item.title?.substring(0, 40)}...`);
-        summary = await summarizeArticle(item.title, item.content);
-        if (summary) {
-          summarizedCount++;
-          console.log(`    Summary: ${summary.substring(0, 60)}...`);
-        }
-        // Add small delay to avoid rate limiting
-        await new Promise(r => setTimeout(r, 500));
-      }
-
       const dbResult = await NewsItem.findOneAndUpdate(
         { guid: item.guid },
-        { ...item, summary },
+        item,
         { upsert: true, new: false }
       );
 
@@ -316,58 +262,12 @@ export async function fetchAllSources() {
     }
   }
 
-  console.log(`MongoDB: ${savedCount} new, ${updatedCount} updated, ${summarizedCount} summarized`);
+  console.log(`MongoDB: ${savedCount} new, ${updatedCount} updated`);
 
   // Update JSON cache
   await updateCache();
 
   return allItems;
-}
-
-// Backfill summaries for existing items that don't have one
-export async function backfillSummaries(limit = 100) {
-  await connectDB();
-
-  // Find items without summary, sorted by newest
-  const itemsWithoutSummary = await NewsItem.find({
-    summary: { $in: ['', null, undefined] }
-  })
-    .sort({ pubDate: -1 })
-    .limit(limit)
-    .lean();
-
-  console.log(`Found ${itemsWithoutSummary.length} items without summary`);
-
-  let summarizedCount = 0;
-  let errorCount = 0;
-
-  for (const item of itemsWithoutSummary) {
-    try {
-      console.log(`  [${summarizedCount + 1}/${itemsWithoutSummary.length}] ${item.title?.substring(0, 50)}...`);
-
-      const summary = await summarizeArticle(item.title, item.content);
-      if (summary) {
-        await NewsItem.updateOne({ _id: item._id }, { summary });
-        summarizedCount++;
-        console.log(`    ✓ ${summary.substring(0, 60)}...`);
-      } else {
-        console.log(`    ✗ Empty summary`);
-      }
-
-      // Delay to avoid rate limiting
-      await new Promise(r => setTimeout(r, 800));
-    } catch (error) {
-      errorCount++;
-      console.error(`    ✗ Error: ${error.message}`);
-    }
-  }
-
-  console.log(`Backfill complete: ${summarizedCount} summarized, ${errorCount} errors`);
-
-  // Update JSON cache
-  await updateCache();
-
-  return { summarizedCount, errorCount };
 }
 
 // Backfill translations for existing items that don't have one
@@ -387,7 +287,7 @@ export async function backfillTranslations(limit = 100) {
 
   let translatedCount = 0;
   let errorCount = 0;
-  const batchSize = 10;
+  const batchSize = 5;
 
   // Process in batches of 10
   for (let i = 0; i < itemsWithoutTranslation.length; i += batchSize) {
@@ -452,18 +352,7 @@ export async function getNews(category = null, limit = 200) {
 if (process.argv[1] === new URL(import.meta.url).pathname) {
   const command = process.argv[2];
 
-  if (command === 'backfill') {
-    const limit = parseInt(process.argv[3]) || 50;
-    backfillSummaries(limit)
-      .then(() => {
-        console.log('Summary backfill complete');
-        process.exit(0);
-      })
-      .catch(err => {
-        console.error('Backfill failed:', err);
-        process.exit(1);
-      });
-  } else if (command === 'translate') {
+  if (command === 'translate') {
     const limit = parseInt(process.argv[3]) || 50;
     backfillTranslations(limit)
       .then(() => {
@@ -487,4 +376,4 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
   }
 }
 
-export default { fetchAllSources, getNews, categorizeItem, backfillSummaries, backfillTranslations };
+export default { fetchAllSources, getNews, categorizeItem, backfillTranslations };
