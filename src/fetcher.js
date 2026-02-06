@@ -201,7 +201,7 @@ async function fetchFeed(source) {
       }
 
       items.push({
-        guid: item.guid || item.link,
+        guid: (typeof item.guid === 'string' ? item.guid : item.link) || item.link,
         title: item.title || 'Untitled',
         link: item.link,
         pubDate: item.pubDate ? new Date(item.pubDate) : new Date(),
