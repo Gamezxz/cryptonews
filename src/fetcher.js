@@ -35,7 +35,7 @@ const categoryKeywords = {
 const AI_API_KEY = 'REDACTED_API_KEY';
 const AI_BASE_URL = 'https://api.z.ai/api/coding/paas/v4';
 
-// AI Batch Translation + Sentiment Analysis using GLM-4.5 via Z.ai API
+// AI Batch Translation + Sentiment Analysis using GLM-4.7 via Z.ai API
 // Translates up to 10 news items in a single API call
 async function translateBatch(items) {
   if (!items || items.length === 0) return [];

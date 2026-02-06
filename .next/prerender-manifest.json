@@ -242,30 +242,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/aker-solutions-q4-2025-slides-record-revenues-drive-stock-surge-2026-outlook-cau": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/aker-solutions-q4-2025-slides-record-revenues-drive-stock-surge-2026-outlook-cau.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/amazon-shares-sink-as-big-techs-ai-spending-plans-worry-investors": {
       "experimentalBypassFor": [
         {
@@ -305,6 +281,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/analysts-venezuelas-oil-industry-resurgence-may-precede-a-flared-gas-bitcoin-min.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/ark-offloads-17-million-of-coinbase-adds-18-million-of-bullish-amid-crypto-rout": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/ark-offloads-17-million-of-coinbase-adds-18-million-of-bullish-amid-crypto-rout.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -554,6 +554,54 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/binance-makes-gigantic-bitcoin-purchase-worth-23337-million": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/binance-makes-gigantic-bitcoin-purchase-worth-23337-million.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/bitcoin-crash-sends-ethereum-and-major-altcoins-into-oversold-territory": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/bitcoin-crash-sends-ethereum-and-major-altcoins-into-oversold-territory.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/bitcoin-crash-triggers-biggest-one-day-investor-losses-in-history": {
       "experimentalBypassFor": [
         {
@@ -641,30 +689,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/bitcoin-heres-what-the-risky-markets-short-term-holders-are-upto-right-now.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/bitcoin-isnt-losing-to-gold-it-is-navigating-a-liquidity-squeeze-that-the-yellow": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/bitcoin-isnt-losing-to-gold-it-is-navigating-a-liquidity-squeeze-that-the-yellow.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -1082,30 +1106,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/bitwise-anticipates-strong-crypto-rebound-following-prolonged-winter-capitulatio": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/bitwise-anticipates-strong-crypto-rebound-following-prolonged-winter-capitulatio.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/bitwise-files-for-spot-uniswap-etf-as-daily-uni-burn-hits-record-high-yet-price-": {
       "experimentalBypassFor": [
         {
@@ -1385,6 +1385,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/cardano-founder-loses-3b-in-crypto-crash.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/cathie-woods-ark-dumps-17m-in-coinbase-stock-as-shares-fall-37-ytd": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/cathie-woods-ark-dumps-17m-in-coinbase-stock-as-shares-fall-37-ytd.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -1898,30 +1922,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/does-bitcoins-retreat-signal-a-new-bear-market-for-crypto": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/does-bitcoins-retreat-signal-a-new-bear-market-for-crypto.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/earnings-call-transcript-skanska-q4-2025-sees-strong-construction-margin-stable-": {
       "experimentalBypassFor": [
         {
@@ -2162,78 +2162,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/form-13da-agassi-sports-entertainment-corp-for-6-february": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/form-13da-agassi-sports-entertainment-corp-for-6-february.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/form-13da-genesis-energy-for-6-february": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/form-13da-genesis-energy-for-6-february.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/form-13da-smith-micro-software-for-6-february": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/form-13da-smith-micro-software-for-6-february.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/form-144-arlo-technologies-for-6-february": {
       "experimentalBypassFor": [
         {
@@ -2330,54 +2258,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/form-424b5-mplx-lp-for-6-february": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/form-424b5-mplx-lp-for-6-february.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/form-424b5-prophase-labs-inc-for-6-february": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/form-424b5-prophase-labs-inc-for-6-february.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/form-s-1a-armada-acquisition-corp-iii-for-6-february": {
       "experimentalBypassFor": [
         {
@@ -2465,6 +2345,126 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/global-software-data-firms-slide-as-ai-disruption-fears-compound-jitters-over-60.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/goldman-sachs-lowers-ares-management-stock-price-target-to-165-from-189": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/goldman-sachs-lowers-ares-management-stock-price-target-to-165-from-189.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/goldman-sachs-lowers-blue-owl-capital-stock-price-target-on-modest-growth": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/goldman-sachs-lowers-blue-owl-capital-stock-price-target-on-modest-growth.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/goldman-sachs-lowers-kkr-stock-price-target-to-145-on-capital-markets-concerns": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/goldman-sachs-lowers-kkr-stock-price-target-to-145-on-capital-markets-concerns.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/goldman-sachs-raises-stepstone-group-stock-price-target-on-wealth-growth": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/goldman-sachs-raises-stepstone-group-stock-price-target-on-wealth-growth.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/gorman-rupp-shares-fall-3-despite-earnings-beat-as-revenue-misses-expectations": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/gorman-rupp-shares-fall-3-despite-earnings-beat-as-revenue-misses-expectations.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -2930,30 +2930,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/lem-raises-sales-guidance-floor-after-solid-q3-results": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/lem-raises-sales-guidance-floor-after-solid-q3-results.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/li-auto-shares-rise-after-unveiling-flagship-suv-with-ai-capabilities": {
       "experimentalBypassFor": [
         {
@@ -2993,30 +2969,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/live-crypto-news-today-latest-updates-for-feb-06-2026-bitcoin-briefly-drops-to-6.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/lna-sant-reports-strong-fy25-revenue-growth-guides-for-5-increase-in-2026": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/lna-sant-reports-strong-fy25-revenue-growth-guides-for-5-increase-in-2026.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -3113,6 +3065,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/man-takes-150000-in-personal-loans-to-buy-bitcoin-what-happened-next.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/merit-medical-systems-stock-initiated-with-buy-rating-by-btig": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/merit-medical-systems-stock-initiated-with-buy-rating-by-btig.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -3257,6 +3233,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/nanobiotix-stock-initiated-with-buy-rating-at-td-cowen-on-radiation-tech.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/new-america-acquisition-i-corp-appoints-kyle-wool-as-board-chairman": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/new-america-acquisition-i-corp-appoints-kyle-wool-as-board-chairman.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -3506,30 +3506,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/reddit-stock-pops-as-ai-initiatives-fuel-q4-and-guidance-beat": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/reddit-stock-pops-as-ai-initiatives-fuel-q4-and-guidance-beat.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/reddit-stock-price-target-lowered-to-205-by-bofa-on-sector-multiple-compression": {
       "experimentalBypassFor": [
         {
@@ -3545,30 +3521,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/reddit-stock-price-target-lowered-to-205-by-bofa-on-sector-multiple-compression.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/reddit-stock-price-target-lowered-to-206-by-goldman-sachs": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/reddit-stock-price-target-lowered-to-206-by-goldman-sachs.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -3641,30 +3593,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/ripple-xrp-price-prediction-2026-2027-2030-will-xrp-reach-5.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/rival-bidders-pursue-lukoil-assets-despite-carlyle-deal-sources-say": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/rival-bidders-pursue-lukoil-assets-despite-carlyle-deal-sources-say.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -3833,30 +3761,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/solana-drops-15-hits-2-year-low-can-sol-bulls-hold-70.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/sp-500-remains-strong-as-bitcoin-slides-to-a-1-year-low": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/sp-500-remains-strong-as-bitcoin-slides-to-a-1-year-low.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -4082,6 +3986,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/strategy-reports-174-billion-q4-operating-loss-amid-bitcoin-price-correction": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/strategy-reports-174-billion-q4-operating-loss-amid-bitcoin-price-correction.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/strategy-to-initiate-a-bitcoin-security-program-addressing-quantum-uncertainty": {
       "experimentalBypassFor": [
         {
@@ -4145,6 +4073,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/tata-mahindra-win-as-india-scraps-small-car-exemption-in-fuel-rules.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/telsey-lowers-peloton-stock-price-target-to-6-from-8-on-growth-concerns": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/telsey-lowers-peloton-stock-price-target-to-6-from-8-on-growth-concerns.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -4538,6 +4490,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/warner-music-group-price-target-raised-to-33-from-32-at-goldman-sachs": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/warner-music-group-price-target-raised-to-33-from-32-at-goldman-sachs.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/weak-earnings-drag-iren-amazon-bitcoin-stocks-rebound-in-pre-market": {
       "experimentalBypassFor": [
         {
@@ -4601,6 +4577,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/why-is-bitcoin-crashing-today-analysts-say-synthetic-btc-supply-is-the-real-prob.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/why-is-crypto-down-today-february-6-2026": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/why-is-crypto-down-today-february-6-2026.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
