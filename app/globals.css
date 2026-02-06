@@ -275,9 +275,9 @@ body::after {
 
 /* ─── NEWS GRID ─── */
 .news-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 /* ─── NEWS CARD ─── */
@@ -288,7 +288,7 @@ body::after {
   overflow: hidden;
   transition: all 0.2s ease;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   animation: cardIn 0.4s ease backwards;
   position: relative;
 }
