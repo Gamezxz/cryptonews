@@ -288,20 +288,29 @@ export async function backfillTranslations(limit = 100) {
     .lean();
 
   console.log(`Found ${itemsWithoutTranslation.length} items without translation`);
+  activityBus.emit("translate_log", { message: `Starting translation: ${itemsWithoutTranslation.length} items pending` });
+
+  if (itemsWithoutTranslation.length === 0) {
+    activityBus.emit("translate_log", { message: "No items to translate" });
+    return { translatedCount: 0, errorCount: 0 };
+  }
 
   let translatedCount = 0;
   let errorCount = 0;
   const batchSize = 5;
+  const totalBatches = Math.ceil(itemsWithoutTranslation.length / batchSize);
 
-  // Process in batches of 10
   for (let i = 0; i < itemsWithoutTranslation.length; i += batchSize) {
     const batch = itemsWithoutTranslation.slice(i, i + batchSize);
     const batchNum = Math.floor(i / batchSize) + 1;
-    const totalBatches = Math.ceil(itemsWithoutTranslation.length / batchSize);
 
     console.log(`\n📦 Batch ${batchNum}/${totalBatches} (${batch.length} items)`);
+    activityBus.emit("translate_log", { message: `📦 Batch ${batchNum}/${totalBatches} (${batch.length} items)` });
+
     batch.forEach((item, idx) => {
-      console.log(`  [${i + idx + 1}] ${item.title?.substring(0, 60)}...`);
+      const title = item.title?.substring(0, 60) || 'Untitled';
+      console.log(`  [${i + idx + 1}] ${title}...`);
+      activityBus.emit("translate_log", { message: `  [${i + idx + 1}] ${title}...` });
     });
 
     const results = await translateBatch(batch);
@@ -316,22 +325,32 @@ export async function backfillTranslations(limit = 100) {
             sentiment: result.sentiment
           });
           translatedCount++;
-          console.log(`    ✓ [${result.id}] ${result.translatedTitle.substring(0, 45)}... [${result.sentiment}]`);
+          const msg = `  ✓ ${result.translatedTitle.substring(0, 50)}... [${result.sentiment}]`;
+          console.log(msg);
+          activityBus.emit("translate_log", { message: msg, status: "ok" });
         }
       }
     } else {
       errorCount += batch.length;
       console.log(`    ✗ Batch translation failed`);
+      activityBus.emit("translate_log", { message: `  ✗ Batch ${batchNum} failed`, status: "error" });
     }
+
+    activityBus.emit("translate_log", {
+      message: `  Progress: ${translatedCount} done, ${errorCount} errors (${batchNum}/${totalBatches})`,
+      progress: { translated: translatedCount, errors: errorCount, batch: batchNum, totalBatches }
+    });
 
     // Delay between batches to avoid rate limiting
     if (i + batchSize < itemsWithoutTranslation.length) {
       console.log(`  ⏳ Waiting 3s before next batch...`);
+      activityBus.emit("translate_log", { message: `  ⏳ Waiting 3s...` });
       await new Promise(r => setTimeout(r, 3000));
     }
   }
 
   console.log(`\n✅ Translation complete: ${translatedCount} translated, ${errorCount} errors`);
+  activityBus.emit("translate_log", { message: `✅ Complete: ${translatedCount} translated, ${errorCount} errors`, status: "done" });
 
   // Update JSON cache
   await updateCache();
