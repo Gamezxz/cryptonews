@@ -4,6 +4,7 @@ import { connectDB } from './db/connection.js';
 import { NewsItem } from './db/models.js';
 import { updateCache } from './utils/cache.js';
 import { activityBus } from './dashboard.js';
+import { createSlug } from './utils/slug.js';
 import config from '../config/default.js';
 import axios from 'axios';
 
