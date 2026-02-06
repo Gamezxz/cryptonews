@@ -290,30 +290,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/analysts-explain-why-btc-just-crashed-to-65k-and-where-the-bottom-lies": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/analysts-explain-why-btc-just-crashed-to-65k-and-where-the-bottom-lies.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/analysts-venezuelas-oil-industry-resurgence-may-precede-a-flared-gas-bitcoin-min": {
       "experimentalBypassFor": [
         {
@@ -593,6 +569,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/bitcoin-crash-triggers-biggest-one-day-investor-losses-in-history.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/bitcoin-crashes-10-on-bithumb-after-staff-mistakenly-airdrop-2000-btc-to-users": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/bitcoin-crashes-10-on-bithumb-after-staff-mistakenly-airdrop-2000-btc-to-users.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -929,6 +929,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/bitcoin-price-prediction-2026-2027-2030-how-high-will-btc-price-go.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/bitcoin-price-rebounds-11-to-65k-who-is-buying-the-dip": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/bitcoin-price-rebounds-11-to-65k-who-is-buying-the-dip.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -2210,30 +2234,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/ethereum-at-3-year-low-against-bitcoin-history-says-this-comes-next": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/ethereum-at-3-year-low-against-bitcoin-history-says-this-comes-next.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/ethereum-founder-vitalik-buterin-says-relying-on-l2s-could-cost-users-their-fund": {
       "experimentalBypassFor": [
         {
@@ -2522,30 +2522,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/heres-what-happened-in-crypto-today": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/heres-what-happened-in-crypto-today.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/historic-brics-trade-turnover-exceeds-us1-trillion": {
       "experimentalBypassFor": [
         {
@@ -2657,30 +2633,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/is-shiba-inu-at-its-bottom-or-will-shibs-price-crash-further.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/is-the-bottom-in-bitcoin-tests-65253-as-market-panic-takes-hold": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/is-the-bottom-in-bitcoin-tests-65253-as-market-panic-takes-hold.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -3041,6 +2993,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/microstrategy-faces-catastrophic-risk-as-bitcoin-falls-to-60000.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/morning-crypto-report-one-of-biggest-xrp-sellers-revealed-80-for-cardano-ada-fou": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/morning-crypto-report-one-of-biggest-xrp-sellers-revealed-80-for-cardano-ada-fou.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -4529,6 +4505,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/will-xrp-price-crash-below-1-amid-the-crypto-market-sell-off.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/xrp-at-center-as-ripple-lays-out-institutional-defi-blueprint-for-xrpl": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/xrp-at-center-as-ripple-lays-out-institutional-defi-blueprint-for-xrpl.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
