@@ -126,6 +126,116 @@ export const sources = [
     priority: 1,
     enabled: false, // Cloudflare 403 - scraping blocked, mostly non-crypto news
   },
+  // Research / On-Chain Analytics
+  {
+    name: "The Block",
+    url: "https://www.theblock.co/rss.xml",
+    category: "research",
+    priority: 1,
+    enabled: true,
+  },
+  {
+    name: "Glassnode Insights",
+    url: "https://insights.glassnode.com/rss/",
+    category: "research",
+    priority: 1,
+    enabled: true,
+  },
+  {
+    name: "Chainalysis Blog",
+    url: "https://blog.chainalysis.com/feed/",
+    category: "research",
+    priority: 2,
+    enabled: true,
+  },
+  {
+    name: "Pantera Capital",
+    url: "https://panteracapital.com/feed/",
+    category: "research",
+    priority: 2,
+    enabled: true,
+  },
+  // DeFi / NFT / Web3
+  {
+    name: "The Defiant",
+    url: "https://thedefiant.io/feed",
+    category: "defi",
+    priority: 1,
+    enabled: true,
+  },
+  {
+    name: "NFT Evening",
+    url: "https://nftevening.com/feed/",
+    category: "nft",
+    priority: 2,
+    enabled: true,
+  },
+  // Investigative / Editorial
+  {
+    name: "Protos",
+    url: "https://protos.com/feed/",
+    category: "general",
+    priority: 1,
+    enabled: true,
+  },
+  {
+    name: "DL News",
+    url: "https://www.dlnews.com/arc/outboundfeeds/rss/",
+    category: "general",
+    priority: 1,
+    enabled: true,
+  },
+  {
+    name: "Unchained",
+    url: "https://unchainedcrypto.com/feed/",
+    category: "general",
+    priority: 1,
+    enabled: true,
+  },
+  // Additional Crypto News
+  {
+    name: "Bitcoinist",
+    url: "https://bitcoinist.com/feed/",
+    category: "general",
+    priority: 1,
+    enabled: true,
+  },
+  {
+    name: "Crypto.news",
+    url: "https://crypto.news/feed/",
+    category: "general",
+    priority: 1,
+    enabled: true,
+  },
+  {
+    name: "ZyCrypto",
+    url: "https://zycrypto.com/feed/",
+    category: "general",
+    priority: 1,
+    enabled: true,
+  },
+  {
+    name: "CoinJournal",
+    url: "https://coinjournal.net/feed/",
+    category: "general",
+    priority: 1,
+    enabled: true,
+  },
+  {
+    name: "The Cryptonomist",
+    url: "https://en.cryptonomist.ch/feed/",
+    category: "general",
+    priority: 2,
+    enabled: true,
+  },
+  // Ecosystem
+  {
+    name: "Ethereum Blog",
+    url: "https://blog.ethereum.org/en/feed.xml",
+    category: "ecosystem",
+    priority: 2,
+    enabled: true,
+  },
   // Exchange Blogs
   {
     name: "Binance Blog",
