@@ -571,21 +571,12 @@ body::after {
   font-size: 12px;
   line-height: 1.7;
   margin-bottom: 12px;
-  padding: 12px;
+  padding: 10px 12px;
   background: var(--bg-elevated);
   border-radius: 4px;
   border: 1px solid var(--border-subtle);
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: all 0.3s ease;
-}
-
-.news-full-content.show {
-  max-height: 600px;
-  overflow-y: auto;
+  max-height: none;
   opacity: 1;
-  padding: 12px;
 }
 
 .news-full-content p {
