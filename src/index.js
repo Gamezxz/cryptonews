@@ -26,26 +26,11 @@ async function main() {
   // Connect to MongoDB
   await connectDB();
 
-  // Fetch news immediately on startup
-  console.log('Fetching news on startup...');
-  try {
-    const { fetchAllSources } = await import('./fetcher.js');
-    await fetchAllSources();
-  } catch (err) {
-    console.error('Startup fetch failed:', err.message);
-  }
-
-  // Build static site
-  await buildStaticSite();
-
-  // Start the scheduler (fetches every 1 minute by default)
-  startScheduler();
-
-  // Express middleware
+  // Express middleware (setup FIRST before routes)
   app.use(express.json());
   app.use(express.static('output'));
 
-  // API endpoint to get news
+  // API endpoints
   app.get('/api/news', async (req, res) => {
     try {
       const category = req.query.category || 'all';
@@ -61,7 +46,6 @@ async function main() {
     }
   });
 
-  // API endpoint to trigger manual refresh and rebuild
   app.get('/api/refresh', async (req, res) => {
     try {
       const { fetchAllSources } = await import('./fetcher.js');
@@ -73,7 +57,6 @@ async function main() {
     }
   });
 
-  // API endpoint to rebuild static site
   app.get('/api/rebuild', async (req, res) => {
     try {
       await buildStaticSite();
@@ -83,7 +66,6 @@ async function main() {
     }
   });
 
-  // Health check
   app.get('/api/health', (req, res) => {
     res.json({
       success: true,
@@ -92,11 +74,27 @@ async function main() {
     });
   });
 
-  // Start server
+  // Start server IMMEDIATELY (before fetching news)
   app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-    console.log(`Cron schedule: ${config.scheduler.cronSchedule}`);
+    console.log(`\n🚀 Server running at http://localhost:${PORT}`);
+    console.log(`📰 API: /api/news, /api/refresh, /api/health`);
+    console.log(`⏰ Cron: ${config.scheduler.cronSchedule}\n`);
   });
+
+  // Fetch news in background after server starts
+  console.log('Fetching news in background...');
+  setImmediate(async () => {
+    try {
+      const { fetchAllSources } = await import('./fetcher.js');
+      await fetchAllSources();
+      await buildStaticSite();
+    } catch (err) {
+      console.error('Background fetch failed:', err.message);
+    }
+  });
+
+  // Start the scheduler (fetches every 1 minute by default)
+  startScheduler();
 
   // Graceful shutdown
   process.on('SIGINT', async () => {

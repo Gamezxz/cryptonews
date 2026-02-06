@@ -46,6 +46,8 @@ export default function NewsCard({ item, index }) {
   const imageUrl = getImageUrl(item);
   const gradient = getGradient(item.category);
   const [imageError, setImageError] = useState(false);
+  const [showFullContent, setShowFullContent] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const tags = item.categories && item.categories.length > 0
     ? item.categories
@@ -53,9 +55,10 @@ export default function NewsCard({ item, index }) {
 
   // Use AI summary if available, otherwise fall back to content
   const excerpt = item.summary || item.content?.substring(0, 120) || '';
+  const fullContent = item.content || '';
 
   return (
-    <article className="news-card" style={{ animationDelay: `${index * 0.03}s` }}>
+    <article className={`news-card ${isExpanded ? 'expanded' : ''}`} style={{ animationDelay: `${index * 0.03}s` }}>
       <div className="news-image">
         {imageUrl && !imageError ? (
           <img
@@ -92,12 +95,28 @@ export default function NewsCard({ item, index }) {
             {item.title}
           </a>
         </h3>
-        <p className="news-excerpt">{excerpt}...</p>
+
+        {!showFullContent ? (
+          <p className="news-excerpt">{excerpt}...</p>
+        ) : (
+          <div className="news-full-content">
+            <p className="content-text">{fullContent}</p>
+          </div>
+        )}
+
         <div className="news-meta">
           <time dateTime={item.pubDate}>
             {timeAgo(item.pubDate)}
           </time>
-          <span className="meta-arrow">&rarr;</span>
+          <button
+            className="expand-btn"
+            onClick={() => {
+              setShowFullContent(!showFullContent);
+              setIsExpanded(!isExpanded);
+            }}
+          >
+            {showFullContent ? 'Show less' : 'Read more'}
+          </button>
         </div>
       </div>
     </article>
