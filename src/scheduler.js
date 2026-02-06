@@ -1,5 +1,4 @@
 import cron from "node-cron";
-import { execSync } from "child_process";
 import { fetchAllSources } from "./fetcher.js";
 import { updateCache } from "./utils/cache.js";
 import { activityBus } from "./dashboard.js";
@@ -7,22 +6,11 @@ import config from "../config/default.js";
 
 let scheduledTask = null;
 
-// Fetch news from RSS feeds, update cache, and rebuild static pages
+// Fetch news from RSS feeds and update cache
 async function fetchAndUpdate() {
   await fetchAllSources();
   await updateCache();
   activityBus.emit("news_update");
-
-  // Rebuild static site so new article detail pages are accessible
-  try {
-    console.log("[Scheduler] Rebuilding static site...");
-    execSync("npm run build", { stdio: "inherit" });
-    console.log("[Scheduler] Static site rebuilt successfully");
-    activityBus.emit("rebuild", { message: "Static site rebuilt after fetch" });
-  } catch (err) {
-    console.error("[Scheduler] Build failed:", err.message);
-    activityBus.emit("error", { message: "Scheduled build failed", detail: err.message });
-  }
 }
 
 export function startScheduler() {
