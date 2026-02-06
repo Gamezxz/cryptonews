@@ -1,0 +1,5 @@
+1:"$Sreact.fragment"
+2:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/d2be314c3ece3fbe.js"],"ViewportBoundary"]
+3:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/d2be314c3ece3fbe.js"],"MetadataBoundary"]
+4:"$Sreact.suspense"
+0:{"buildId":"VcdtnuMQKzh7G05k_l9mG","rsc":["$","$1","h",{"children":[null,["$","$L2",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L3",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"$$1,160,000,000: Dogecoin OI ตกลงอย่างหนักเมื่อการแก้ไขราคายังคงดำเนินต่อไป | Cryptonews"}],["$","meta","1",{"name":"description","content":"Dogecoin มีประสิทธิภาพต่ำอย่างเห็นได้ชัดในหมู่นักซื้อขายฟิวเจอร์สในช่วง 24 ชั่วโมงที่ผ่านมา เนื่องจากมีเพียง DOGE มูลค่า 1.16 พันล้านดอลลาร์เท่านั้นที่ถูกผูกมัดในสัญญาที่ใช้งานอยู่"}]]}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"loading":null,"isPartial":false}
