@@ -8,7 +8,7 @@
     "start": "node src/index.js",
     "fetch": "node src/fetcher.js",
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/generate-sitemap.mjs",
     "build:static": "next build && next export"
   },
   "dependencies": {
