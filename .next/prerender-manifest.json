@@ -1058,30 +1058,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/allocation-update-q3-2025": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/allocation-update-q3-2025.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/allocation-update-q4-2025": {
       "experimentalBypassFor": [
         {
@@ -10010,6 +9986,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/ens-labs-scraps-namechain-l2-shifts-ensv2-fully-to-ethereum-mainnet": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/ens-labs-scraps-namechain-l2-shifts-ensv2-fully-to-ethereum-mainnet.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/epstein-emails-spark-fresh-allegations-around-coinbase-xrp-lawsuit": {
       "experimentalBypassFor": [
         {
@@ -15386,6 +15386,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/myx-finances-liquidity-sweep-holds-yet-640-caps-price-how": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/myx-finances-liquidity-sweep-holds-yet-640-caps-price-how.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/near-is-a-reversal-next-for-altcoins-price-after-days-of-decline": {
       "experimentalBypassFor": [
         {
@@ -16289,30 +16313,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/price-predictions-26-btc-eth-bnb-xrp-sol-doge-ada-bch-hype-xmr.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/privacy-is-not-a-natural-right-its-an-invention": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/privacy-is-not-a-natural-right-its-an-invention.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -18833,30 +18833,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/strategy-says-btc-needs-to-fall-to-8k-for-holdings-not-to-cover-debt-as-losses-t.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/strategy-stress-liquidity-strain": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/strategy-stress-liquidity-strain.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -22217,6 +22193,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/what-nexos-83-credit-drop-signals-about-risk-appetite-in-crypto.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/what-the-2022-crypto-winter-reveals-about-bitcoins-latest-sell-off": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/what-the-2022-crypto-winter-reveals-about-bitcoins-latest-sell-off.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
