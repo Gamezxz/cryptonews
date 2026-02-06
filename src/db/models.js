@@ -49,6 +49,10 @@ const newsItemSchema = new mongoose.Schema({
     type: [String],
     default: []
   },
+  summary: {
+    type: String,
+    default: ''
+  },
   fetchedAt: {
     type: Date,
     default: Date.now

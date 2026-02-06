@@ -29,6 +29,47 @@ const categoryKeywords = {
   mining: ['mining', 'hash rate', 'miner', 'proof of work', 'pool', 'bitcoin mining']
 };
 
+// AI Summary using OpenAI API
+async function summarizeArticle(title, content) {
+  const apiKey = '3439bee081604b91bc8262a5fa8cd315.42NAKBcYGbemMJN2';
+  const baseURL = 'https://api.z.ai/api/coding/paas/v4';
+
+  const textToSummarize = content || title;
+
+  try {
+    const response = await axios.post(
+      `${baseURL}/chat/completions`,
+      {
+        model: 'gpt-4o-mini',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a crypto news summarizer. Provide concise, informative summaries in 1-2 sentences (max 50 words). Focus on key facts and implications. Use Thai language.'
+          },
+          {
+            role: 'user',
+            content: `สรุปข่าว crypto นี้:\n\nหัวข้อ: ${title}\n\nเนื้อหา: ${textToSummarize.substring(0, 2000)}`
+          }
+        ],
+        max_tokens: 150,
+        temperature: 0.3
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+        },
+        timeout: 30000
+      }
+    );
+
+    return response.data.choices[0]?.message?.content?.trim() || '';
+  } catch (error) {
+    console.error(`AI Summary error: ${error.message}`);
+    return '';
+  }
+}
+
 // Scrape og:image from article HTML as fallback
 async function scrapeImageUrl(url) {
   try {
@@ -161,12 +202,28 @@ export async function fetchAllSources() {
   // Save to MongoDB with upsert
   let savedCount = 0;
   let updatedCount = 0;
+  let summarizedCount = 0;
 
   for (const item of allItems) {
     try {
+      const existing = await NewsItem.findOne({ guid: item.guid });
+
+      // Only summarize NEW items (not existing ones) to save API cost
+      let summary = existing?.summary || '';
+      if (!existing && item.title) {
+        console.log(`  Summarizing: ${item.title?.substring(0, 40)}...`);
+        summary = await summarizeArticle(item.title, item.content);
+        if (summary) {
+          summarizedCount++;
+          console.log(`    Summary: ${summary.substring(0, 60)}...`);
+        }
+        // Add small delay to avoid rate limiting
+        await new Promise(r => setTimeout(r, 500));
+      }
+
       const result = await NewsItem.findOneAndUpdate(
         { guid: item.guid },
-        item,
+        { ...item, summary },
         { upsert: true, new: false }
       );
 
@@ -180,7 +237,7 @@ export async function fetchAllSources() {
     }
   }
 
-  console.log(`MongoDB: ${savedCount} new, ${updatedCount} updated`);
+  console.log(`MongoDB: ${savedCount} new, ${updatedCount} updated, ${summarizedCount} summarized`);
 
   // Update JSON cache
   await updateCache();
