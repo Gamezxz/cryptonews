@@ -51,9 +51,9 @@ export default function NewsCard({ item, index }) {
     ? item.categories
     : [item.category];
 
-  // Use translated content if available, otherwise original content
-  const fullContent = item.translatedContent || item.content || '';
-  const hasContent = fullContent.length > 0;
+  // Check if both languages are available
+  const hasBothLanguages = item.translatedContent && item.content;
+  const hasContent = item.translatedContent || item.content;
 
   return (
     <article className={`news-card ${expanded ? 'expanded' : ''}`} style={{ animationDelay: `${index * 0.03}s` }}>
