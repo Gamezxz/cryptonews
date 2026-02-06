@@ -1,8 +1,11 @@
 import "dotenv/config";
 import express from "express";
+import fs from "fs/promises";
+import path from "path";
 import { createServer } from "http";
 import { connectDB, disconnectDB } from "./db/connection.js";
 import { startScheduler } from "./scheduler.js";
+import { startProcessor, stopProcessor } from "./processor.js";
 import { getNews, fetchAllSources } from "./fetcher.js";
 import { scrapeAndSummarize } from "./scraper.js";
 import { NewsItem } from "./db/models.js";
@@ -34,7 +37,7 @@ async function main() {
   // Connect to MongoDB
   await connectDB();
 
-  // Express middleware (setup FIRST before routes)
+  // Express middleware
   app.use(express.json());
 
   // CORS for frontend
@@ -49,7 +52,24 @@ async function main() {
 
   app.use(express.static("output"));
 
-  // API endpoints
+  // API: read from cache.json (fast, no MongoDB query)
+  app.get("/api/cache", async (req, res) => {
+    try {
+      const cachePath = path.join(process.cwd(), "data", "cache.json");
+      const data = await fs.readFile(cachePath, "utf-8");
+      const items = JSON.parse(data);
+      const limit = parseInt(req.query.limit) || 200;
+      res.json({
+        success: true,
+        count: Math.min(items.length, limit),
+        data: items.slice(0, limit),
+      });
+    } catch (err) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  // API: read from MongoDB (slower, used as fallback)
   app.get("/api/news", async (req, res) => {
     try {
       const category = req.query.category || "all";
@@ -68,8 +88,9 @@ async function main() {
   app.get("/api/refresh", async (req, res) => {
     try {
       await fetchAllSources();
-      await buildStaticSite();
-      res.json({ success: true, message: "News refreshed and site rebuilt" });
+      await updateCache();
+      activityBus.emit("news_update");
+      res.json({ success: true, message: "News refreshed" });
     } catch (err) {
       res.status(500).json({ success: false, error: err.message });
     }
@@ -87,6 +108,7 @@ async function main() {
   app.get("/api/recreate-cache", async (req, res) => {
     try {
       await updateCache();
+      activityBus.emit("news_update");
       activityBus.emit("admin", { message: "Cache recreated manually" });
       res.json({ success: true, message: "Cache.json recreated successfully" });
     } catch (err) {
@@ -133,20 +155,25 @@ async function main() {
   // Initialize Socket.IO dashboard
   initDashboard(server);
 
-  // Start server with HTTP server (for Socket.IO)
+  // Start server
   server.listen(PORT, () => {
     console.log(`\n🚀 Server running at http://localhost:${PORT}`);
-    console.log(`📰 API: /api/news, /api/refresh, /api/health`);
+    console.log(`📰 API: /api/cache, /api/news, /api/refresh`);
     console.log(`📊 Dashboard: /admin`);
-    console.log(`⏰ Cron: ${config.scheduler.cronSchedule}\n`);
+    console.log(`⏰ Cron: ${config.scheduler.cronSchedule}`);
+    console.log(`🔄 Processor: continuous translate + scrape\n`);
   });
 
-  // Start the scheduler (initial fetch + recurring every 15 min)
+  // Start scheduler (fetch RSS every 5 min)
   startScheduler();
+
+  // Start processor (continuous translate + scrape, one by one)
+  startProcessor();
 
   // Graceful shutdown
   process.on("SIGINT", async () => {
     console.log("\nShutting down gracefully...");
+    stopProcessor();
     await disconnectDB();
     process.exit(0);
   });
