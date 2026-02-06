@@ -124,7 +124,7 @@ export const sources = [
     url: "https://www.investing.com/rss/news.rss",
     category: "general",
     priority: 1,
-    enabled: true,
+    enabled: false, // Cloudflare 403 - scraping blocked, mostly non-crypto news
   },
   // Exchange Blogs
   {
