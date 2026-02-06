@@ -43,7 +43,7 @@ async function scrapeArticle(url) {
   }
 }
 
-// AI summarize using GLM-4.5
+// AI summarize using GLM-4.7
 async function summarizeArticle(fullContent, title) {
   const truncated = fullContent.substring(0, 6000);
 
