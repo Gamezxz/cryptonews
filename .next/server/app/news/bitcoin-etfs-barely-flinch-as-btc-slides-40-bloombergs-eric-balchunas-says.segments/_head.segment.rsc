@@ -1,0 +1,5 @@
+1:"$Sreact.fragment"
+2:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/d2be314c3ece3fbe.js"],"ViewportBoundary"]
+3:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/d2be314c3ece3fbe.js"],"MetadataBoundary"]
+4:"$Sreact.suspense"
+0:{"buildId":"x7XvGJkCs4gwzQUlFnLmN","rsc":["$","$1","h",{"children":[null,["$","$L2",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L3",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Bitcoin ETFs แทบไม่สะทกสะเพือ่าเมื่อ BTC ดิดลง 40% Eric Balchunas จาก Bloomberg กล่าว | Cryptonews"}],["$","meta","1",{"name":"description","content":"Bitcoin ลดลงมากกว่า 40% จากระดับสูงสุดในเดือนตุลาคม แต่นักลงทุนใน spot Bitcoin ETFs ได้ถอนเงินออกเพียง 6.6% ของสินทรัพย์"}]]}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"loading":null,"isPartial":false}
