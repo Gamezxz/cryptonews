@@ -15,7 +15,7 @@ const tags = [
   { id: 'mining', name: 'Mining' },
 ];
 
-export default function NewsFeed({ news, lastUpdated }) {
+export default function NewsFeed({ news }) {
   const [activeTag, setActiveTag] = useState('all');
 
   const filtered = activeTag === 'all'
@@ -43,9 +43,9 @@ export default function NewsFeed({ news, lastUpdated }) {
       <main className="main-content">
         <div className="container">
           <div className="news-header">
-            <h2>{activeTag === 'all' ? 'Latest News' : tags.find(t => t.id === activeTag)?.name}</h2>
-            <span className="last-updated">
-              {filtered.length} articles
+            <h2>{activeTag === 'all' ? 'Latest Intelligence' : tags.find(t => t.id === activeTag)?.name}</h2>
+            <span className="news-count">
+              <strong>{filtered.length}</strong> signals detected
             </span>
           </div>
 
@@ -57,7 +57,7 @@ export default function NewsFeed({ news, lastUpdated }) {
 
           {filtered.length === 0 && (
             <div className="empty-state">
-              <p>No news found for this tag.</p>
+              <p>No signals detected for this filter.</p>
             </div>
           )}
         </div>

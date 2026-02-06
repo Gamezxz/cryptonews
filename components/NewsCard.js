@@ -1,34 +1,20 @@
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
 import { useState } from 'react';
 
-// Get image URL from item (enclosure or extract from content)
 function getImageUrl(item) {
-  // Check enclosure first
-  if (item.enclosure) {
-    return item.enclosure;
-  }
-
-  // Try to extract image from content
+  if (item.enclosure) return item.enclosure;
   if (item.content) {
     const imgMatch = item.content.match(/<img[^>]+src=["']([^"']+)["']/i);
-    if (imgMatch && imgMatch[1]) {
-      return imgMatch[1];
-    }
+    if (imgMatch?.[1]) return imgMatch[1];
   }
-
-  // Try to extract from media:content
   if (item['media:content']) {
     const url = item['media:content'].$?.url || item['media:content'];
     if (url) return url;
   }
-
   return null;
 }
 
-// Generate gradient placeholder based on category
 function getGradient(category) {
   const gradients = {
     bitcoin: 'from-orange-500 to-yellow-500',
@@ -50,9 +36,9 @@ function timeAgo(dateStr) {
   const diff = Math.floor((now - date) / 1000);
 
   if (diff < 60) return 'just now';
-  if (diff < 3600) return `${Math.floor(diff / 60)} mins ago`;
-  if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
-  if (diff < 604800) return `${Math.floor(diff / 86400)} days ago`;
+  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+  if (diff < 604800) return `${Math.floor(diff / 86400)}d ago`;
   return date.toLocaleDateString();
 }
 
@@ -61,28 +47,12 @@ export default function NewsCard({ item, index }) {
   const gradient = getGradient(item.category);
   const [imageError, setImageError] = useState(false);
 
-  const getCategoryIcon = (category) => {
-    const icons = {
-      bitcoin: '₿',
-      ethereum: 'Ξ',
-      defi: '💰',
-      nft: '🖼️',
-      altcoins: '🪙',
-      exchanges: '🔄',
-      regulation: '⚖️',
-      mining: '⛏️',
-      general: '📰'
-    };
-    return icons[category] || icons.general;
-  };
-
   const tags = item.categories && item.categories.length > 0
     ? item.categories
     : [item.category];
 
   return (
-    <article className="news-card" style={{ animationDelay: `${index * 0.02}s` }}>
-      {/* Image */}
+    <article className="news-card" style={{ animationDelay: `${index * 0.03}s` }}>
       <div className="news-image">
         {imageUrl && !imageError ? (
           <img
@@ -93,9 +63,15 @@ export default function NewsCard({ item, index }) {
             onError={() => setImageError(true)}
           />
         ) : null}
-        <div className={`news-placeholder bg-gradient-to-br ${gradient}`} style={{ display: (!imageUrl || imageError) ? 'flex' : 'none' }}>
+        <div
+          className={`news-placeholder bg-gradient-to-br ${gradient}`}
+          style={{ display: (!imageUrl || imageError) ? 'flex' : 'none' }}
+        >
           <span className="placeholder-icon">
-            {getCategoryIcon(item.category)}
+            {item.category === 'bitcoin' ? '₿' :
+             item.category === 'ethereum' ? 'Ξ' :
+             item.category === 'defi' ? '$' :
+             item.category === 'mining' ? '#' : '//'}
           </span>
         </div>
       </div>
@@ -117,6 +93,7 @@ export default function NewsCard({ item, index }) {
           <time dateTime={item.pubDate}>
             {timeAgo(item.pubDate)}
           </time>
+          <span className="meta-arrow">&rarr;</span>
         </div>
       </div>
     </article>

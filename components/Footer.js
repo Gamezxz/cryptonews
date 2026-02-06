@@ -2,7 +2,14 @@ export default function Footer() {
   return (
     <footer className="site-footer">
       <div className="container">
-        <p>Crypto News Aggregator - Updated automatically</p>
+        <div className="footer-inner">
+          <div className="footer-text">
+            <span>NEXUS</span> // Crypto Intelligence Feed
+          </div>
+          <div className="footer-meta">
+            22+ Sources &middot; Auto-Updated
+          </div>
+        </div>
       </div>
     </footer>
   );

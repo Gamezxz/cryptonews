@@ -1,17 +1,27 @@
-import { Inter } from 'next/font/google';
+import { JetBrains_Mono, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const jetbrains = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+});
 
 export const metadata = {
-  title: 'Crypto News Aggregator',
-  description: 'Latest cryptocurrency news from top sources',
+  title: 'NEXUS // Crypto Intelligence Feed',
+  description: 'Real-time cryptocurrency news aggregation from 22+ sources',
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className={`${jetbrains.variable} ${spaceGrotesk.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }
