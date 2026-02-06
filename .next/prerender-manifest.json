@@ -410,6 +410,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/beincrypto-wins-best-crypto-publisher-at-crypto-awards-2025": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/beincrypto-wins-best-crypto-publisher-at-crypto-awards-2025.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/beincrypto-wins-best-website-for-economics-and-finance-at-brasil-publisher-award": {
       "experimentalBypassFor": [
         {
@@ -473,30 +497,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/binance-makes-gigantic-bitcoin-purchase-worth-23337-million.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/binance-research-qt-fears-behind-crypto-sell-off-are-overblown": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/binance-research-qt-fears-behind-crypto-sell-off-are-overblown.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -1010,30 +1010,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/bitcoin-slips-under-64k-as-record-high-selling-intensifies-where-is-the-bottom": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/bitcoin-slips-under-64k-as-record-high-selling-intensifies-where-is-the-bottom.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/bitcoin-surges-back-above-65000-after-700-million-wipeout-in-asia-whipsaw": {
       "experimentalBypassFor": [
         {
@@ -1217,6 +1193,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/bitcoins-slide-to-60k-puts-btc-treasury-companies-10b-underwater-as-one-major-fi.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/bitget-fan-club-sets-a-new-standard-for-community-in-crypto": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/bitget-fan-club-sets-a-new-standard-for-community-in-crypto.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -1586,6 +1586,54 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/china-bans-unapproved-yuan-stablecoins": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/china-bans-unapproved-yuan-stablecoins.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/china-moves-to-block-offshore-yuan-backed-stablecoin-issuance": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/china-moves-to-block-offshore-yuan-backed-stablecoin-issuance.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/cme-to-support-cardano-chainlink-and-stellar-potential-impact-on-altcoins": {
       "experimentalBypassFor": [
         {
@@ -1601,30 +1649,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/cme-to-support-cardano-chainlink-and-stellar-potential-impact-on-altcoins.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/critical-zcash-price-warning-heres-why-charts-now-point-toward-100": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/critical-zcash-price-warning-heres-why-charts-now-point-toward-100.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -2402,30 +2426,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/gemini-announces-exit-from-uk-eu-australia-slashes-workforce": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/gemini-announces-exit-from-uk-eu-australia-slashes-workforce.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/gemini-exchange-exits-uk-eu-australia-refocuses-on-america": {
       "experimentalBypassFor": [
         {
@@ -2513,6 +2513,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/hbar-prices-breakout-from-4-month-old-pattern-threatens-6-million-short-squeeze.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/heres-what-happened-in-crypto-today": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/heres-what-happened-in-crypto-today.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -3026,6 +3050,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/morning-minute-bitcoin-erases-trump-pump-falls-to-60k": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/morning-minute-bitcoin-erases-trump-pump-falls-to-60k.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/most-crypto-treasuries-face-rising-bankruptcy-risk-after-market-crash": {
       "experimentalBypassFor": [
         {
@@ -3041,30 +3089,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/most-crypto-treasuries-face-rising-bankruptcy-risk-after-market-crash.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/myriad-moves-how-low-will-bitcoin-and-ethereum-go": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/myriad-moves-how-low-will-bitcoin-and-ethereum-go.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -3593,6 +3617,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/solana-drops-15-hits-2-year-low-can-sol-bulls-hold-70.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/solana-price-rebounds-15-after-crash-but-on-chain-data-questions-recovery": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/solana-price-rebounds-15-after-crash-but-on-chain-data-questions-recovery.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -4529,54 +4577,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/xrp-at-center-as-ripple-lays-out-institutional-defi-blueprint-for-xrpl.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/xrp-becomes-biggest-loser-among-top-100-coins": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/xrp-becomes-biggest-loser-among-top-100-coins.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/xrp-bull-buys-the-dip-as-ripples-price-gets-obliterated-by-22-in-just-1-day": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/xrp-bull-buys-the-dip-as-ripples-price-gets-obliterated-by-22-in-just-1-day.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
