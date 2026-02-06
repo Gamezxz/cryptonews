@@ -247,6 +247,59 @@ export default function AdminDashboard() {
             />
           </div>
 
+          {/* Translation Terminal */}
+          <div style={{ ...styles.card, marginBottom: 12 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+              <h3 style={{ ...styles.cardTitle, margin: 0 }}>TRANSLATION TERMINAL</h3>
+              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                {actionLoading === "translate" && (
+                  <span style={{ fontSize: 10, color: "#a855f7", letterSpacing: "0.1em" }}>TRANSLATING...</span>
+                )}
+                <button
+                  onClick={() => setTranslateLogs([])}
+                  style={{ ...styles.actionBtn, padding: "4px 10px", fontSize: 9, borderColor: "#52525b", color: "#52525b" }}
+                >
+                  CLEAR
+                </button>
+              </div>
+            </div>
+            <div
+              ref={terminalRef}
+              style={{
+                backgroundColor: "#050506",
+                border: "1px solid #1f1f23",
+                padding: 12,
+                height: 300,
+                overflowY: "auto",
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: 11,
+                lineHeight: 1.6,
+              }}
+            >
+              {translateLogs.length === 0 ? (
+                <p style={{ color: "#52525b", margin: 0 }}>
+                  Waiting for translation events... Press FORCE TRANSLATE to start.
+                </p>
+              ) : (
+                translateLogs.map((log, i) => (
+                  <div key={i} style={{ display: "flex", gap: 8 }}>
+                    <span style={{ color: "#52525b", flexShrink: 0 }}>{formatTime(log.time)}</span>
+                    <span
+                      style={{
+                        color: log.status === "error" ? "#ef4444"
+                          : log.status === "ok" ? "#22c55e"
+                          : log.status === "done" ? "#a855f7"
+                          : "#a1a1aa",
+                      }}
+                    >
+                      {log.message}
+                    </span>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+
           {/* Sentiment + Categories + Sources */}
           <div style={styles.cardRow3}>
             {/* Sentiment */}
