@@ -5,15 +5,13 @@ let isConnected = false;
 
 export async function connectDB() {
   if (isConnected) {
-    console.log('MongoDB: Using existing connection');
     return mongoose.connection;
   }
 
   try {
-    console.log(`MongoDB: Connecting to ${config.mongodb.uri}`);
     await mongoose.connect(config.mongodb.uri, config.mongodb.options);
     isConnected = true;
-    console.log('MongoDB: Connected successfully');
+    console.log('MongoDB: Connected');
     return mongoose.connection;
   } catch (error) {
     console.error('MongoDB connection error:', error);
