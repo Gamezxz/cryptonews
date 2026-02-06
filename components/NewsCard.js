@@ -126,11 +126,6 @@ export default function NewsCard({ item, index }) {
           <time dateTime={item.pubDate}>
             {timeAgo(item.pubDate)}
           </time>
-          {hasContent && (
-            <button className="expand-btn" onClick={() => setExpanded(!expanded)}>
-              {expanded ? 'ย่อ' : 'อ่านเพิ่ม'}
-            </button>
-          )}
         </div>
       </div>
     </article>
