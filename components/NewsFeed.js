@@ -48,7 +48,7 @@ export default function NewsFeed({ news: initialNews }) {
 
   useEffect(() => {
     // Connect Socket.IO for real-time updates
-    const socket = io(API_URL, {
+    const socket = io(getBaseUrl(), {
       path: '/socket.io',
       transports: ['websocket', 'polling'],
     });
