@@ -2,6 +2,7 @@ import { extract } from "@extractus/article-extractor";
 import axios from "axios";
 import { connectDB } from "./db/connection.js";
 import { NewsItem } from "./db/models.js";
+import { activityBus } from "./dashboard.js";
 
 const AI_API_KEY = "REDACTED_API_KEY";
 const AI_BASE_URL = "https://api.z.ai/api/coding/paas/v4";
