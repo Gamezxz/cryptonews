@@ -530,6 +530,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/bitcoin-core-dev-gloria-zhao-quits-maintainer-role-after-six-year-stint": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/bitcoin-core-dev-gloria-zhao-quits-maintainer-role-after-six-year-stint.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/bitcoin-crash-sends-ethereum-and-major-altcoins-into-oversold-territory": {
       "experimentalBypassFor": [
         {
@@ -617,6 +641,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/bitcoin-crashes-below-70k-key-buying-levels-as-4-year-cycle-repeats.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/bitcoin-erases-post-trump-election-gains-altcoins-crash-by-double-digits-your-we": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/bitcoin-erases-post-trump-election-gains-altcoins-crash-by-double-digits-your-we.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -818,30 +866,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/bitcoin-miners-could-face-crisis-after-btc-price-falls-50-from-peak": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/bitcoin-miners-could-face-crisis-after-btc-price-falls-50-from-peak.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/bitcoin-miners-iren-and-cleanspark-slide-after-earnings-misses-deepen-sector-pre": {
       "experimentalBypassFor": [
         {
@@ -977,6 +1001,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/bitcoin-price-sweeps-2025-usd-lows-as-some-investors-are-starting-to-look-elsewh.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/bitcoin-quantum-threat-is-more-than-fully-priced-in-says-top-analyst": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/bitcoin-quantum-threat-is-more-than-fully-priced-in-says-top-analyst.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -1562,30 +1610,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/cea-industries-yzi-labs-clash-over-bnb-treasury-fees-and-control": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/cea-industries-yzi-labs-clash-over-bnb-treasury-fees-and-control.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/china-bans-unapproved-yuan-stablecoins": {
       "experimentalBypassFor": [
         {
@@ -1625,6 +1649,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/china-moves-to-block-offshore-yuan-backed-stablecoin-issuance.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/citi-cuts-coinbase-price-target-to-400-after-stocks-65-plunge-from-record-high": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/citi-cuts-coinbase-price-target-to-400-after-stocks-65-plunge-from-record-high.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -1697,30 +1745,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/crypto-analyst-warns-bitcoin-could-hit-zero-lays-out-16-step-doomsday-scenario.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/crypto-capitulation-day-bitcoin-slumps-to-622k-while-wall-street-bleeds": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/crypto-capitulation-day-bitcoin-slumps-to-622k-while-wall-street-bleeds.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -2234,6 +2258,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/efforts-for-turkey-to-join-brics-underway-with-chinas-help": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/efforts-for-turkey-to-join-brics-underway-with-chinas-help.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/ethena-absorbs-hayes-36mln-transfer-why-ena-refuses-to-break-down": {
       "experimentalBypassFor": [
         {
@@ -2378,7 +2426,7 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/eu-tokenization-companies-push-for-dlt-pilot-changes-amid-us-momentum": {
+    "/news/february-deposit-match-get-more-from-every-deposit-this-february": {
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -2392,31 +2440,7 @@
       ],
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/eu-tokenization-companies-push-for-dlt-pilot-changes-amid-us-momentum.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/finders-latest-survey-predicts-bitcoin-at-133k-by-end-of-2026": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/finders-latest-survey-predicts-bitcoin-at-133k-by-end-of-2026.rsc",
+      "dataRoute": "/news/february-deposit-match-get-more-from-every-deposit-this-february.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -2570,54 +2594,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/how-usdts-185b-growth-could-challenge-ethereums-position": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/how-usdts-185b-growth-could-challenge-ethereums-position.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/intel-intc-should-you-buy-the-tech-stock-dip-after-140-gain-in-1-year": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/intel-intc-should-you-buy-the-tech-stock-dip-after-140-gain-in-1-year.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/is-google-stealing-your-traffic-an-interview-with-alena-afanaseva-founder-and-ce": {
       "experimentalBypassFor": [
         {
@@ -2738,30 +2714,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/jpmorgan-says-bitcoins-lower-volatility-relative-to-gold-might-make-it-more-attr": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/jpmorgan-says-bitcoins-lower-volatility-relative-to-gold-might-make-it-more-attr.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/kalshi-announces-new-anti-insider-trading-measures-ahead-of-super-bowl": {
       "experimentalBypassFor": [
         {
@@ -2825,6 +2777,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/katie-stockton-bitcoins-bearish-reversal-signals-a-market-shift-ethereum-set-to-.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/kraken-signals-potential-pi-coin-listing-adds-pi-network-to-2026-roadmap": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/kraken-signals-potential-pi-coin-listing-adds-pi-network-to-2026-roadmap.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -2921,6 +2897,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/mara-holdings-transfers-1318-bitcoin-to-galaxy-digital-two-prime-and-bitgo.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/metaplanet-commits-to-bitcoin-accumulation-even-as-shares-decline": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/metaplanet-commits-to-bitcoin-accumulation-even-as-shares-decline.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -3146,6 +3146,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/official-trump-meme-coin-wlfi-lead-losses-following-world-liberty-financial-prob": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/official-trump-meme-coin-wlfi-lead-losses-following-world-liberty-financial-prob.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/og-whale-who-lost-250m-last-week-is-already-buying-eth-again-heres-why": {
       "experimentalBypassFor": [
         {
@@ -3281,6 +3305,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/polymarket-files-for-crypto-token-trademarks-as-legal-battles-mount.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/president-trumps-wlfi-sold-bitcoin-to-pay-off-aave-debt-and-avoid-liquidation-as": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/president-trumps-wlfi-sold-bitcoin-to-pay-off-aave-debt-and-avoid-liquidation-as.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -3458,30 +3506,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/robinhood-and-etoro-shares-sink-for-eighth-day-as-bitcoin-price-crashes-to-63500": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/robinhood-and-etoro-shares-sink-for-eighth-day-as-bitcoin-price-crashes-to-63500.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/santiment-crowd-fear-triggers-bitcoin-bounce-70k-rally-in-focus": {
       "experimentalBypassFor": [
         {
@@ -3602,6 +3626,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/smacked-down-still-swinging-bitcoins-battle-beneath-the-averages": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/smacked-down-still-swinging-bitcoins-battle-beneath-the-averages.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/solana-drops-15-hits-2-year-low-can-sol-bulls-hold-70": {
       "experimentalBypassFor": [
         {
@@ -3689,6 +3737,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/stablecoin-inflows-jump-from-51b-to-102bis-smart-money-preparing-to-buy-the-dip.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/stablecoin-inflows-surge-to-100b-amid-crypto-dip": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/stablecoin-inflows-surge-to-100b-amid-crypto-dip.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -3794,30 +3866,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/strategy-posts-q4-loss-of-124-billion-on-tumbling-bitcoin-price": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/strategy-posts-q4-loss-of-124-billion-on-tumbling-bitcoin-price.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/strategy-records-124b-loss-in-q4-shares-dip-17-as-bitcoin-tumbles": {
       "experimentalBypassFor": [
         {
@@ -3905,30 +3953,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/tether-acquires-12-stake-in-goldcom-in-150m-strategic-investment.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/tether-buys-150-million-stake-in-goldcom-to-boost-tokenized-gold-distribution": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/tether-buys-150-million-stake-in-goldcom-to-boost-tokenized-gold-distribution.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -4097,54 +4121,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/trade-smarter-bitmex-brings-hyperliquid-copy-trading-to-its-platform.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/traders-dump-43-billion-btc-on-binance-as-exchange-sells-more-bitcoin-than-other": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/traders-dump-43-billion-btc-on-binance-as-exchange-sells-more-bitcoin-than-other.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/tradeweb-and-marketaxess-just-moved-655-trillion-in-january": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/tradeweb-and-marketaxess-just-moved-655-trillion-in-january.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -4442,6 +4418,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/why-privacy-coins-often-appear-in-post-hack-fund-flows": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/why-privacy-coins-often-appear-in-post-hack-fund-flows.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/why-smart-money-is-buying-these-two-altcoins-during-the-bitcoin-selloff": {
       "experimentalBypassFor": [
         {
@@ -4457,6 +4457,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/why-smart-money-is-buying-these-two-altcoins-during-the-bitcoin-selloff.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/why-trump-token-keeps-falling-despite-522m-in-trading-volume": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/why-trump-token-keeps-falling-despite-522m-in-trading-volume.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -4793,30 +4817,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/xrp-trx-and-bnb-slide-amid-broader-crypto-volatility-as-sonami-accelerates-layer.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/xtb-hires-ex-revolut-marketer-as-it-ramps-up-marketing-spend": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/xtb-hires-ex-revolut-marketer-as-it-ramps-up-marketing-spend.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
