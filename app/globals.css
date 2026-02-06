@@ -581,7 +581,7 @@ body::after {
 }
 
 .news-full-content.show {
-  max-height: 400px;
+  max-height: 600px;
   overflow-y: auto;
   opacity: 1;
   padding: 12px;
