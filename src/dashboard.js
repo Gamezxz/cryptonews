@@ -72,6 +72,13 @@ activityBus.on("news_update", () => {
   }
 });
 
+// Broadcast insight_update to ALL connected clients
+activityBus.on("insight_update", () => {
+  if (io) {
+    io.emit("insight_update");
+  }
+});
+
 // Collect stats from MongoDB
 async function collectStats() {
   try {
