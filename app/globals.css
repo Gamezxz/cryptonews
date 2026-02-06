@@ -332,8 +332,9 @@ body::after {
 /* ─── NEWS IMAGE ─── */
 .news-image {
   position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
+  width: 280px;
+  min-width: 280px;
+  min-height: 180px;
   overflow: hidden;
   background: var(--bg-elevated);
 }
@@ -341,11 +342,11 @@ body::after {
 .news-image::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 0;
+  top: 0;
   right: 0;
-  height: 60%;
-  background: linear-gradient(transparent, var(--bg-card));
+  bottom: 0;
+  width: 60%;
+  background: linear-gradient(to left, var(--bg-card), transparent);
   pointer-events: none;
 }
 
