@@ -14,7 +14,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata = {
-  title: 'NEXUS // Crypto Intelligence Feed',
+  title: 'Cryptonews.in.th - Crypto Intelligence Feed',
   description: 'Real-time cryptocurrency news aggregation from 22+ sources',
 };
 

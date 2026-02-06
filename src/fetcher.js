@@ -293,11 +293,13 @@ export async function fetchAllSources() {
 
       // Only translate items WITHOUT translatedTitle
       let translatedTitle = existing?.translatedTitle || '';
+      let translatedContent = existing?.translatedContent || '';
       let sentiment = existing?.sentiment || '';
       if (!translatedTitle && item.title) {
         console.log(`  Translating: ${item.title?.substring(0, 40)}...`);
-        const result = await translateAndAnalyze(item.title);
+        const result = await translateAndAnalyze(item.title, item.content);
         translatedTitle = result.translatedTitle;
+        translatedContent = result.translatedContent;
         sentiment = result.sentiment;
         if (translatedTitle) {
           translatedCount++;
@@ -309,7 +311,7 @@ export async function fetchAllSources() {
 
       const dbResult = await NewsItem.findOneAndUpdate(
         { guid: item.guid },
-        { ...item, summary, translatedTitle, sentiment },
+        { ...item, summary, translatedTitle, translatedContent, sentiment },
         { upsert: true, new: false }
       );
 
@@ -398,10 +400,11 @@ export async function backfillTranslations(limit = 100) {
     try {
       console.log(`  [${translatedCount + 1}/${itemsWithoutTranslation.length}] ${item.title?.substring(0, 50)}...`);
 
-      const result = await translateAndAnalyze(item.title);
+      const result = await translateAndAnalyze(item.title, item.content);
       if (result.translatedTitle) {
         await NewsItem.updateOne({ _id: item._id }, {
           translatedTitle: result.translatedTitle,
+          translatedContent: result.translatedContent,
           sentiment: result.sentiment
         });
         translatedCount++;
