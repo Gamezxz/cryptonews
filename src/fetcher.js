@@ -55,7 +55,7 @@ async function translateBatch(items) {
     const response = await axios.post(
       `${AI_BASE_URL}/chat/completions`,
       {
-        model: 'glm-4.5',
+        model: 'glm-4.7',
         messages: [
           {
             role: 'system',
