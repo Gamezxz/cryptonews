@@ -1,6 +1,7 @@
 import cron from "node-cron";
 import { fetchAllSources, backfillTranslations } from "./fetcher.js";
 import { batchScrapeRecent } from "./scraper.js";
+import { activityBus } from "./dashboard.js";
 import config from "../config/default.js";
 
 let scheduledTask = null;
@@ -8,13 +9,21 @@ let scheduledTask = null;
 // Fetch news and then translate new items
 async function fetchAndTranslate() {
   await fetchAllSources();
+
   // Translate latest 20 untranslated items after each fetch
   console.log("🌐 Auto-translating new items...");
-  await backfillTranslations(20);
+  const translateResult = await backfillTranslations(20);
+  activityBus.emit("translate", {
+    count: translateResult.translatedCount,
+    errors: translateResult.errorCount,
+  });
 
   // Auto-scrape recent articles
   console.log("📰 Auto-scraping recent articles...");
-  await batchScrapeRecent(10);
+  const scrapeResult = await batchScrapeRecent(10);
+  activityBus.emit("scrape", {
+    message: `Batch scrape: ${scrapeResult.success} ok, ${scrapeResult.failed} failed`,
+  });
 }
 
 export function startScheduler() {
@@ -28,6 +37,7 @@ export function startScheduler() {
   // Initial fetch + translate
   fetchAndTranslate().catch((err) => {
     console.error("Initial fetch failed:", err.message);
+    activityBus.emit("error", { message: "Initial fetch failed", detail: err.message });
   });
 
   // Schedule recurring fetches + translations
@@ -39,6 +49,7 @@ export function startScheduler() {
       await fetchAndTranslate();
     } catch (err) {
       console.error("Scheduled fetch failed:", err.message);
+      activityBus.emit("error", { message: "Scheduled fetch failed", detail: err.message });
     }
   });
 
