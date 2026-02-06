@@ -40,7 +40,9 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState(null);
   const [activities, setActivities] = useState([]);
   const [actionLoading, setActionLoading] = useState("");
+  const [translateLogs, setTranslateLogs] = useState([]);
   const socketRef = useRef(null);
+  const terminalRef = useRef(null);
 
   const connectSocket = useCallback((key) => {
     const socket = io(API_URL, { path: "/socket.io", transports: ["websocket", "polling"] });
