@@ -554,6 +554,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/accidental-2000-btc-airdrop-crashes-bitcoin-price-10-on-bithumb": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/accidental-2000-btc-airdrop-crashes-bitcoin-price-10-on-bithumb.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/aether-holdings-buys-publicviewai-to-expand-ai-driven-equity-research": {
       "experimentalBypassFor": [
         {
@@ -4322,6 +4346,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/coindesk-20-performance-update-ripple-xrp-surges-201-as-all-assets-trade-higher": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/coindesk-20-performance-update-ripple-xrp-surges-201-as-all-assets-trade-higher.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/coinstats-expands-perpetual-dex-tracking-with-aster-hyperliquid-and-lighter-inte": {
       "experimentalBypassFor": [
         {
@@ -7841,6 +7889,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/liquidations-top-13-billion-as-btc-plummets-below-67k-eth-loses-2k-support.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/live-why-crypto-is-down-today-ada-founder-reveals-3-billion-hit": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/live-why-crypto-is-down-today-ada-founder-reveals-3-billion-hit.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
