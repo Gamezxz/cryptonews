@@ -111,11 +111,6 @@ export default function AdminDashboard() {
     if (!socketRef.current || actionLoading) return;
     setActionLoading(action);
     socketRef.current.emit("action", action);
-    // Also call the API directly
-    const apiPath = action === "refresh" ? "refresh" : action === "recreate-cache" ? "recreate-cache" : "rebuild";
-    fetch(`${API_URL}/api/${apiPath}`)
-      .then(() => setActionLoading(""))
-      .catch(() => setActionLoading(""));
   }
 
   // Login screen
