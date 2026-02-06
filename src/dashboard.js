@@ -56,6 +56,15 @@ activityBus.on("error", (data) => {
   addActivity("error", data.message, data.detail || "");
 });
 
+activityBus.on("translate_log", (data) => {
+  if (io) {
+    for (const socketId of authenticatedSockets) {
+      const socket = io.sockets.sockets.get(socketId);
+      if (socket) socket.emit("translate_log", data);
+    }
+  }
+});
+
 // Collect stats from MongoDB
 async function collectStats() {
   try {
