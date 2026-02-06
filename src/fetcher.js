@@ -316,7 +316,7 @@ export async function fetchAllSources() {
     }
   }
 
-  console.log(`MongoDB: ${savedCount} new, ${updatedCount} updated, ${summarizedCount} summarized, ${translatedCount} translated`);
+  console.log(`MongoDB: ${savedCount} new, ${updatedCount} updated, ${summarizedCount} summarized`);
 
   // Update JSON cache
   await updateCache();
