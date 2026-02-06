@@ -82,6 +82,11 @@ export default function AdminDashboard() {
       }
     });
 
+    socket.on("translate_log", (data) => {
+      const entry = { time: new Date().toISOString(), ...data };
+      setTranslateLogs((prev) => [...prev, entry].slice(-200));
+    });
+
     return socket;
   }, []);
 
