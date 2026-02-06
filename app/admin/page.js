@@ -191,6 +191,13 @@ export default function AdminDashboard() {
             {actionLoading === "rebuild" ? "..." : "FORCE REBUILD"}
           </button>
           <button
+            onClick={() => handleAction("translate")}
+            disabled={!!actionLoading}
+            style={{ ...styles.actionBtn, borderColor: "#a855f7", color: "#a855f7" }}
+          >
+            {actionLoading === "translate" ? "..." : "FORCE TRANSLATE"}
+          </button>
+          <button
             onClick={() => handleAction("recreate-cache")}
             disabled={!!actionLoading}
             style={{ ...styles.actionBtn, borderColor: "#f59e0b", color: "#f59e0b" }}
