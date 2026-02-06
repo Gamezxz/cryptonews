@@ -403,10 +403,11 @@ body::after {
 
 /* ─── NEWS CONTENT ─── */
 .news-content {
-  padding: 16px;
+  padding: 16px 20px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  min-width: 0;
 }
 
 .news-source {
