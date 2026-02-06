@@ -75,7 +75,9 @@ export default function AdminDashboard() {
     });
 
     socket.on("action_ack", (data) => {
-      setActionLoading("");
+      if (data.status === "done" || data.status === "error") {
+        setActionLoading("");
+      }
     });
 
     return socket;
