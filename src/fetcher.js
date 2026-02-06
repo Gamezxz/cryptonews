@@ -265,6 +265,8 @@ export async function fetchAllSources() {
 
   console.log(`MongoDB: ${savedCount} new, ${updatedCount} updated`);
 
+  activityBus.emit("fetch", { saved: savedCount, updated: updatedCount });
+
   // Update JSON cache
   await updateCache();
 
