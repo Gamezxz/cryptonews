@@ -51,6 +51,9 @@ export default function NewsCard({ item, index }) {
     ? item.categories
     : [item.category];
 
+  // Use AI summary if available, otherwise fall back to content
+  const excerpt = item.summary || item.content?.substring(0, 120) || '';
+
   return (
     <article className="news-card" style={{ animationDelay: `${index * 0.03}s` }}>
       <div className="news-image">
@@ -79,6 +82,7 @@ export default function NewsCard({ item, index }) {
       <div className="news-content">
         <div className="news-source">
           <span className="source-badge">{item.source}</span>
+          {item.summary && <span className="summary-badge">AI</span>}
           {tags.map((tag) => (
             <span key={tag} className={`category-badge tag-${tag}`}>{tag}</span>
           ))}
@@ -88,7 +92,7 @@ export default function NewsCard({ item, index }) {
             {item.title}
           </a>
         </h3>
-        <p className="news-excerpt">{item.content?.substring(0, 120) || ''}...</p>
+        <p className="news-excerpt">{excerpt}...</p>
         <div className="news-meta">
           <time dateTime={item.pubDate}>
             {timeAgo(item.pubDate)}
