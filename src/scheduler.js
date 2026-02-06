@@ -26,6 +26,16 @@ async function fetchAndTranslate() {
   activityBus.emit("scrape", {
     message: `Batch scrape: ${scrapeResult.success} ok, ${scrapeResult.failed} failed`,
   });
+
+  // Update cache and rebuild static site
+  console.log("🔄 Updating cache and rebuilding site...");
+  await updateCache();
+  try {
+    execSync("npm run build", { stdio: "inherit" });
+    activityBus.emit("rebuild", { message: "Auto-rebuild after fetch cycle" });
+  } catch (err) {
+    activityBus.emit("error", { message: "Auto-rebuild failed", detail: err.message });
+  }
 }
 
 export function startScheduler() {
