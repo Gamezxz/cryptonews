@@ -15,20 +15,20 @@ Crypto news aggregator: RSS feeds → MongoDB → AI translation/summary → Nex
 config/sources.js    → RSS source list (17 active)
 src/fetcher.js       → Fetch RSS + AI translate (GLM-4.5)
 src/scraper.js       → Scrape full articles + AI summarize
-src/scheduler.js     → Cron jobs (fetch/translate/scrape every 15 min)
+src/scheduler.js     → Cron jobs (fetch RSS every 5 min)
+src/processor.js     → Continuous translate + scrape (one by one)
 src/index.js         → Express API server (port 13002)
 src/db/models.js     → Mongoose NewsItem schema
 app/page.js          → Homepage (server component, static)
 app/news/[id]/page.js → Article detail page (SSG, 200 pre-generated)
-components/          → NewsFeed, NewsCard, ArticleDetail, Header, Footer
+components/          → NewsFeed (Socket.IO real-time), NewsCard, ArticleDetail, Header, Footer
 ```
 
 ## PM2 Processes
 
 | Name | Script | Purpose |
 |------|--------|---------|
-| `cryptonews` | `src/index.js` | Express API + scheduler |
-| `cryptonews-scraper` | `src/scraper-continuous.js` | Continuous article scraping (1/min) |
+| `cryptonews` | `src/index.js` | Express API + scheduler + processor |
 
 ## Post-Task Checklist
 
