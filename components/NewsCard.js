@@ -103,7 +103,7 @@ export default function NewsCard({ item, index }) {
         )}
 
         {hasContent && (
-          <div className={`news-full-content ${expanded ? 'show' : ''}`}>
+          <div className="news-full-content show">
             {hasBothLanguages ? (
               <>
                 <div className="bilingual-section">
