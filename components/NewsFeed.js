@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { io } from 'socket.io-client';
 import NewsCard from './NewsCard';
+import MarketInsight from './MarketInsight';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:13002';
 
