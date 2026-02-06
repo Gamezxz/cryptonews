@@ -6,9 +6,9 @@ export default function Header() {
       <div className="container">
         <div className="header-inner">
           <Link href="/" className="header-brand">
-            <div className="header-logo">N</div>
+            <div className="header-logo">C</div>
             <div className="header-text">
-              <h1>NEXUS <span>//</span> FEED</h1>
+              <h1>Cryptonews<span>.in.th</span></h1>
               <p>Crypto Intelligence Aggregator</p>
             </div>
           </Link>

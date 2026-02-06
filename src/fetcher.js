@@ -29,16 +29,17 @@ const categoryKeywords = {
   mining: ['mining', 'hash rate', 'miner', 'proof of work', 'pool', 'bitcoin mining']
 };
 
+// AI config
+const AI_API_KEY = '3439bee081604b91bc8262a5fa8cd315.42NAKBcYGbemMJN2';
+const AI_BASE_URL = 'https://api.z.ai/api/coding/paas/v4';
+
 // AI Summary using GLM-4.5 via Z.ai API
 async function summarizeArticle(title, content) {
-  const apiKey = '3439bee081604b91bc8262a5fa8cd315.42NAKBcYGbemMJN2';
-  const baseURL = 'https://api.z.ai/api/coding/paas/v4';
-
   const textToSummarize = content || title;
 
   try {
     const response = await axios.post(
-      `${baseURL}/chat/completions`,
+      `${AI_BASE_URL}/chat/completions`,
       {
         model: 'glm-4.5',
         messages: [
@@ -56,7 +57,7 @@ async function summarizeArticle(title, content) {
       },
       {
         headers: {
-          'Authorization': `Bearer ${apiKey}`,
+          'Authorization': `Bearer ${AI_API_KEY}`,
           'Content-Type': 'application/json'
         },
         timeout: 30000
@@ -67,6 +68,73 @@ async function summarizeArticle(title, content) {
   } catch (error) {
     console.error(`AI Summary error: ${error.message}`);
     return '';
+  }
+}
+
+// AI Translation + Sentiment Analysis using GLM-4.5 via Z.ai API
+async function translateAndAnalyze(title, content) {
+  if (!title) return { translatedTitle: '', translatedContent: '', sentiment: '' };
+
+  const textContent = content ? content.substring(0, 3000) : '';
+
+  try {
+    const response = await axios.post(
+      `${AI_BASE_URL}/chat/completions`,
+      {
+        model: 'glm-4.5',
+        messages: [
+          {
+            role: 'system',
+            content: `You are a crypto news translator. Translate the news to Thai.
+Keep crypto terms (Bitcoin, Ethereum, BTC, ETH, DeFi, NFT) and company names in English.
+Also analyze market sentiment.
+
+Output ONLY valid JSON:
+{"title": "Thai title", "content": "Thai content translation", "sentiment": "bullish/bearish/neutral"}
+
+Sentiment rules:
+- bullish: positive (price up, adoption, approval, partnership)
+- bearish: negative (price down, hack, ban, lawsuit, crash)
+- neutral: informational or mixed`
+          },
+          {
+            role: 'user',
+            content: `Title: ${title}\n\nContent: ${textContent || 'No content'}`
+          }
+        ],
+        max_tokens: 2000,
+        temperature: 0.3
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${AI_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        timeout: 60000
+      }
+    );
+
+    const responseContent = response.data.choices[0]?.message?.content?.trim() || '';
+
+    // Parse JSON response
+    try {
+      const jsonMatch = responseContent.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        const parsed = JSON.parse(jsonMatch[0]);
+        return {
+          translatedTitle: parsed.title || '',
+          translatedContent: parsed.content || '',
+          sentiment: ['bullish', 'bearish', 'neutral'].includes(parsed.sentiment) ? parsed.sentiment : 'neutral'
+        };
+      }
+    } catch (parseError) {
+      console.error(`JSON parse error: ${parseError.message}`);
+    }
+
+    return { translatedTitle: responseContent, translatedContent: '', sentiment: 'neutral' };
+  } catch (error) {
+    console.error(`AI Translation error: ${error.message}`);
+    return { translatedTitle: '', translatedContent: '', sentiment: '' };
   }
 }
 
@@ -204,6 +272,8 @@ export async function fetchAllSources() {
   let updatedCount = 0;
   let summarizedCount = 0;
 
+  let translatedCount = 0;
+
   for (const item of allItems) {
     try {
       const existing = await NewsItem.findOne({ guid: item.guid });
@@ -221,13 +291,29 @@ export async function fetchAllSources() {
         await new Promise(r => setTimeout(r, 500));
       }
 
-      const result = await NewsItem.findOneAndUpdate(
+      // Only translate items WITHOUT translatedTitle
+      let translatedTitle = existing?.translatedTitle || '';
+      let sentiment = existing?.sentiment || '';
+      if (!translatedTitle && item.title) {
+        console.log(`  Translating: ${item.title?.substring(0, 40)}...`);
+        const result = await translateAndAnalyze(item.title);
+        translatedTitle = result.translatedTitle;
+        sentiment = result.sentiment;
+        if (translatedTitle) {
+          translatedCount++;
+          console.log(`    Translated: ${translatedTitle.substring(0, 50)}... [${sentiment}]`);
+        }
+        // Add small delay to avoid rate limiting
+        await new Promise(r => setTimeout(r, 500));
+      }
+
+      const dbResult = await NewsItem.findOneAndUpdate(
         { guid: item.guid },
-        { ...item, summary },
+        { ...item, summary, translatedTitle, sentiment },
         { upsert: true, new: false }
       );
 
-      if (result) {
+      if (dbResult) {
         updatedCount++;
       } else {
         savedCount++;
@@ -237,7 +323,7 @@ export async function fetchAllSources() {
     }
   }
 
-  console.log(`MongoDB: ${savedCount} new, ${updatedCount} updated, ${summarizedCount} summarized`);
+  console.log(`MongoDB: ${savedCount} new, ${updatedCount} updated, ${summarizedCount} summarized, ${translatedCount} translated`);
 
   // Update JSON cache
   await updateCache();
@@ -291,6 +377,55 @@ export async function backfillSummaries(limit = 100) {
   return { summarizedCount, errorCount };
 }
 
+// Backfill translations for existing items that don't have one
+export async function backfillTranslations(limit = 100) {
+  await connectDB();
+
+  // Find items without translatedTitle, sorted by newest
+  const itemsWithoutTranslation = await NewsItem.find({
+    translatedTitle: { $in: ['', null, undefined] }
+  })
+    .sort({ pubDate: -1 })
+    .limit(limit)
+    .lean();
+
+  console.log(`Found ${itemsWithoutTranslation.length} items without translation`);
+
+  let translatedCount = 0;
+  let errorCount = 0;
+
+  for (const item of itemsWithoutTranslation) {
+    try {
+      console.log(`  [${translatedCount + 1}/${itemsWithoutTranslation.length}] ${item.title?.substring(0, 50)}...`);
+
+      const result = await translateAndAnalyze(item.title);
+      if (result.translatedTitle) {
+        await NewsItem.updateOne({ _id: item._id }, {
+          translatedTitle: result.translatedTitle,
+          sentiment: result.sentiment
+        });
+        translatedCount++;
+        console.log(`    ✓ ${result.translatedTitle.substring(0, 50)}... [${result.sentiment}]`);
+      } else {
+        console.log(`    ✗ Empty translation`);
+      }
+
+      // Delay to avoid rate limiting (2 seconds)
+      await new Promise(r => setTimeout(r, 2000));
+    } catch (error) {
+      errorCount++;
+      console.error(`    ✗ Error: ${error.message}`);
+    }
+  }
+
+  console.log(`Translation backfill complete: ${translatedCount} translated, ${errorCount} errors`);
+
+  // Update JSON cache
+  await updateCache();
+
+  return { translatedCount, errorCount };
+}
+
 // Get news from MongoDB with optional category filter (searches tags array)
 export async function getNews(category = null, limit = 200) {
   await connectDB();
@@ -312,11 +447,22 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
     const limit = parseInt(process.argv[3]) || 50;
     backfillSummaries(limit)
       .then(() => {
-        console.log('Backfill complete');
+        console.log('Summary backfill complete');
         process.exit(0);
       })
       .catch(err => {
         console.error('Backfill failed:', err);
+        process.exit(1);
+      });
+  } else if (command === 'translate') {
+    const limit = parseInt(process.argv[3]) || 50;
+    backfillTranslations(limit)
+      .then(() => {
+        console.log('Translation backfill complete');
+        process.exit(0);
+      })
+      .catch(err => {
+        console.error('Translation backfill failed:', err);
         process.exit(1);
       });
   } else {
@@ -332,4 +478,4 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
   }
 }
 
-export default { fetchAllSources, getNews, categorizeItem, backfillSummaries };
+export default { fetchAllSources, getNews, categorizeItem, backfillSummaries, backfillTranslations };
