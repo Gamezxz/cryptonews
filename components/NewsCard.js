@@ -106,7 +106,7 @@ export default function NewsCard({ item, index }) {
           )}
         </div>
         <h3 className="news-title">
-          <Link href={`/news/${item._id}/`}>
+          <Link href={`/news/${item.slug || item._id}/`}>
             {item.translatedTitle || item.title}
           </Link>
           <a
