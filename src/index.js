@@ -186,6 +186,21 @@ async function main() {
     });
   });
 
+  // Fallback for /news/* routes not found as static files
+  // Serves a client-side page that fetches article data from API
+  app.get("/news/:slug", async (req, res) => {
+    const staticFile = path.join(process.cwd(), "output", "news", req.params.slug, "index.html");
+    try {
+      await fs.access(staticFile);
+      // Static file exists, let express.static handle it (shouldn't reach here normally)
+      res.sendFile(staticFile);
+    } catch {
+      // No static file — serve client-side fallback
+      const fallbackPath = path.join(process.cwd(), "public", "article-fallback.html");
+      res.sendFile(fallbackPath);
+    }
+  });
+
   // Initialize Socket.IO dashboard
   initDashboard(server);
 
