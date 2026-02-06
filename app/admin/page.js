@@ -91,6 +91,12 @@ export default function AdminDashboard() {
   }, []);
 
   useEffect(() => {
+    if (terminalRef.current) {
+      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    }
+  }, [translateLogs]);
+
+  useEffect(() => {
     const savedKey = localStorage.getItem("admin_key");
     if (savedKey) {
       setKeyInput(savedKey);
