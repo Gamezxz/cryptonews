@@ -180,12 +180,27 @@ export function initDashboard(httpServer) {
         return;
       }
 
-      if (action === "refresh") {
-        addActivity("admin", "Admin triggered force refresh");
-        socket.emit("action_ack", { action: "refresh", status: "started" });
-      } else if (action === "rebuild") {
-        addActivity("admin", "Admin triggered force rebuild");
-        socket.emit("action_ack", { action: "rebuild", status: "started" });
+      socket.emit("action_ack", { action, status: "started" });
+
+      try {
+        if (action === "refresh") {
+          addActivity("admin", "Admin triggered force refresh");
+          await fetchAllSources();
+          execSync("npm run build", { stdio: "inherit" });
+          addActivity("rebuild", "Static site rebuilt successfully");
+        } else if (action === "rebuild") {
+          addActivity("admin", "Admin triggered force rebuild");
+          execSync("npm run build", { stdio: "inherit" });
+          addActivity("rebuild", "Static site rebuilt successfully");
+        } else if (action === "recreate-cache") {
+          addActivity("admin", "Admin triggered cache recreate");
+          await updateCache();
+          addActivity("admin", "Cache recreated successfully");
+        }
+        socket.emit("action_ack", { action, status: "done" });
+      } catch (err) {
+        addActivity("error", `Action '${action}' failed`, err.message);
+        socket.emit("action_ack", { action, status: "error", error: err.message });
       }
     });
 
