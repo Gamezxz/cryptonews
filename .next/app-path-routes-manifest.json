@@ -2,6 +2,6 @@
   "/_global-error/page": "/_global-error",
   "/_not-found/page": "/_not-found",
   "/admin/page": "/admin",
-  "/news/[id]/page": "/news/[id]",
+  "/news/[slug]/page": "/news/[slug]",
   "/page": "/"
 }
