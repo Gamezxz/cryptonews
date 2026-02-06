@@ -805,6 +805,31 @@ body::after {
     letter-spacing: 0.15em;
 }
 
+/* ─── LOAD MORE ─── */
+.load-more-container {
+    text-align: center;
+    padding: 32px 0;
+}
+
+.load-more-btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 12px 32px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-transform: uppercase;
+}
+
+.load-more-btn:hover {
+    background: var(--accent);
+    color: var(--bg-primary);
+}
+
 /* ─── FOOTER ─── */
 .site-footer {
     background: var(--bg-card);
