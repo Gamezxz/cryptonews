@@ -1,5 +1,0 @@
-1:"$Sreact.fragment"
-2:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/d2be314c3ece3fbe.js"],"ViewportBoundary"]
-3:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/d2be314c3ece3fbe.js"],"MetadataBoundary"]
-4:"$Sreact.suspense"
-0:{"buildId":"HpGcv09Z9x34Yn4op98FY","rsc":["$","$1","h",{"children":[null,["$","$L2",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L3",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"ทำไมคริปโตถึงลดลงวันนี้? – 6 กุมภาพันธ์ 2026 | Cryptonews"}],["$","meta","1",{"name":"description","content":"ตลาดคริปโตลดลง 8% วันนี้ BTC ดิ่งลง 9.1% มาอยู่ที่ $64,744 และ ETH ลดลง 1.7% มาอยู่ที่ $2,281 \"Bitcoin ที่ทะลุรายสูงสุดในปี 2021 ที่ $69,000 ถือว่าสำคัญ แต่ก็ไม่ได้หมายความว่าจะไม่มีการลดลงในระยะสั้นต่อไป\" โพสต์ ทำไมคริปโตถึงลดลงวันนี้? – 6 กุมภาพันธ์ 2026 ปรากฏครั้งแรกที่ Cryptonews"}]]}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"loading":null,"isPartial":false}
