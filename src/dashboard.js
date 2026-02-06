@@ -65,6 +65,13 @@ activityBus.on("translate_log", (data) => {
   }
 });
 
+// Broadcast news_update to ALL connected clients (not just admin)
+activityBus.on("news_update", () => {
+  if (io) {
+    io.emit("news_update");
+  }
+});
+
 // Collect stats from MongoDB
 async function collectStats() {
   try {
