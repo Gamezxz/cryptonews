@@ -4,6 +4,8 @@ import { connectDB } from './db/connection.js';
 import { NewsItem } from './db/models.js';
 import { updateCache } from './utils/cache.js';
 import config from '../config/default.js';
+import axios from 'axios';
+
 const parser = new Parser({
   timeout: 10000,
   customFields: {
@@ -26,6 +28,29 @@ const categoryKeywords = {
   regulation: ['sec', 'regulation', 'law', 'legal', 'compliance', 'ban', 'etf', 'approval'],
   mining: ['mining', 'hash rate', 'miner', 'proof of work', 'pool', 'bitcoin mining']
 };
+
+// Scrape og:image from article HTML as fallback
+async function scrapeImageUrl(url) {
+  try {
+    const response = await axios.get(url, {
+      timeout: 5000,
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; CryptoNewsBot/1.0)' }
+    });
+    const html = response.data;
+
+    // og:image
+    const ogMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i);
+    if (ogMatch?.[1]) return ogMatch[1];
+
+    // twitter:image
+    const twMatch = html.match(/<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i);
+    if (twMatch?.[1]) return twMatch[1];
+
+    return null;
+  } catch {
+    return null;
+  }
+}
 
 // Extract image URL from various RSS fields
 function extractImageUrl(item) {
@@ -84,7 +109,12 @@ async function fetchFeed(source) {
 
     for (const item of feed.items.slice(0, 50)) {
       const tags = categorizeItem(item);
-      const imageUrl = extractImageUrl(item);
+      let imageUrl = extractImageUrl(item);
+
+      // Fallback: scrape og:image from article page
+      if (!imageUrl && item.link) {
+        imageUrl = await scrapeImageUrl(item.link);
+      }
 
       items.push({
         guid: item.guid || item.link,
