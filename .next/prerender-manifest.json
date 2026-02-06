@@ -1034,30 +1034,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/bitcoin-spirals-toward-60000-heading-to-worst-one-day-drawdown-since-ftx-blowup": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/bitcoin-spirals-toward-60000-heading-to-worst-one-day-drawdown-since-ftx-blowup.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/bitcoin-surges-back-above-65000-after-700-million-wipeout-in-asia-whipsaw": {
       "experimentalBypassFor": [
         {
@@ -2297,6 +2273,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/ethereum-price-hits-below-2k-how-low-can-eth-crash-in-this-cycle.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/ethereum-price-prediction-is-1500-next-for-eth-after-the-aggressive-deleveraging": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/ethereum-price-prediction-is-1500-next-for-eth-after-the-aggressive-deleveraging.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -3866,30 +3866,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/tether-backs-anchorage-digital-in-100m-equity-investment": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/tether-backs-anchorage-digital-in-100m-equity-investment.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/tether-buys-150-million-stake-in-goldcom-to-boost-tokenized-gold-distribution": {
       "experimentalBypassFor": [
         {
@@ -4121,6 +4097,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/tradeweb-and-marketaxess-just-moved-655-trillion-in-january.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/trend-research-dumps-over-400k-eth-as-liquidation-risk-rises": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/trend-research-dumps-over-400k-eth-as-liquidation-risk-rises.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
