@@ -29,7 +29,7 @@ const categoryKeywords = {
   mining: ['mining', 'hash rate', 'miner', 'proof of work', 'pool', 'bitcoin mining']
 };
 
-// AI Summary using OpenAI API
+// AI Summary using GLM-4.5 via Z.ai API
 async function summarizeArticle(title, content) {
   const apiKey = 'REDACTED_API_KEY';
   const baseURL = 'https://api.z.ai/api/coding/paas/v4';
@@ -40,7 +40,7 @@ async function summarizeArticle(title, content) {
     const response = await axios.post(
       `${baseURL}/chat/completions`,
       {
-        model: 'gpt-4o-mini',
+        model: 'glm-4.5',
         messages: [
           {
             role: 'system',
@@ -208,9 +208,9 @@ export async function fetchAllSources() {
     try {
       const existing = await NewsItem.findOne({ guid: item.guid });
 
-      // Only summarize NEW items (not existing ones) to save API cost
+      // Only summarize items WITHOUT summary (both new and existing)
       let summary = existing?.summary || '';
-      if (!existing && item.title) {
+      if (!summary && item.title) {
         console.log(`  Summarizing: ${item.title?.substring(0, 40)}...`);
         summary = await summarizeArticle(item.title, item.content);
         if (summary) {
@@ -245,6 +245,52 @@ export async function fetchAllSources() {
   return allItems;
 }
 
+// Backfill summaries for existing items that don't have one
+export async function backfillSummaries(limit = 100) {
+  await connectDB();
+
+  // Find items without summary, sorted by newest
+  const itemsWithoutSummary = await NewsItem.find({
+    summary: { $in: ['', null, undefined] }
+  })
+    .sort({ pubDate: -1 })
+    .limit(limit)
+    .lean();
+
+  console.log(`Found ${itemsWithoutSummary.length} items without summary`);
+
+  let summarizedCount = 0;
+  let errorCount = 0;
+
+  for (const item of itemsWithoutSummary) {
+    try {
+      console.log(`  [${summarizedCount + 1}/${itemsWithoutSummary.length}] ${item.title?.substring(0, 50)}...`);
+
+      const summary = await summarizeArticle(item.title, item.content);
+      if (summary) {
+        await NewsItem.updateOne({ _id: item._id }, { summary });
+        summarizedCount++;
+        console.log(`    ✓ ${summary.substring(0, 60)}...`);
+      } else {
+        console.log(`    ✗ Empty summary`);
+      }
+
+      // Delay to avoid rate limiting
+      await new Promise(r => setTimeout(r, 800));
+    } catch (error) {
+      errorCount++;
+      console.error(`    ✗ Error: ${error.message}`);
+    }
+  }
+
+  console.log(`Backfill complete: ${summarizedCount} summarized, ${errorCount} errors`);
+
+  // Update JSON cache
+  await updateCache();
+
+  return { summarizedCount, errorCount };
+}
+
 // Get news from MongoDB with optional category filter (searches tags array)
 export async function getNews(category = null, limit = 200) {
   await connectDB();
@@ -260,15 +306,30 @@ export async function getNews(category = null, limit = 200) {
 
 // Run fetcher when executed directly
 if (process.argv[1] === new URL(import.meta.url).pathname) {
-  fetchAllSources()
-    .then(() => {
-      console.log('Fetch complete');
-      process.exit(0);
-    })
-    .catch(err => {
-      console.error('Fetch failed:', err);
-      process.exit(1);
-    });
+  const command = process.argv[2];
+
+  if (command === 'backfill') {
+    const limit = parseInt(process.argv[3]) || 50;
+    backfillSummaries(limit)
+      .then(() => {
+        console.log('Backfill complete');
+        process.exit(0);
+      })
+      .catch(err => {
+        console.error('Backfill failed:', err);
+        process.exit(1);
+      });
+  } else {
+    fetchAllSources()
+      .then(() => {
+        console.log('Fetch complete');
+        process.exit(0);
+      })
+      .catch(err => {
+        console.error('Fetch failed:', err);
+        process.exit(1);
+      });
+  }
 }
 
-export default { fetchAllSources, getNews, categorizeItem };
+export default { fetchAllSources, getNews, categorizeItem, backfillSummaries };
