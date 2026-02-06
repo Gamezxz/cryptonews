@@ -21,4 +21,8 @@ export default {
   templates: {
     dir: "./templates",
   },
+  admin: {
+    key: process.env.ADMIN_KEY || "admin123",
+    statsInterval: 10000,
+  },
 };
