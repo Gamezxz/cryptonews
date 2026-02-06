@@ -391,6 +391,7 @@ export async function backfillSummaries(limit = 100) {
 }
 
 // Backfill translations for existing items that don't have one
+// Processes in batches of 10 items per API call
 export async function backfillTranslations(limit = 100) {
   await connectDB();
 
@@ -406,33 +407,47 @@ export async function backfillTranslations(limit = 100) {
 
   let translatedCount = 0;
   let errorCount = 0;
+  const batchSize = 10;
 
-  for (const item of itemsWithoutTranslation) {
-    try {
-      console.log(`  [${translatedCount + 1}/${itemsWithoutTranslation.length}] ${item.title?.substring(0, 50)}...`);
+  // Process in batches of 10
+  for (let i = 0; i < itemsWithoutTranslation.length; i += batchSize) {
+    const batch = itemsWithoutTranslation.slice(i, i + batchSize);
+    const batchNum = Math.floor(i / batchSize) + 1;
+    const totalBatches = Math.ceil(itemsWithoutTranslation.length / batchSize);
 
-      const result = await translateAndAnalyze(item.title, item.content);
-      if (result.translatedTitle) {
-        await NewsItem.updateOne({ _id: item._id }, {
-          translatedTitle: result.translatedTitle,
-          translatedContent: result.translatedContent,
-          sentiment: result.sentiment
-        });
-        translatedCount++;
-        console.log(`    ✓ ${result.translatedTitle.substring(0, 50)}... [${result.sentiment}]`);
-      } else {
-        console.log(`    ✗ Empty translation`);
+    console.log(`\n📦 Batch ${batchNum}/${totalBatches} (${batch.length} items)`);
+    batch.forEach((item, idx) => {
+      console.log(`  [${i + idx + 1}] ${item.title?.substring(0, 60)}...`);
+    });
+
+    const results = await translateBatch(batch);
+
+    if (results.length > 0) {
+      for (const result of results) {
+        const item = batch[result.id];
+        if (item && result.translatedTitle) {
+          await NewsItem.updateOne({ _id: item._id }, {
+            translatedTitle: result.translatedTitle,
+            translatedContent: result.translatedContent,
+            sentiment: result.sentiment
+          });
+          translatedCount++;
+          console.log(`    ✓ [${result.id}] ${result.translatedTitle.substring(0, 45)}... [${result.sentiment}]`);
+        }
       }
+    } else {
+      errorCount += batch.length;
+      console.log(`    ✗ Batch translation failed`);
+    }
 
-      // Delay to avoid rate limiting (2 seconds)
-      await new Promise(r => setTimeout(r, 2000));
-    } catch (error) {
-      errorCount++;
-      console.error(`    ✗ Error: ${error.message}`);
+    // Delay between batches to avoid rate limiting
+    if (i + batchSize < itemsWithoutTranslation.length) {
+      console.log(`  ⏳ Waiting 3s before next batch...`);
+      await new Promise(r => setTimeout(r, 3000));
     }
   }
 
-  console.log(`Translation backfill complete: ${translatedCount} translated, ${errorCount} errors`);
+  console.log(`\n✅ Translation complete: ${translatedCount} translated, ${errorCount} errors`);
 
   // Update JSON cache
   await updateCache();
