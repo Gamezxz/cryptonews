@@ -55,7 +55,7 @@ export default function NewsCard({ item, index }) {
   const hasContent = item.translatedContent || item.content;
 
   return (
-    <article className={`news-card ${expanded ? 'expanded' : ''}`} style={{ animationDelay: `${index * 0.03}s` }}>
+    <article className="news-card" style={{ animationDelay: `${index * 0.03}s` }}>
       <div className="news-image">
         {imageUrl && !imageError ? (
           <img
