@@ -115,6 +115,7 @@ newsItemSchema.index({ scrapingStatus: 1, pubDate: -1 });
 
 // Upsert by guid
 newsItemSchema.index({ guid: 1 }, { unique: true });
+newsItemSchema.index({ slug: 1 }, { unique: true, sparse: true });
 
 export const NewsItem = mongoose.model("NewsItem", newsItemSchema);
 
