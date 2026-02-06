@@ -192,15 +192,85 @@ export async function batchScrapeRecent(limit = 10) {
   return { success, failed };
 }
 
-// CLI support
-if (process.argv[1] === new URL(import.meta.url).pathname) {
-  const limit = parseInt(process.argv[2]) || 10;
-  batchScrapeRecent(limit)
-    .then(() => process.exit(0))
-    .catch((err) => {
-      console.error("Batch scrape failed:", err);
-      process.exit(1);
-    });
+// Continuous mode: scrape one article every 60 seconds, runs forever
+export async function continuousScrape() {
+  await connectDB();
+  console.log("=== Continuous Scrape Mode ===");
+  console.log("Processing 1 article every 60 seconds...\n");
+
+  let total = 0;
+  let success = 0;
+  let failed = 0;
+
+  while (true) {
+    try {
+      const item = await NewsItem.findOne({
+        scrapingStatus: { $in: ["", "pending", null] },
+        link: { $exists: true, $ne: "" },
+      })
+        .sort({ pubDate: -1 })
+        .lean();
+
+      if (!item) {
+        console.log("No more articles to scrape. Waiting 5 minutes...");
+        await new Promise((r) => setTimeout(r, 300000));
+        continue;
+      }
+
+      total++;
+      const remaining = await NewsItem.countDocuments({
+        scrapingStatus: { $in: ["", "pending", null] },
+        link: { $exists: true, $ne: "" },
+      });
+
+      console.log(
+        `[${new Date().toLocaleTimeString()}] #${total} (${remaining} remaining)`,
+      );
+
+      const result = await scrapeAndSummarize(item._id);
+      if (result) {
+        success++;
+      } else {
+        failed++;
+      }
+
+      console.log(`  Stats: ${success} ok / ${failed} fail / ${total} total\n`);
+    } catch (err) {
+      console.error(`Loop error: ${err.message}`);
+      failed++;
+    }
+
+    // Wait 60 seconds before next
+    await new Promise((r) => setTimeout(r, 60000));
+  }
 }
 
-export default { scrapeAndSummarize, batchScrapeRecent };
+// CLI support — check if this file is the main entry point
+const isMain =
+  process.argv[1] &&
+  (process.argv[1] === new URL(import.meta.url).pathname ||
+    process.argv[1].endsWith("scraper.js"));
+
+if (isMain) {
+  const command =
+    process.argv.includes("continuous") || process.argv.includes("c")
+      ? "continuous"
+      : process.argv[2];
+
+  if (command === "continuous") {
+    continuousScrape().catch((err) => {
+      console.error("Continuous scrape failed:", err);
+      process.exit(1);
+    });
+  } else {
+    const limit = parseInt(command) || 10;
+    batchScrapeRecent(limit)
+      .then(() => process.exit(0))
+      .catch((err) => {
+        console.error("Batch scrape failed:", err);
+        process.exit(1);
+      });
+  }
+}
+
+export default { scrapeAndSummarize, batchScrapeRecent, continuousScrape };
