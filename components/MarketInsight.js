@@ -31,7 +31,7 @@ export default function MarketInsight() {
   useEffect(() => {
     fetchInsight();
 
-    const socket = io(API_URL, {
+    const socket = io(getBaseUrl(), {
       path: '/socket.io',
       transports: ['websocket', 'polling'],
     });
