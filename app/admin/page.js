@@ -180,6 +180,13 @@ export default function AdminDashboard() {
           >
             {actionLoading === "rebuild" ? "..." : "FORCE REBUILD"}
           </button>
+          <button
+            onClick={() => handleAction("recreate-cache")}
+            disabled={!!actionLoading}
+            style={{ ...styles.actionBtn, borderColor: "#f59e0b", color: "#f59e0b" }}
+          >
+            {actionLoading === "recreate-cache" ? "..." : "RECREATE CACHE"}
+          </button>
           <button onClick={handleLogout} style={{ ...styles.actionBtn, borderColor: "#ef4444", color: "#ef4444" }}>
             LOGOUT
           </button>
