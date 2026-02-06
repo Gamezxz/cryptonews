@@ -1,14 +1,17 @@
 import "dotenv/config";
 import express from "express";
+import { createServer } from "http";
 import { connectDB, disconnectDB } from "./db/connection.js";
 import { startScheduler } from "./scheduler.js";
-import { getNews } from "./fetcher.js";
+import { getNews, fetchAllSources } from "./fetcher.js";
 import { scrapeAndSummarize } from "./scraper.js";
 import { NewsItem } from "./db/models.js";
 import { execSync } from "child_process";
+import { initDashboard, activityBus } from "./dashboard.js";
 import config from "../config/default.js";
 
 const app = express();
+const server = createServer(app);
 const PORT = config.server.port;
 
 // Build static site function
@@ -17,8 +20,10 @@ async function buildStaticSite() {
   try {
     execSync("npm run build", { stdio: "inherit" });
     console.log("Static site built successfully");
+    activityBus.emit("rebuild", { message: "Static site rebuilt successfully" });
   } catch (err) {
     console.error("Build failed:", err.message);
+    activityBus.emit("error", { message: "Build failed", detail: err.message });
   }
 }
 
@@ -61,7 +66,6 @@ async function main() {
 
   app.get("/api/refresh", async (req, res) => {
     try {
-      const { fetchAllSources } = await import("./fetcher.js");
       await fetchAllSources();
       await buildStaticSite();
       res.json({ success: true, message: "News refreshed and site rebuilt" });
@@ -115,10 +119,14 @@ async function main() {
     });
   });
 
-  // Start server IMMEDIATELY (before fetching news)
-  app.listen(PORT, () => {
+  // Initialize Socket.IO dashboard
+  initDashboard(server);
+
+  // Start server with HTTP server (for Socket.IO)
+  server.listen(PORT, () => {
     console.log(`\n🚀 Server running at http://localhost:${PORT}`);
     console.log(`📰 API: /api/news, /api/refresh, /api/health`);
+    console.log(`📊 Dashboard: /admin`);
     console.log(`⏰ Cron: ${config.scheduler.cronSchedule}\n`);
   });
 
