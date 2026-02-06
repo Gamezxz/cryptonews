@@ -4,11 +4,14 @@ import { translateBatch } from "./fetcher.js";
 import { scrapeAndSummarize } from "./scraper.js";
 import { updateCache } from "./utils/cache.js";
 import { activityBus } from "./dashboard.js";
+import { generateMarketInsight } from "./insight.js";
 
 const DELAY_BETWEEN_ITEMS = 2000; // 2 seconds
 const IDLE_WAIT = 30000; // 30 seconds when nothing to do
+const INSIGHT_INTERVAL = 10; // Generate insight every N translations
 
 let running = false;
+let translateCounter = 0;
 
 export async function startProcessor() {
   if (running) return;
