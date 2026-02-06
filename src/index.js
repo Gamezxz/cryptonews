@@ -52,6 +52,17 @@ async function main() {
 
   app.use(express.static("output"));
 
+  // API: read insight.json
+  app.get("/api/insight", async (req, res) => {
+    try {
+      const insightPath = path.join(process.cwd(), "data", "insight.json");
+      const data = await fs.readFile(insightPath, "utf-8");
+      res.json({ success: true, data: JSON.parse(data) });
+    } catch (err) {
+      res.json({ success: false, data: null });
+    }
+  });
+
   // API: read from cache.json (fast, no MongoDB query)
   app.get("/api/cache", async (req, res) => {
     try {
