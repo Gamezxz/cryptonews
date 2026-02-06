@@ -3,6 +3,8 @@ import express from "express";
 import { connectDB, disconnectDB } from "./db/connection.js";
 import { startScheduler } from "./scheduler.js";
 import { getNews } from "./fetcher.js";
+import { scrapeAndSummarize } from "./scraper.js";
+import { NewsItem } from "./db/models.js";
 import { execSync } from "child_process";
 import config from "../config/default.js";
 
@@ -72,6 +74,34 @@ async function main() {
     try {
       await buildStaticSite();
       res.json({ success: true, message: "Site rebuilt successfully" });
+    } catch (err) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  // Get single news item by ID
+  app.get("/api/news/:id", async (req, res) => {
+    try {
+      const item = await NewsItem.findById(req.params.id).lean();
+      if (!item) {
+        return res.status(404).json({ success: false, error: "Not found" });
+      }
+      res.json({ success: true, data: item });
+    } catch (err) {
+      res.status(500).json({ success: false, error: err.message });
+    }
+  });
+
+  // Trigger scrape + summarize for a single article
+  app.post("/api/news/:id/scrape", async (req, res) => {
+    try {
+      const result = await scrapeAndSummarize(req.params.id);
+      if (!result) {
+        return res
+          .status(400)
+          .json({ success: false, error: "Scraping failed" });
+      }
+      res.json({ success: true, data: result });
     } catch (err) {
       res.status(500).json({ success: false, error: err.message });
     }
