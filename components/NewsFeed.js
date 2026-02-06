@@ -86,6 +86,8 @@ export default function NewsFeed({ news: initialNews }) {
 
   return (
     <>
+      <MarketInsight />
+
       <div className="tag-filter">
         <div className="container">
           {tags.map((tag) => (
