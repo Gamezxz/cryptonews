@@ -155,6 +155,12 @@ export async function scrapeAndSummarize(newsItemId) {
   }
 
   await NewsItem.updateOne({ _id: item._id }, updateData);
+
+  activityBus.emit("scrape", {
+    message: summary ? "Scraped + summarized" : "Scraped (summary failed)",
+    title: item.title?.substring(0, 60),
+  });
+
   return { ...item.toObject(), ...updateData };
 }
 
