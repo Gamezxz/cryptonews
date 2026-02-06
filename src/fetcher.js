@@ -71,11 +71,21 @@ async function summarizeArticle(title, content) {
   }
 }
 
-// AI Translation + Sentiment Analysis using GLM-4.5 via Z.ai API
-async function translateAndAnalyze(title, content) {
-  if (!title) return { translatedTitle: '', translatedContent: '', sentiment: '' };
+// AI Batch Translation + Sentiment Analysis using GLM-4.5 via Z.ai API
+// Translates up to 10 news items in a single API call
+async function translateBatch(items) {
+  if (!items || items.length === 0) return [];
 
-  const textContent = content ? content.substring(0, 3000) : '';
+  // Prepare batch input
+  const newsItems = items.map((item, idx) => ({
+    id: idx,
+    title: item.title,
+    content: (item.content || '').substring(0, 1500)
+  }));
+
+  const inputText = newsItems.map(n =>
+    `[${n.id}] Title: ${n.title}\nContent: ${n.content || 'No content'}`
+  ).join('\n\n---\n\n');
 
   try {
     const response = await axios.post(
@@ -85,24 +95,24 @@ async function translateAndAnalyze(title, content) {
         messages: [
           {
             role: 'system',
-            content: `You are a crypto news translator. Translate the news to Thai.
-Keep crypto terms (Bitcoin, Ethereum, BTC, ETH, DeFi, NFT) and company names in English.
-Also analyze market sentiment.
+            content: `You are a crypto news translator. Translate multiple news items to Thai.
+Keep crypto terms (Bitcoin, Ethereum, BTC, ETH, DeFi, NFT, XRP) and company names in English.
+Also analyze market sentiment for each.
 
-Output ONLY valid JSON:
-{"title": "Thai title", "content": "Thai content translation", "sentiment": "bullish/bearish/neutral"}
+Output ONLY a valid JSON array:
+[{"id": 0, "title": "Thai title", "content": "Thai content", "sentiment": "bullish/bearish/neutral"}, ...]
 
 Sentiment rules:
-- bullish: positive (price up, adoption, approval, partnership)
-- bearish: negative (price down, hack, ban, lawsuit, crash)
+- bullish: positive (price up, adoption, approval, partnership, growth)
+- bearish: negative (price down, hack, ban, lawsuit, crash, loss)
 - neutral: informational or mixed`
           },
           {
             role: 'user',
-            content: `Title: ${title}\n\nContent: ${textContent || 'No content'}`
+            content: inputText
           }
         ],
-        max_tokens: 2000,
+        max_tokens: 8000,
         temperature: 0.3
       },
       {
@@ -110,31 +120,32 @@ Sentiment rules:
           'Authorization': `Bearer ${AI_API_KEY}`,
           'Content-Type': 'application/json'
         },
-        timeout: 60000
+        timeout: 120000
       }
     );
 
     const responseContent = response.data.choices[0]?.message?.content?.trim() || '';
 
-    // Parse JSON response
+    // Parse JSON array response
     try {
-      const jsonMatch = responseContent.match(/\{[\s\S]*\}/);
+      const jsonMatch = responseContent.match(/\[[\s\S]*\]/);
       if (jsonMatch) {
         const parsed = JSON.parse(jsonMatch[0]);
-        return {
-          translatedTitle: parsed.title || '',
-          translatedContent: parsed.content || '',
-          sentiment: ['bullish', 'bearish', 'neutral'].includes(parsed.sentiment) ? parsed.sentiment : 'neutral'
-        };
+        return parsed.map(p => ({
+          id: p.id,
+          translatedTitle: p.title || '',
+          translatedContent: p.content || '',
+          sentiment: ['bullish', 'bearish', 'neutral'].includes(p.sentiment) ? p.sentiment : 'neutral'
+        }));
       }
     } catch (parseError) {
       console.error(`JSON parse error: ${parseError.message}`);
     }
 
-    return { translatedTitle: responseContent, translatedContent: '', sentiment: 'neutral' };
+    return [];
   } catch (error) {
-    console.error(`AI Translation error: ${error.message}`);
-    return { translatedTitle: '', translatedContent: '', sentiment: '' };
+    console.error(`AI Batch Translation error: ${error.message}`);
+    return [];
   }
 }
 
