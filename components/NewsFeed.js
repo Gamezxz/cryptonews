@@ -15,10 +15,13 @@ const tags = [
   { id: 'mining', name: 'Mining' },
 ];
 
+const PAGE_SIZE = 20;
+
 export default function NewsFeed({ news: initialNews }) {
   const [activeTag, setActiveTag] = useState('all');
   const [news, setNews] = useState(initialNews);
   const [lastUpdate, setLastUpdate] = useState(new Date());
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   // Auto-refresh every 60 seconds
   useEffect(() => {
