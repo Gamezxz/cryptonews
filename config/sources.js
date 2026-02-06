@@ -68,7 +68,7 @@ export const sources = [
     url: "https://cryptonews.com/news/feed/",
     category: "general",
     priority: 1,
-    enabled: true,
+    enabled: false, // Cloudflare 403 - scraping blocked
   },
   {
     name: "AMBCrypto",
