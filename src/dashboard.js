@@ -1,7 +1,10 @@
 import { Server } from "socket.io";
 import { EventEmitter } from "events";
+import { execSync } from "child_process";
 import { connectDB } from "./db/connection.js";
 import { NewsItem } from "./db/models.js";
+import { fetchAllSources } from "./fetcher.js";
+import { updateCache } from "./utils/cache.js";
 import config from "../config/default.js";
 
 // Global event bus for activity logging
