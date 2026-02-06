@@ -153,7 +153,7 @@ export const sources = [
     url: "https://panteracapital.com/feed/",
     category: "research",
     priority: 2,
-    enabled: true,
+    enabled: false, // 0 items in feed
   },
   // DeFi / NFT / Web3
   {
