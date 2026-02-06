@@ -20,6 +20,9 @@ export async function startProcessor() {
   await connectDB();
   console.log("[Processor] Started — continuous translate + scrape");
 
+  // Generate initial market insight on startup
+  generateMarketInsight().catch(() => {});
+
   while (running) {
     try {
       // Find one untranslated item
