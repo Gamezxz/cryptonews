@@ -2,7 +2,7 @@
   "headers": {
     "x-nextjs-stale-time": "300",
     "x-nextjs-prerender": "1",
-    "x-next-cache-tags": "_N_T_/layout,_N_T_/news/layout,_N_T_/news/[slug]/layout,_N_T_/news/[slug]/page,_N_T_/news/form-144-liquidity-services-inc-for-6-february/"
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/news/layout,_N_T_/news/[slug]/layout,_N_T_/news/[slug]/page,_N_T_/news/binance-safu-fund-completes-third-bitcoin-purchase-boosting-stash-to-410m/"
   },
   "segmentPaths": [
     "/_tree",
