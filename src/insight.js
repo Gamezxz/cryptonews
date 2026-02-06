@@ -66,7 +66,7 @@ Respond in JSON format only:
 {
   "summary": "สรุปภาพรวมตลาด crypto ภาษาไทย 4-6 ประโยค วิเคราะห์เชิงลึก ครอบคลุมประเด็นสำคัญ ระบุเหรียญ/ตัวเลขที่เกี่ยวข้อง",
   "summaryEn": "English market summary 4-6 sentences, in-depth analysis covering key developments with specific coins/numbers mentioned",
-  "tlpiTh": ["ประเด็นสำคัญ 1 ภาษาไทย สั้นกระชับ", "ประเด็นสำคัญ 2", "ประเด็นสำคัญ 3", "ประเด็นสำคัญ 4"],
+  "tldrTh": ["ประเด็นสำคัญ 1 ภาษาไทย สั้นกระชับ", "ประเด็นสำคัญ 2", "ประเด็นสำคัญ 3", "ประเด็นสำคัญ 4"],
   "tldrEn": ["Key point 1 in English, concise", "Key point 2", "Key point 3", "Key point 4"],
   "keyTopics": ["Topic1", "Topic2", "Topic3", "Topic4", "Topic5"],
   "marketMood": "bullish or bearish or neutral"

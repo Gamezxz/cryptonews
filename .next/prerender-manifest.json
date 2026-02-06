@@ -146,30 +146,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/10-leading-crypto-cloud-mining-platforms-reviewed-for-2025-free-hash-power": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/10-leading-crypto-cloud-mining-platforms-reviewed-for-2025-free-hash-power.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/10-most-trusted-free-bitcoin-cloud-mining-sites-in-2026-for-btc-earnings": {
       "experimentalBypassFor": [
         {
@@ -3482,6 +3458,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/bitcoin-hodlers-should-abandon-ship-says-peter-schiff-after-btc-dropped-to-60k": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/bitcoin-hodlers-should-abandon-ship-says-peter-schiff-after-btc-dropped-to-60k.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/bitcoin-investors-face-harvest-now-decrypt-later-quantum-threat": {
       "experimentalBypassFor": [
         {
@@ -4793,6 +4793,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/bitcoin-volatility-fear-gauge-hits-ftx-blowup-peak-as-prices-crater-to-nearly-60.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/bitcoin-whales-are-dumping-massive-amounts-of-supply-on-exchanges-as-liquidation": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/bitcoin-whales-are-dumping-massive-amounts-of-supply-on-exchanges-as-liquidation.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -9530,30 +9554,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/defi-staking-explained-how-it-works-benefits-risks-and-best-platforms": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/defi-staking-explained-how-it-works-benefits-risks-and-best-platforms.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/depin-and-crypto-gaming-led-a-surprising-end-of-year-rebound": {
       "experimentalBypassFor": [
         {
@@ -12722,6 +12722,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/inside-defi-003-insidedefi-003-crypto-in-crisis-defi-doomerism": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/inside-defi-003-insidedefi-003-crypto-in-crisis-defi-doomerism.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/inside-irans-growing-78-billion-crypto-ecosystem-irgc-dominance-and-a-flight-to-": {
       "experimentalBypassFor": [
         {
@@ -13145,6 +13169,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/is-the-bottom-in-bitcoin-tests-65253-as-market-panic-takes-hold.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/is-the-hype-fading-hyperliquids-25-rally-faces-a-reality-check": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/is-the-hype-fading-hyperliquids-25-rally-faces-a-reality-check.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -14186,30 +14234,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/lotshot-brings-nft-lottery-mechanics-fully-onchain-with-ton-launch": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/lotshot-brings-nft-lottery-mechanics-fully-onchain-with-ton-launch.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/love-is-lasting-companionship-zoomex-valentines-month-150000-surprise-airdrop-to": {
       "experimentalBypassFor": [
         {
@@ -15242,30 +15266,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/most-trusted-bitcoin-dogecoin-ethereum-and-litecoin-cloud-mining-sites-in-2025": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/most-trusted-bitcoin-dogecoin-ethereum-and-litecoin-cloud-mining-sites-in-2025.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/multicoin-founder-says-hes-still-mega-long-solana-despite-resignation-cash-out": {
       "experimentalBypassFor": [
         {
@@ -15425,30 +15425,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/new-axie-infinity-ethereum-gaming-token-will-be-airdropped-to-axs-stakers.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/nft-and-meme-coin-markets-surge-with-a-50-billion-rebound": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/nft-and-meme-coin-markets-surge-with-a-50-billion-rebound.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -18449,6 +18425,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/strategy-adds-75m-more-bitcoin-as-traders-hedge-for-70000-price.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/strategy-balance-sheet-stable-unless-btc-falls-below-this-critical-level": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/strategy-balance-sheet-stable-unless-btc-falls-below-this-critical-level.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
