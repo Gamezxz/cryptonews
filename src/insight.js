@@ -55,7 +55,7 @@ export async function generateMarketInsight() {
       .map((a, i) => `${i + 1}. [${a.sentiment || "unknown"}] ${a.title} | ${a.translatedTitle}`)
       .join("\n");
 
-    const prompt = `You are a crypto market analyst. Based on these 20 latest crypto news headlines, provide a market insight summary.
+    const prompt = `You are a crypto market analyst. Based on these 20 latest crypto news headlines, provide a detailed market insight summary.
 
 Articles:
 ${articleList}
@@ -64,15 +64,18 @@ Sentiment stats (last 100 articles): Bullish ${sentimentPercent.bullish}%, Beari
 
 Respond in JSON format only:
 {
-  "summary": "สรุปภาพรวมตลาด crypto ภาษาไทย 2-3 ประโยค กระชับ ได้ใจความ",
-  "summaryEn": "English market summary 2-3 sentences, concise and informative",
+  "summary": "สรุปภาพรวมตลาด crypto ภาษาไทย 4-6 ประโยค วิเคราะห์เชิงลึก ครอบคลุมประเด็นสำคัญ ระบุเหรียญ/ตัวเลขที่เกี่ยวข้อง",
+  "summaryEn": "English market summary 4-6 sentences, in-depth analysis covering key developments with specific coins/numbers mentioned",
+  "tlpiTh": ["ประเด็นสำคัญ 1 ภาษาไทย สั้นกระชับ", "ประเด็นสำคัญ 2", "ประเด็นสำคัญ 3", "ประเด็นสำคัญ 4"],
+  "tldrEn": ["Key point 1 in English, concise", "Key point 2", "Key point 3", "Key point 4"],
   "keyTopics": ["Topic1", "Topic2", "Topic3", "Topic4", "Topic5"],
   "marketMood": "bullish or bearish or neutral"
 }
 
 Rules:
-- summary must be in Thai language
-- summaryEn must be in English
+- summary/summaryEn: 4-6 sentences each, detailed analysis with specific data points (prices, percentages, coin names)
+- tldrTh: 4-6 bullet points in Thai, each point covers one key development
+- tldrEn: 4-6 bullet points in English, matching tldrTh content
 - keyTopics: 3-5 trending topics/keywords from the news
 - marketMood: overall market mood based on all data
 - JSON only, no markdown, no explanation`;
@@ -116,6 +119,8 @@ Rules:
     const insight = {
       summary: parsed.summary || "",
       summaryEn: parsed.summaryEn || "",
+      tldrTh: parsed.tldrTh || [],
+      tldrEn: parsed.tldrEn || [],
       keyTopics: parsed.keyTopics || [],
       marketMood: parsed.marketMood || "neutral",
       sentiment: sentimentPercent,

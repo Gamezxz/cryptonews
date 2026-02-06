@@ -4370,6 +4370,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/bitcoin-rallies-to-715k-after-historic-sell-off-but-derivatives-metrics-remain-s": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/bitcoin-rallies-to-715k-after-historic-sell-off-but-derivatives-metrics-remain-s.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/bitcoin-reclaims-70k-in-relief-rally-as-crypto-stocks-and-metals-bounce": {
       "experimentalBypassFor": [
         {
@@ -9881,30 +9905,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/early-bitcoin-dev-calls-on-adam-back-to-resign-after-epstein-files-revelations.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/earn-daily-in-crypto-3-safe-cloud-mining-tips-for-profit": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/earn-daily-in-crypto-3-safe-cloud-mining-tips-for-profit.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
