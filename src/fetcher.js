@@ -283,8 +283,6 @@ export async function fetchAllSources() {
   let updatedCount = 0;
   let summarizedCount = 0;
 
-  let translatedCount = 0;
-
   for (const item of allItems) {
     try {
       const existing = await NewsItem.findOne({ guid: item.guid });
@@ -302,27 +300,9 @@ export async function fetchAllSources() {
         await new Promise(r => setTimeout(r, 500));
       }
 
-      // Only translate items WITHOUT translatedTitle
-      let translatedTitle = existing?.translatedTitle || '';
-      let translatedContent = existing?.translatedContent || '';
-      let sentiment = existing?.sentiment || '';
-      if (!translatedTitle && item.title) {
-        console.log(`  Translating: ${item.title?.substring(0, 40)}...`);
-        const result = await translateAndAnalyze(item.title, item.content);
-        translatedTitle = result.translatedTitle;
-        translatedContent = result.translatedContent;
-        sentiment = result.sentiment;
-        if (translatedTitle) {
-          translatedCount++;
-          console.log(`    Translated: ${translatedTitle.substring(0, 50)}... [${sentiment}]`);
-        }
-        // Add small delay to avoid rate limiting
-        await new Promise(r => setTimeout(r, 500));
-      }
-
       const dbResult = await NewsItem.findOneAndUpdate(
         { guid: item.guid },
-        { ...item, summary, translatedTitle, translatedContent, sentiment },
+        { ...item, summary },
         { upsert: true, new: false }
       );
 
