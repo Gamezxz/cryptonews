@@ -1476,6 +1476,60 @@ body::after {
     font-size: 12px !important;
 }
 
+/* TLDR Section */
+.insight-tldr {
+    margin-bottom: 14px;
+    padding: 12px 14px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+}
+
+.tldr-header {
+    margin-bottom: 10px;
+}
+
+.tldr-label {
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 8px;
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--accent);
+    border-radius: 3px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.tldr-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.tldr-list li {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    padding-left: 16px;
+    position: relative;
+}
+
+.tldr-list li::before {
+    content: "▸";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 11px;
+}
+
+.tldr-list-en li {
+    color: var(--text-muted);
+    font-size: 11px;
+}
+
 /* Key Topics */
 .insight-topics {
     display: flex;

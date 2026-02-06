@@ -47,7 +47,7 @@ export default function MarketInsight() {
 
   if (loading || !insight) return null;
 
-  const { sentiment, summary, summaryEn, keyTopics, marketMood, updatedAt } = insight;
+  const { sentiment, summary, summaryEn, tldrTh, tldrEn, keyTopics, marketMood, updatedAt } = insight;
 
   const moodConfig = {
     bullish: { label: 'BULLISH', color: 'var(--green)', icon: '▲' },
@@ -120,6 +120,32 @@ export default function MarketInsight() {
             <p className="insight-summary-en">{summaryEn}</p>
           </div>
         </div>
+
+        {/* TLDR Bullet Points */}
+        {tldrTh && tldrTh.length > 0 && (
+          <div className="insight-tldr">
+            <div className="tldr-header">
+              <span className="tldr-label">TLDR</span>
+            </div>
+            <div className="bilingual-section">
+              <span className="lang-label lang-th">TH</span>
+              <ul className="tldr-list">
+                {tldrTh.map((point, i) => (
+                  <li key={i}>{point}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="lang-divider"></div>
+            <div className="bilingual-section">
+              <span className="lang-label lang-en">EN</span>
+              <ul className="tldr-list tldr-list-en">
+                {(tldrEn || []).map((point, i) => (
+                  <li key={i}>{point}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
 
         {/* Key Topics */}
         {keyTopics && keyTopics.length > 0 && (
