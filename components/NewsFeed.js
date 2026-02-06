@@ -79,10 +79,21 @@ export default function NewsFeed({ news: initialNews }) {
           </div>
 
           <div className="news-grid">
-            {filtered.map((item, index) => (
+            {visible.map((item, index) => (
               <NewsCard key={item.guid} item={item} index={index} />
             ))}
           </div>
+
+          {hasMore && (
+            <div className="load-more-container">
+              <button
+                className="load-more-btn"
+                onClick={() => setVisibleCount((prev) => prev + PAGE_SIZE)}
+              >
+                LOAD MORE ({filtered.length - visibleCount} remaining)
+              </button>
+            </div>
+          )}
 
           {filtered.length === 0 && (
             <div className="empty-state">
