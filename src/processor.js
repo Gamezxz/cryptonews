@@ -88,6 +88,12 @@ async function processItem(translateItem, scrapeItem) {
           status: "ok",
         });
         activityBus.emit("translate", { count: 1, errors: 0 });
+
+        // Generate market insight every N translations
+        translateCounter++;
+        if (translateCounter % INSIGHT_INTERVAL === 0) {
+          generateMarketInsight().catch(() => {});
+        }
       } else {
         activityBus.emit("translate_log", {
           message: `  ✗ Translation failed: ${title}`,
