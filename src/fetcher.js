@@ -3,6 +3,7 @@ import { sources } from '../config/sources.js';
 import { connectDB } from './db/connection.js';
 import { NewsItem } from './db/models.js';
 import { updateCache } from './utils/cache.js';
+import { activityBus } from './dashboard.js';
 import config from '../config/default.js';
 import axios from 'axios';
 
