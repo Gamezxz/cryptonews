@@ -5,7 +5,10 @@ import { io } from 'socket.io-client';
 import NewsCard from './NewsCard';
 import MarketInsight from './MarketInsight';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:13002';
+function getBaseUrl() {
+  if (typeof window !== 'undefined') return window.location.origin;
+  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:13002';
+}
 
 const tags = [
   { id: 'all', name: 'All' },
