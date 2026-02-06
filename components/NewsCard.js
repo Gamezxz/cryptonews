@@ -46,7 +46,6 @@ export default function NewsCard({ item, index }) {
   const imageUrl = getImageUrl(item);
   const gradient = getGradient(item.category);
   const [imageError, setImageError] = useState(false);
-  const [expanded, setExpanded] = useState(false);
   const tags = item.categories && item.categories.length > 0
     ? item.categories
     : [item.category];
