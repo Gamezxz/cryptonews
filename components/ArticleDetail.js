@@ -200,7 +200,7 @@ export default function ArticleDetail({ article, relatedArticles }) {
           <div className="related-grid">
             {relatedArticles.map((rel) => (
               <Link
-                href={`/news/${rel._id}/`}
+                href={`/news/${rel.slug || rel._id}/`}
                 key={rel._id}
                 className="related-card"
               >
