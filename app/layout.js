@@ -1,27 +1,34 @@
-import { JetBrains_Mono, Space_Grotesk } from 'next/font/google';
-import './globals.css';
+import { JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import "./globals.css";
+import ChatWidget from "../components/ChatWidget";
 
 const jetbrains = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  display: 'swap',
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
 });
 
 const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  variable: '--font-display',
-  display: 'swap',
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
 });
 
 export const metadata = {
-  title: 'Cryptonews.in.th - Crypto Intelligence Feed',
-  description: 'Real-time cryptocurrency news aggregation from 22+ sources',
+  title: "Cryptonews.in.th - Crypto Intelligence Feed",
+  description: "Real-time cryptocurrency news aggregation from 22+ sources",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${jetbrains.variable} ${spaceGrotesk.variable}`}>
-      <body>{children}</body>
+    <html
+      lang="en"
+      className={`${jetbrains.variable} ${spaceGrotesk.variable}`}
+    >
+      <body>
+        {children}
+        <ChatWidget />
+      </body>
     </html>
   );
 }

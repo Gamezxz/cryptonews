@@ -12,6 +12,7 @@ import { NewsItem } from "./db/models.js";
 import { execSync } from "child_process";
 import { initDashboard, activityBus } from "./dashboard.js";
 import { updateCache } from "./utils/cache.js";
+import { handleChat, checkRateLimit } from "./chat.js";
 import config from "../config/default.js";
 
 const app = express();
@@ -24,7 +25,9 @@ async function buildStaticSite() {
   try {
     execSync("npm run build", { stdio: "inherit" });
     console.log("Static site built successfully");
-    activityBus.emit("rebuild", { message: "Static site rebuilt successfully" });
+    activityBus.emit("rebuild", {
+      message: "Static site rebuilt successfully",
+    });
   } catch (err) {
     console.error("Build failed:", err.message);
     activityBus.emit("error", { message: "Build failed", detail: err.message });
@@ -178,6 +181,42 @@ async function main() {
     }
   });
 
+  // AI Chat endpoint
+  app.post("/api/chat", async (req, res) => {
+    try {
+      const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+      if (!checkRateLimit(ip)) {
+        return res
+          .status(429)
+          .json({ success: false, error: "Rate limit exceeded" });
+      }
+
+      const { message, history } = req.body;
+      if (
+        !message ||
+        typeof message !== "string" ||
+        message.trim().length === 0
+      ) {
+        return res
+          .status(400)
+          .json({ success: false, error: "Message is required" });
+      }
+      if (message.length > 500) {
+        return res
+          .status(400)
+          .json({ success: false, error: "Message too long (max 500)" });
+      }
+
+      const result = await handleChat(message.trim(), history || []);
+      res.json({ success: true, ...result });
+    } catch (err) {
+      console.error("[Chat] Error:", err.message);
+      res
+        .status(500)
+        .json({ success: false, error: "Failed to get AI response" });
+    }
+  });
+
   app.get("/api/health", (req, res) => {
     res.json({
       success: true,
@@ -189,14 +228,24 @@ async function main() {
   // Fallback for /news/* routes not found as static files
   // Serves a client-side page that fetches article data from API
   app.get("/news/:slug", async (req, res) => {
-    const staticFile = path.join(process.cwd(), "output", "news", req.params.slug, "index.html");
+    const staticFile = path.join(
+      process.cwd(),
+      "output",
+      "news",
+      req.params.slug,
+      "index.html",
+    );
     try {
       await fs.access(staticFile);
       // Static file exists, let express.static handle it (shouldn't reach here normally)
       res.sendFile(staticFile);
     } catch {
       // No static file — serve client-side fallback
-      const fallbackPath = path.join(process.cwd(), "public", "article-fallback.html");
+      const fallbackPath = path.join(
+        process.cwd(),
+        "public",
+        "article-fallback.html",
+      );
       res.sendFile(fallbackPath);
     }
   });
