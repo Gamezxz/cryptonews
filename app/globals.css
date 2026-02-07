@@ -1830,7 +1830,7 @@ body::after {
     border-radius: 8px;
     padding: 10px 12px;
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 16px;
     color: var(--text-primary);
     outline: none;
     transition: border-color 0.15s ease;
