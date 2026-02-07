@@ -12,22 +12,10 @@ function getBaseUrl() {
   return process.env.NEXT_PUBLIC_API_URL || "http://localhost:13002";
 }
 
-const tags = [
-  { id: "all", name: "All" },
-  { id: "bitcoin", name: "Bitcoin" },
-  { id: "ethereum", name: "Ethereum" },
-  { id: "defi", name: "DeFi" },
-  { id: "nft", name: "NFTs" },
-  { id: "altcoins", name: "Altcoins" },
-  { id: "exchanges", name: "Exchanges" },
-  { id: "regulation", name: "Regulation" },
-  { id: "mining", name: "Mining" },
-];
-
 const PAGE_SIZE = 20;
 
 export default function NewsFeed({ news: initialNews }) {
-  const [activeTag, setActiveTag] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const [news, setNews] = useState(initialNews);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [connected, setConnected] = useState(false);
@@ -80,13 +68,19 @@ export default function NewsFeed({ news: initialNews }) {
     };
   }, [fetchNews]);
 
-  const filtered =
-    activeTag === "all"
-      ? news
-      : news.filter(
-          (item) =>
-            item.categories?.includes(activeTag) || item.category === activeTag,
+  const filtered = searchQuery.trim()
+    ? news.filter((item) => {
+        const q = searchQuery.toLowerCase();
+        return (
+          (item.title && item.title.toLowerCase().includes(q)) ||
+          (item.translatedTitle &&
+            item.translatedTitle.toLowerCase().includes(q)) ||
+          (item.category && item.category.toLowerCase().includes(q)) ||
+          (item.categories &&
+            item.categories.some((c) => c.toLowerCase().includes(q)))
         );
+      })
+    : news;
 
   const visible = filtered.slice(0, visibleCount);
   const hasMore = visibleCount < filtered.length;
@@ -105,20 +99,32 @@ export default function NewsFeed({ news: initialNews }) {
 
       <MarketInsight />
 
-      <div className="tag-filter">
+      <div className="search-bar">
         <div className="container">
-          {tags.map((tag) => (
-            <button
-              key={tag.id}
-              className={`tag-btn tag-${tag.id} ${activeTag === tag.id ? "active" : ""}`}
-              onClick={() => {
-                setActiveTag(tag.id);
+          <div className="search-wrapper">
+            <span className="search-icon">&#x2315;</span>
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search news... (e.g. Bitcoin, DeFi, Ethereum)"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
                 setVisibleCount(PAGE_SIZE);
               }}
-            >
-              {tag.name}
-            </button>
-          ))}
+            />
+            {searchQuery && (
+              <button
+                className="search-clear"
+                onClick={() => {
+                  setSearchQuery("");
+                  setVisibleCount(PAGE_SIZE);
+                }}
+              >
+                &times;
+              </button>
+            )}
+          </div>
           {connected && <span className="live-indicator">LIVE</span>}
         </div>
       </div>
@@ -127,9 +133,9 @@ export default function NewsFeed({ news: initialNews }) {
         <div className="container">
           <div className="news-header">
             <h2>
-              {activeTag === "all"
-                ? "Latest Intelligence"
-                : tags.find((t) => t.id === activeTag)?.name}
+              {searchQuery.trim()
+                ? `Results: "${searchQuery}"`
+                : "Latest Intelligence"}
             </h2>
             <span className="news-count">
               <strong>{filtered.length}</strong> signals detected
