@@ -1,10 +1,11 @@
 import axios from "axios";
 import { loadCache } from "./utils/cache.js";
+import { generateEmbedding, findSimilarArticles } from "./embedding.js";
 
 const AI_API_KEY = process.env.AI_API_KEY;
 const AI_BASE_URL = process.env.AI_BASE_URL;
 
-// In-memory article index
+// In-memory article index (fallback for keyword search)
 let cachedArticles = null;
 let lastCacheLoad = 0;
 const CACHE_TTL = 5 * 60 * 1000; // 5 min
@@ -14,7 +15,7 @@ const rateLimitMap = new Map();
 const RATE_LIMIT = 20;
 const RATE_WINDOW = 60 * 1000;
 
-// Stop words for keyword extraction
+// Stop words for keyword extraction (fallback)
 const STOP_WORDS = new Set([
   "the",
   "a",
@@ -138,6 +139,8 @@ const STOP_WORDS = new Set([
   "จะ",
 ]);
 
+// --- Fallback: keyword search ---
+
 async function getArticles() {
   const now = Date.now();
   if (cachedArticles && now - lastCacheLoad < CACHE_TTL) {
@@ -155,7 +158,6 @@ async function getArticles() {
     category: a.category || "",
     pubDate: a.pubDate || "",
     slug: a.slug || "",
-    // Pre-compute searchable blob
     _blob: [a.title, a.translatedTitle, a.aiSummary, ...(a.keyPoints || [])]
       .join(" ")
       .toLowerCase(),
@@ -172,7 +174,7 @@ function extractKeywords(text) {
     .filter((w) => w.length > 1 && !STOP_WORDS.has(w));
 }
 
-function findRelevantArticles(articles, keywords, limit = 6) {
+function findRelevantArticlesKeyword(articles, keywords, limit = 6) {
   if (!keywords.length) {
     return articles.slice(0, 10);
   }
@@ -192,7 +194,6 @@ function findRelevantArticles(articles, keywords, limit = 6) {
 
   scored.sort((a, b) => b.score - a.score);
 
-  // If no matches, return most recent
   if (scored[0].score === 0) {
     return articles.slice(0, 10);
   }
@@ -202,6 +203,16 @@ function findRelevantArticles(articles, keywords, limit = 6) {
     .slice(0, limit)
     .map((s) => s.article);
 }
+
+// --- Semantic search ---
+
+async function findRelevantArticlesSemantic(message, limit = 6) {
+  const queryEmbedding = await generateEmbedding(message);
+  const results = await findSimilarArticles(queryEmbedding, limit);
+  return results;
+}
+
+// --- Shared ---
 
 function buildContext(articles) {
   return articles
@@ -243,9 +254,25 @@ setInterval(() => {
 }, 60 * 1000);
 
 export async function handleChat(message, history = []) {
-  const articles = await getArticles();
-  const keywords = extractKeywords(message);
-  const relevant = findRelevantArticles(articles, keywords);
+  let relevant;
+  let searchMethod = "keyword";
+
+  // Try semantic search first, fallback to keyword
+  try {
+    relevant = await findRelevantArticlesSemantic(message);
+    if (relevant && relevant.length > 0) {
+      searchMethod = "semantic";
+    }
+  } catch {
+    // Ollama down or no embeddings — fallback
+  }
+
+  if (!relevant || relevant.length === 0) {
+    const articles = await getArticles();
+    const keywords = extractKeywords(message);
+    relevant = findRelevantArticlesKeyword(articles, keywords);
+  }
+
   const context = buildContext(relevant);
 
   const systemPrompt = `You are CryptoNews AI Assistant — a helpful crypto news analyst for cryptonews.in.th.
@@ -292,7 +319,6 @@ Rules:
     throw new Error("Empty AI response");
   }
 
-  // Return sources (articles referenced)
   const sources = relevant.slice(0, 5).map((a) => ({
     title: a.title,
     translatedTitle: a.translatedTitle,
@@ -300,7 +326,7 @@ Rules:
     source: a.source,
   }));
 
-  return { answer, sources };
+  return { answer, sources, searchMethod };
 }
 
 export default { handleChat, checkRateLimit };

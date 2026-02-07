@@ -98,6 +98,10 @@ const newsItemSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    embedding: {
+      type: [Number],
+      default: [],
+    },
     fetchedAt: {
       type: Date,
       default: Date.now,

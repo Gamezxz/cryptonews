@@ -5,6 +5,7 @@ import { scrapeAndSummarize } from "./scraper.js";
 import { updateCache } from "./utils/cache.js";
 import { activityBus } from "./dashboard.js";
 import { generateMarketInsight } from "./insight.js";
+import { generateArticleEmbedding } from "./embedding.js";
 
 const TRANSLATE_BATCH_SIZE = 5; // Translate 5 items per API call (reduced to avoid timeouts)
 const DELAY_BETWEEN_BATCHES = 2000; // 2 seconds between batches
@@ -33,9 +34,20 @@ export async function startProcessor() {
     try {
       // Run translate and scrape concurrently
       const [translated, scraped] = await Promise.all([
-        translatePhase().catch(err => { console.error("[Processor] Translate error:", err.message); return false; }),
-        scrapePhase().catch(err => { console.error("[Processor] Scrape error:", err.message); return false; }),
+        translatePhase().catch((err) => {
+          console.error("[Processor] Translate error:", err.message);
+          return false;
+        }),
+        scrapePhase().catch((err) => {
+          console.error("[Processor] Scrape error:", err.message);
+          return false;
+        }),
       ]);
+
+      // Generate embeddings for articles that have aiSummary but no embedding
+      embeddingPhase().catch((err) => {
+        console.error("[Processor] Embedding error:", err.message);
+      });
 
       if (!translated && !scraped) {
         await new Promise((r) => setTimeout(r, IDLE_WAIT));
@@ -109,7 +121,10 @@ async function translatePhase() {
     }
 
     if (successCount > 0) {
-      activityBus.emit("translate", { count: successCount, errors: items.length - successCount });
+      activityBus.emit("translate", {
+        count: successCount,
+        errors: items.length - successCount,
+      });
 
       // Generate market insight every N translations
       if (translateCounter % INSIGHT_INTERVAL < successCount) {
@@ -123,7 +138,10 @@ async function translatePhase() {
         activityBus.emit("news_update");
       }
     } else {
-      const failedTitles = items.slice(0, 3).map(i => i.title?.substring(0, 40)).join(', ');
+      const failedTitles = items
+        .slice(0, 3)
+        .map((i) => i.title?.substring(0, 40))
+        .join(", ");
       activityBus.emit("translate_log", {
         message: `  ✗ Batch failed (${items.length} items): ${failedTitles}...`,
         status: "error",
@@ -189,10 +207,12 @@ async function scrapePhase() {
         });
         return false;
       }
-    })
+    }),
   );
 
-  const successCount = results.filter(r => r.status === 'fulfilled' && r.value).length;
+  const successCount = results.filter(
+    (r) => r.status === "fulfilled" && r.value,
+  ).length;
   if (successCount > 0) {
     operationCounter++;
     if (operationCounter % CACHE_UPDATE_INTERVAL === 0) {
@@ -202,6 +222,33 @@ async function scrapePhase() {
   }
 
   await new Promise((r) => setTimeout(r, DELAY_BETWEEN_SCRAPES));
+  return true;
+}
+
+const EMBED_BATCH_SIZE = 5;
+
+async function embeddingPhase() {
+  const items = await NewsItem.find({
+    aiSummary: { $ne: "" },
+    $or: [{ embedding: { $exists: false } }, { embedding: { $size: 0 } }],
+  })
+    .sort({ pubDate: -1 })
+    .limit(EMBED_BATCH_SIZE)
+    .select("_id title aiSummary")
+    .lean();
+
+  if (items.length === 0) return false;
+
+  for (const item of items) {
+    try {
+      const embedding = await generateArticleEmbedding(item);
+      if (embedding) {
+        await NewsItem.updateOne({ _id: item._id }, { $set: { embedding } });
+      }
+    } catch {
+      // Skip silently — will retry next cycle
+    }
+  }
   return true;
 }
 
