@@ -298,6 +298,31 @@ async function main() {
     }
   });
 
+  // Fear & Greed Index proxy (cache 10 min)
+  let fngCache = { data: null, ts: 0 };
+  app.get("/api/fear-greed", async (req, res) => {
+    try {
+      if (fngCache.data && Date.now() - fngCache.ts < 10 * 60 * 1000) {
+        return res.json({ success: true, data: fngCache.data });
+      }
+      const resp = await fetch(
+        "https://api.alternative.me/fng/?limit=31&format=json",
+      );
+      if (!resp.ok) throw new Error("FNG API error");
+      const json = await resp.json();
+      fngCache = { data: json.data, ts: Date.now() };
+      res.json({ success: true, data: json.data });
+    } catch (err) {
+      console.error("[API] Fear & Greed error:", err.message);
+      if (fngCache.data) {
+        return res.json({ success: true, data: fngCache.data, stale: true });
+      }
+      res
+        .status(502)
+        .json({ success: false, error: "Failed to fetch Fear & Greed Index" });
+    }
+  });
+
   app.get("/api/health", (req, res) => {
     res.json({
       success: true,

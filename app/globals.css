@@ -1886,3 +1886,149 @@ body::after {
         right: 16px;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   FEAR & GREED INDEX WIDGET
+   ═══════════════════════════════════════════════════════════ */
+
+.fng-widget {
+    background: var(--bg-card);
+    border: 1px solid var(--border-mid);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+}
+
+.fng-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.fng-title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 1px;
+}
+
+.fng-source {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+.fng-body {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.fng-gauge {
+    position: relative;
+    width: 180px;
+    flex-shrink: 0;
+}
+
+.fng-gauge-svg {
+    width: 100%;
+    display: block;
+}
+
+.fng-value-overlay {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fng-value {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.fng-class {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+.fng-history {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fng-history-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    background: var(--bg-elevated);
+    border-radius: 4px;
+    border: 1px solid var(--border-subtle);
+}
+
+.fng-history-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    min-width: 80px;
+}
+
+.fng-history-val {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    text-align: right;
+}
+
+.fng-footer {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-subtle);
+    text-align: right;
+}
+
+.fng-update {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+@media (max-width: 600px) {
+    .fng-body {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .fng-gauge {
+        width: 160px;
+    }
+
+    .fng-history-row {
+        padding: 5px 8px;
+    }
+
+    .fng-history-label {
+        font-size: 10px;
+    }
+
+    .fng-history-val {
+        font-size: 10px;
+    }
+}

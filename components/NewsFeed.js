@@ -1,31 +1,32 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { io } from 'socket.io-client';
-import NewsCard from './NewsCard';
-import MarketInsight from './MarketInsight';
+import { useState, useEffect, useRef, useCallback } from "react";
+import { io } from "socket.io-client";
+import NewsCard from "./NewsCard";
+import MarketInsight from "./MarketInsight";
+import FearGreedIndex from "./FearGreedIndex";
 
 function getBaseUrl() {
-  if (typeof window !== 'undefined') return window.location.origin;
-  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:13002';
+  if (typeof window !== "undefined") return window.location.origin;
+  return process.env.NEXT_PUBLIC_API_URL || "http://localhost:13002";
 }
 
 const tags = [
-  { id: 'all', name: 'All' },
-  { id: 'bitcoin', name: 'Bitcoin' },
-  { id: 'ethereum', name: 'Ethereum' },
-  { id: 'defi', name: 'DeFi' },
-  { id: 'nft', name: 'NFTs' },
-  { id: 'altcoins', name: 'Altcoins' },
-  { id: 'exchanges', name: 'Exchanges' },
-  { id: 'regulation', name: 'Regulation' },
-  { id: 'mining', name: 'Mining' },
+  { id: "all", name: "All" },
+  { id: "bitcoin", name: "Bitcoin" },
+  { id: "ethereum", name: "Ethereum" },
+  { id: "defi", name: "DeFi" },
+  { id: "nft", name: "NFTs" },
+  { id: "altcoins", name: "Altcoins" },
+  { id: "exchanges", name: "Exchanges" },
+  { id: "regulation", name: "Regulation" },
+  { id: "mining", name: "Mining" },
 ];
 
 const PAGE_SIZE = 20;
 
 export default function NewsFeed({ news: initialNews }) {
-  const [activeTag, setActiveTag] = useState('all');
+  const [activeTag, setActiveTag] = useState("all");
   const [news, setNews] = useState(initialNews);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [connected, setConnected] = useState(false);
@@ -49,16 +50,16 @@ export default function NewsFeed({ news: initialNews }) {
   useEffect(() => {
     // Connect Socket.IO for real-time updates
     const socket = io(getBaseUrl(), {
-      path: '/socket.io',
-      transports: ['websocket', 'polling'],
+      path: "/socket.io",
+      transports: ["websocket", "polling"],
     });
     socketRef.current = socket;
 
-    socket.on('connect', () => setConnected(true));
-    socket.on('disconnect', () => setConnected(false));
+    socket.on("connect", () => setConnected(true));
+    socket.on("disconnect", () => setConnected(false));
 
     // Real-time: server pushes news_update when cache.json changes
-    socket.on('news_update', () => {
+    socket.on("news_update", () => {
       fetchNews();
     });
 
@@ -78,11 +79,13 @@ export default function NewsFeed({ news: initialNews }) {
     };
   }, [fetchNews]);
 
-  const filtered = activeTag === 'all'
-    ? news
-    : news.filter(item =>
-        item.categories?.includes(activeTag) || item.category === activeTag
-      );
+  const filtered =
+    activeTag === "all"
+      ? news
+      : news.filter(
+          (item) =>
+            item.categories?.includes(activeTag) || item.category === activeTag,
+        );
 
   const visible = filtered.slice(0, visibleCount);
   const hasMore = visibleCount < filtered.length;
@@ -91,27 +94,36 @@ export default function NewsFeed({ news: initialNews }) {
     <>
       <MarketInsight />
 
+      <div className="container" style={{ marginTop: "20px" }}>
+        <FearGreedIndex />
+      </div>
+
       <div className="tag-filter">
         <div className="container">
           {tags.map((tag) => (
             <button
               key={tag.id}
-              className={`tag-btn tag-${tag.id} ${activeTag === tag.id ? 'active' : ''}`}
-              onClick={() => { setActiveTag(tag.id); setVisibleCount(PAGE_SIZE); }}
+              className={`tag-btn tag-${tag.id} ${activeTag === tag.id ? "active" : ""}`}
+              onClick={() => {
+                setActiveTag(tag.id);
+                setVisibleCount(PAGE_SIZE);
+              }}
             >
               {tag.name}
             </button>
           ))}
-          {connected && (
-            <span className="live-indicator">LIVE</span>
-          )}
+          {connected && <span className="live-indicator">LIVE</span>}
         </div>
       </div>
 
       <main className="main-content">
         <div className="container">
           <div className="news-header">
-            <h2>{activeTag === 'all' ? 'Latest Intelligence' : tags.find(t => t.id === activeTag)?.name}</h2>
+            <h2>
+              {activeTag === "all"
+                ? "Latest Intelligence"
+                : tags.find((t) => t.id === activeTag)?.name}
+            </h2>
             <span className="news-count">
               <strong>{filtered.length}</strong> signals detected
             </span>
