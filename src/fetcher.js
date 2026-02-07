@@ -35,31 +35,67 @@ const categoryKeywords = {
 const AI_API_KEY = '3439bee081604b91bc8262a5fa8cd315.42NAKBcYGbemMJN2';
 const AI_BASE_URL = 'https://api.z.ai/api/coding/paas/v4';
 
-// AI Batch Translation + Sentiment Analysis using GLM-4.7 via Z.ai API
-// Translates up to 10 news items in a single API call
-export async function translateBatch(items) {
-  if (!items || items.length === 0) return [];
+// Parse AI JSON response, handling truncated responses
+function parseTranslationResponse(responseContent) {
+  if (!responseContent) return [];
 
-  // Prepare batch input (limit content to 500 chars each)
-  const newsItems = items.map((item, idx) => ({
-    id: idx,
-    title: item.title,
-    content: (item.content || '').substring(0, 500)
-  }));
-
-  const inputText = newsItems.map(n =>
-    `[${n.id}] Title: ${n.title}\nContent: ${n.content || 'No content'}`
-  ).join('\n\n---\n\n');
+  // Try to extract JSON array
+  let jsonStr = '';
+  const jsonMatch = responseContent.match(/\[[\s\S]*\]/);
+  if (jsonMatch) {
+    jsonStr = jsonMatch[0];
+  } else {
+    // Try to fix truncated JSON: find the start of array and close it
+    const arrayStart = responseContent.indexOf('[');
+    if (arrayStart === -1) return [];
+    jsonStr = responseContent.substring(arrayStart);
+    // Find the last complete object (ends with })
+    const lastBrace = jsonStr.lastIndexOf('}');
+    if (lastBrace === -1) return [];
+    jsonStr = jsonStr.substring(0, lastBrace + 1) + ']';
+  }
 
   try {
-    const response = await axios.post(
-      `${AI_BASE_URL}/chat/completions`,
-      {
-        model: 'glm-4.7',
-        messages: [
-          {
-            role: 'system',
-            content: `You are a crypto news translator. Translate multiple news items to Thai.
+    const parsed = JSON.parse(jsonStr);
+    return parsed.map(p => ({
+      id: p.id,
+      translatedTitle: p.title || '',
+      translatedContent: p.content || '',
+      sentiment: ['bullish', 'bearish', 'neutral'].includes(p.sentiment) ? p.sentiment : 'neutral'
+    }));
+  } catch (e) {
+    // Try to salvage partial JSON by closing truncated strings/objects
+    try {
+      const lastBrace = jsonStr.lastIndexOf('}');
+      if (lastBrace > 0) {
+        const salvaged = jsonStr.substring(0, lastBrace + 1) + ']';
+        const parsed = JSON.parse(salvaged);
+        console.log(`[Translate] Salvaged ${parsed.length} items from truncated JSON`);
+        return parsed.map(p => ({
+          id: p.id,
+          translatedTitle: p.title || '',
+          translatedContent: p.content || '',
+          sentiment: ['bullish', 'bearish', 'neutral'].includes(p.sentiment) ? p.sentiment : 'neutral'
+        }));
+      }
+    } catch {
+      // ignore salvage failure
+    }
+    console.error(`JSON parse error: ${e.message}`);
+    return [];
+  }
+}
+
+// Call AI API for translation
+async function callTranslateAPI(inputText, maxTokens = 4000, timeout = 60000) {
+  const response = await axios.post(
+    `${AI_BASE_URL}/chat/completions`,
+    {
+      model: 'GLM-4.5-Air',
+      messages: [
+        {
+          role: 'system',
+          content: `You are a crypto news translator. Translate news items to Thai.
 Keep crypto terms (Bitcoin, Ethereum, BTC, ETH, DeFi, NFT, XRP) and company names in English.
 Also analyze market sentiment for each.
 
@@ -70,47 +106,88 @@ Sentiment rules:
 - bullish: positive (price up, adoption, approval, partnership, growth)
 - bearish: negative (price down, hack, ban, lawsuit, crash, loss)
 - neutral: informational or mixed`
-          },
-          {
-            role: 'user',
-            content: inputText
-          }
-        ],
-        max_tokens: 8000,
-        temperature: 0.3
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${AI_API_KEY}`,
-          'Content-Type': 'application/json'
         },
-        timeout: 120000
-      }
-    );
-
-    const responseContent = response.data.choices[0]?.message?.content?.trim() || '';
-
-    // Parse JSON array response
-    try {
-      const jsonMatch = responseContent.match(/\[[\s\S]*\]/);
-      if (jsonMatch) {
-        const parsed = JSON.parse(jsonMatch[0]);
-        return parsed.map(p => ({
-          id: p.id,
-          translatedTitle: p.title || '',
-          translatedContent: p.content || '',
-          sentiment: ['bullish', 'bearish', 'neutral'].includes(p.sentiment) ? p.sentiment : 'neutral'
-        }));
-      }
-    } catch (parseError) {
-      console.error(`JSON parse error: ${parseError.message}`);
+        {
+          role: 'user',
+          content: inputText
+        }
+      ],
+      max_tokens: maxTokens,
+      temperature: 0.3
+    },
+    {
+      headers: {
+        'Authorization': `Bearer ${AI_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      timeout
     }
+  );
 
-    return [];
+  const message = response.data.choices[0]?.message;
+  // glm-4.7 uses reasoning_content which consumes tokens, try content first then reasoning_content
+  return message?.content?.trim() || message?.reasoning_content?.trim() || '';
+}
+
+// Translate a single item as fallback
+async function translateSingle(item, idx) {
+  const inputText = `[0] Title: ${item.title}\nContent: ${(item.content || '').substring(0, 300)}`;
+  try {
+    const responseContent = await callTranslateAPI(inputText, 2000, 45000);
+    const results = parseTranslationResponse(responseContent);
+    if (results.length > 0) {
+      return { ...results[0], id: idx };
+    }
   } catch (error) {
-    console.error(`AI Batch Translation error: ${error.message}`);
-    return [];
+    console.error(`[Translate] Single item failed (${item.title?.substring(0, 40)}): ${error.message}`);
   }
+  return null;
+}
+
+// AI Batch Translation + Sentiment Analysis using GLM-4.7 via Z.ai API
+export async function translateBatch(items) {
+  if (!items || items.length === 0) return [];
+
+  // Prepare batch input (limit content to 300 chars each to reduce token usage)
+  const newsItems = items.map((item, idx) => ({
+    id: idx,
+    title: item.title,
+    content: (item.content || '').substring(0, 300)
+  }));
+
+  const inputText = newsItems.map(n =>
+    `[${n.id}] Title: ${n.title}\nContent: ${n.content || 'No content'}`
+  ).join('\n\n---\n\n');
+
+  // Try batch translation first
+  // GLM models use reasoning tokens (~300-400 per item) + content tokens (~200 per item)
+  try {
+    const maxTokens = Math.min(items.length * 1500, 10000);
+    const responseContent = await callTranslateAPI(inputText, maxTokens, 90000);
+    const results = parseTranslationResponse(responseContent);
+
+    if (results.length > 0) {
+      return results;
+    }
+  } catch (error) {
+    console.error(`[Translate] Batch failed (${items.length} items): ${error.message}`);
+  }
+
+  // Fallback: translate items individually
+  console.log(`[Translate] Falling back to individual translation for ${items.length} items`);
+  const results = [];
+  for (let i = 0; i < items.length; i++) {
+    const result = await translateSingle(items[i], i);
+    if (result) {
+      results.push(result);
+    }
+    // Small delay between individual calls
+    if (i < items.length - 1) {
+      await new Promise(r => setTimeout(r, 1000));
+    }
+  }
+
+  return results;
 }
 
 // Scrape og:image from article HTML as fallback
