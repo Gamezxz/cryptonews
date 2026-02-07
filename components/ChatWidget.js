@@ -14,6 +14,7 @@ export default function ChatWidget() {
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+  const chatWindowRef = useRef(null);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -25,6 +26,27 @@ export default function ChatWidget() {
     if (isOpen && inputRef.current) {
       inputRef.current.focus();
     }
+  }, [isOpen]);
+
+  // Adjust chat window height when mobile keyboard opens/closes
+  useEffect(() => {
+    if (!isOpen) return;
+    const vv = window.visualViewport;
+    if (!vv) return;
+
+    function handleResize() {
+      if (chatWindowRef.current) {
+        chatWindowRef.current.style.height = `${vv.height}px`;
+        chatWindowRef.current.style.bottom = `${window.innerHeight - vv.height - vv.offsetTop}px`;
+      }
+    }
+
+    vv.addEventListener("resize", handleResize);
+    vv.addEventListener("scroll", handleResize);
+    return () => {
+      vv.removeEventListener("resize", handleResize);
+      vv.removeEventListener("scroll", handleResize);
+    };
   }, [isOpen]);
 
   async function handleSend() {
@@ -86,7 +108,6 @@ export default function ChatWidget() {
 
   return (
     <>
-      {/* Floating button — hidden when chat is open */}
       {!isOpen && (
         <button
           className="chat-fab"
@@ -97,34 +118,13 @@ export default function ChatWidget() {
         </button>
       )}
 
-      {/* Chat window */}
       {isOpen && (
-        <div className="chat-window">
+        <div className="chat-window" ref={chatWindowRef}>
           <div className="chat-header">
             <span className="chat-header-icon">AI</span>
             <span>CRYPTO NEWS AI</span>
             <button className="chat-close" onClick={() => setIsOpen(false)}>
               ✕
-            </button>
-          </div>
-
-          <div className="chat-input-area">
-            <input
-              ref={inputRef}
-              type="text"
-              className="chat-input"
-              placeholder="ถามเกี่ยวกับข่าว crypto..."
-              value={input}
-              onChange={(e) => setInput(e.target.value.slice(0, 500))}
-              onKeyDown={handleKeyDown}
-              disabled={loading}
-            />
-            <button
-              className="chat-send"
-              onClick={handleSend}
-              disabled={loading || !input.trim()}
-            >
-              ›
             </button>
           </div>
 
@@ -135,23 +135,17 @@ export default function ChatWidget() {
                 <p>ถามอะไรก็ได้เกี่ยวกับข่าว crypto ล่าสุด เช่น:</p>
                 <div className="chat-suggestions">
                   <button
-                    onClick={() => {
-                      setInput("Bitcoin ตอนนี้เป็นยังไงบ้าง?");
-                    }}
+                    onClick={() => setInput("Bitcoin ตอนนี้เป็นยังไงบ้าง?")}
                   >
                     Bitcoin ตอนนี้เป็นยังไง?
                   </button>
-                  <button
-                    onClick={() => {
-                      setInput("สรุปข่าว Ethereum ล่าสุด");
-                    }}
-                  >
+                  <button onClick={() => setInput("สรุปข่าว Ethereum ล่าสุด")}>
                     สรุปข่าว Ethereum ล่าสุด
                   </button>
                   <button
-                    onClick={() => {
-                      setInput("What are the trending topics today?");
-                    }}
+                    onClick={() =>
+                      setInput("What are the trending topics today?")
+                    }
                   >
                     Trending topics today?
                   </button>
@@ -189,6 +183,26 @@ export default function ChatWidget() {
             )}
 
             <div ref={messagesEndRef} />
+          </div>
+
+          <div className="chat-input-area">
+            <input
+              ref={inputRef}
+              type="text"
+              className="chat-input"
+              placeholder="ถามเกี่ยวกับข่าว crypto..."
+              value={input}
+              onChange={(e) => setInput(e.target.value.slice(0, 500))}
+              onKeyDown={handleKeyDown}
+              disabled={loading}
+            />
+            <button
+              className="chat-send"
+              onClick={handleSend}
+              disabled={loading || !input.trim()}
+            >
+              ›
+            </button>
           </div>
         </div>
       )}
