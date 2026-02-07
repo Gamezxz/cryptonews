@@ -13,15 +13,13 @@ export async function generateMarketInsight() {
   try {
     await connectDB();
 
-    // Get 20 latest articles with full content (EN)
+    // Get 20 latest articles with title + aiSummary
     const articles = await NewsItem.find({
       translatedTitle: { $exists: true, $nin: ["", null] },
     })
       .sort({ pubDate: -1 })
       .limit(20)
-      .select(
-        "title translatedTitle sentiment category source pubDate fullContent content",
-      )
+      .select("title sentiment category source pubDate aiSummary")
       .lean();
 
     if (articles.length < 3) {
@@ -58,15 +56,15 @@ export async function generateMarketInsight() {
         total > 0 ? Math.round((sentimentCounts.neutral / total) * 100) : 0,
     };
 
-    // Build prompt for AI — send full article content (EN), truncate each to ~500 chars
+    // Build prompt for AI — send title + short aiSummary
     const articleList = articles
       .map((a, i) => {
-        const body = (a.fullContent || a.content || "").slice(0, 500);
-        return `--- Article ${i + 1} [${a.sentiment || "unknown"}] ---\nTitle: ${a.title}\n${body}`;
+        const summary = (a.aiSummary || "").slice(0, 200);
+        return `[${i + 1}] [${a.sentiment || "unknown"}] ${a.title}\n${summary}`;
       })
       .join("\n\n");
 
-    const prompt = `You are a crypto market analyst. Based on the full content of these 20 latest crypto news articles, provide a detailed market insight summary.
+    const prompt = `You are a crypto market analyst. Based on these 20 latest crypto news articles, provide a detailed market insight summary.
 
 ${articleList}
 
