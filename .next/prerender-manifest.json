@@ -5882,30 +5882,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/blockworks-launches-investor-relations-platform-with-solana": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/blockworks-launches-investor-relations-platform-with-solana.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/bloodbath-for-ripple-xrp-altcoin-enters-washout-mode": {
       "experimentalBypassFor": [
         {
@@ -15497,6 +15473,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/myx-finances-liquidity-sweep-holds-yet-640-caps-price-how.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/nbc-today-show-hosts-mother-kidnapped-for-bitcoin-ransom": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/nbc-today-show-hosts-mother-kidnapped-for-bitcoin-ransom.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
