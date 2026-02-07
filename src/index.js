@@ -19,6 +19,33 @@ const app = express();
 const server = createServer(app);
 const PORT = config.server.port;
 
+// Technical indicator helpers
+function calculateRSI(closes, period = 14) {
+  if (closes.length < period + 1) return null;
+  let gains = 0,
+    losses = 0;
+  for (let i = 1; i <= period; i++) {
+    const change = closes[i] - closes[i - 1];
+    if (change > 0) gains += change;
+    else losses -= change;
+  }
+  let avgGain = gains / period;
+  let avgLoss = losses / period;
+  for (let i = period + 1; i < closes.length; i++) {
+    const change = closes[i] - closes[i - 1];
+    avgGain = (avgGain * (period - 1) + (change > 0 ? change : 0)) / period;
+    avgLoss = (avgLoss * (period - 1) + (change < 0 ? -change : 0)) / period;
+  }
+  if (avgLoss === 0) return 100;
+  return 100 - 100 / (1 + avgGain / avgLoss);
+}
+
+function calculateSMA(data, period) {
+  if (data.length < period) return null;
+  const slice = data.slice(-period);
+  return slice.reduce((sum, val) => sum + val, 0) / period;
+}
+
 // Build static site function
 async function buildStaticSite() {
   console.log("Building Next.js static site...");
@@ -320,6 +347,43 @@ async function main() {
       res
         .status(502)
         .json({ success: false, error: "Failed to fetch Fear & Greed Index" });
+    }
+  });
+
+  // Klines + RSI/MA proxy (cache 5 min)
+  let klinesCache = { data: null, ts: 0 };
+  app.get("/api/klines", async (req, res) => {
+    try {
+      if (klinesCache.data && Date.now() - klinesCache.ts < 5 * 60 * 1000) {
+        return res.json({ success: true, data: klinesCache.data });
+      }
+      const symbols = ["BTCUSDT", "ETHUSDT", "PAXGUSDT", "BNBUSDT"];
+      const results = {};
+      await Promise.all(
+        symbols.map(async (symbol) => {
+          const resp = await fetch(
+            `https://fapi.binance.com/fapi/v1/klines?symbol=${symbol}&interval=1h&limit=100`,
+          );
+          if (!resp.ok) throw new Error(`Klines error: ${symbol}`);
+          const klines = await resp.json();
+          const closes = klines.map((k) => parseFloat(k[4]));
+          results[symbol] = {
+            rsi: parseFloat((calculateRSI(closes, 14) ?? 0).toFixed(2)),
+            ma7: parseFloat((calculateSMA(closes, 7) ?? 0).toFixed(2)),
+            ma25: parseFloat((calculateSMA(closes, 25) ?? 0).toFixed(2)),
+          };
+        }),
+      );
+      klinesCache = { data: results, ts: Date.now() };
+      res.json({ success: true, data: results });
+    } catch (err) {
+      console.error("[API] Klines error:", err.message);
+      if (klinesCache.data) {
+        return res.json({ success: true, data: klinesCache.data, stale: true });
+      }
+      res
+        .status(502)
+        .json({ success: false, error: "Failed to fetch kline data" });
     }
   });
 
