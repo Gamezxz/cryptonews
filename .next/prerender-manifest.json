@@ -4658,6 +4658,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/bitcoin-whale-inflows-to-binance-hit-highest-level-since-2022-distribution-or-re": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/bitcoin-whale-inflows-to-binance-hit-highest-level-since-2022-distribution-or-re.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/bitcoin-whales-are-dumping-massive-amounts-of-supply-on-exchanges-as-liquidation": {
       "experimentalBypassFor": [
         {
@@ -9458,6 +9482,30 @@
         "x-next-revalidate-tag-token"
       ]
     },
+    "/news/decred-dcr-price-prediction-2026-2027-2030-will-decred-price-hit-1000": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/decred-dcr-price-prediction-2026-2027-2030-will-decred-price-hit-1000.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
     "/news/decred-how-dcr-defied-market-chaos-with-32-price-surge": {
       "experimentalBypassFor": [
         {
@@ -12305,30 +12353,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/how-blockchain-tracing-exposed-105m-incognito-dark-web-market.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/how-layer3-networks-reshaped-web3-utility-in-2025": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/how-layer3-networks-reshaped-web3-utility-in-2025.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -19841,30 +19865,6 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/the-old-story-of-investing-in-new-technology.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
-    "/news/the-perps-wars-are-heating-up": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/the-perps-wars-are-heating-up.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",

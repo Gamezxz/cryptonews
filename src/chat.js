@@ -172,7 +172,7 @@ function extractKeywords(text) {
     .filter((w) => w.length > 1 && !STOP_WORDS.has(w));
 }
 
-function findRelevantArticles(articles, keywords, limit = 12) {
+function findRelevantArticles(articles, keywords, limit = 6) {
   if (!keywords.length) {
     return articles.slice(0, 10);
   }
@@ -209,10 +209,8 @@ function buildContext(articles) {
       const date = a.pubDate
         ? new Date(a.pubDate).toLocaleDateString("en-US")
         : "N/A";
-      const points = a.keyPoints.length
-        ? `\nKey Points: ${a.keyPoints.join("; ")}`
-        : "";
-      return `[${i + 1}] ${a.title} (${a.translatedTitle})\nSentiment: ${a.sentiment} | Source: ${a.source} | ${date}\nSummary: ${a.aiSummary}${points}`;
+      const summary = (a.aiSummary || "").slice(0, 200);
+      return `[${i + 1}] ${a.title}\n${a.sentiment} | ${a.source} | ${date}\n${summary}`;
     })
     .join("\n\n");
 }
@@ -259,11 +257,9 @@ ${context}
 
 Rules:
 - Answer in the same language as the user's question (Thai or English)
-- Base your answers on the provided articles — cite specific data, prices, and events
-- If the question is not related to the articles or crypto, politely redirect to crypto topics
-- Keep answers concise but informative (2-4 paragraphs max)
-- When referencing an article, mention its number like [1], [2] etc.
-- Be conversational and helpful`;
+- Base your answers on the provided articles — cite specific data
+- Keep answers short and concise (1-2 paragraphs max)
+- Reference articles by number like [1], [2]`;
 
   const messages = [
     { role: "system", content: systemPrompt },
@@ -280,7 +276,7 @@ Rules:
       model: "GLM-4.5-Air",
       messages,
       temperature: 0.5,
-      max_tokens: 2000,
+      max_tokens: 800,
     },
     {
       headers: {
