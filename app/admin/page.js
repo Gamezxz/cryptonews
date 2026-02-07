@@ -8,7 +8,11 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:13002";
 function formatTime(isoString) {
   if (!isoString) return "-";
   const d = new Date(isoString);
-  return d.toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  return d.toLocaleTimeString("th-TH", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
 }
 
 function formatTimeAgo(isoString) {
@@ -45,7 +49,10 @@ export default function AdminDashboard() {
   const terminalRef = useRef(null);
 
   const connectSocket = useCallback((key) => {
-    const socket = io(API_URL, { path: "/socket.io", transports: ["websocket", "polling"] });
+    const socket = io(API_URL, {
+      path: "/socket.io",
+      transports: ["websocket", "polling"],
+    });
     socketRef.current = socket;
 
     socket.on("connect", () => {
@@ -58,13 +65,13 @@ export default function AdminDashboard() {
     socket.on("auth_success", () => {
       setAuthenticated(true);
       setAuthError("");
-      localStorage.setItem("admin_key", key);
+      sessionStorage.setItem("admin_key", key);
     });
 
     socket.on("auth_error", (msg) => {
       setAuthError(msg);
       setAuthenticated(false);
-      localStorage.removeItem("admin_key");
+      sessionStorage.removeItem("admin_key");
     });
 
     socket.on("stats", (data) => {
@@ -97,7 +104,7 @@ export default function AdminDashboard() {
   }, [translateLogs]);
 
   useEffect(() => {
-    const savedKey = localStorage.getItem("admin_key");
+    const savedKey = sessionStorage.getItem("admin_key");
     if (savedKey) {
       setKeyInput(savedKey);
       connectSocket(savedKey);
@@ -115,7 +122,7 @@ export default function AdminDashboard() {
   }
 
   function handleLogout() {
-    localStorage.removeItem("admin_key");
+    sessionStorage.removeItem("admin_key");
     if (socketRef.current) socketRef.current.disconnect();
     setAuthenticated(false);
     setStats(null);
@@ -171,7 +178,12 @@ export default function AdminDashboard() {
               ) : (
                 <span style={{ color: "#ef4444" }}>DISCONNECTED</span>
               )}
-              {s && <span style={{ color: "#52525b" }}> | Updated {formatTime(s.timestamp)}</span>}
+              {s && (
+                <span style={{ color: "#52525b" }}>
+                  {" "}
+                  | Updated {formatTime(s.timestamp)}
+                </span>
+              )}
             </p>
           </div>
         </div>
@@ -179,32 +191,55 @@ export default function AdminDashboard() {
           <button
             onClick={() => handleAction("refresh")}
             disabled={!!actionLoading}
-            style={{ ...styles.actionBtn, borderColor: "#3b82f6", color: "#3b82f6" }}
+            style={{
+              ...styles.actionBtn,
+              borderColor: "#3b82f6",
+              color: "#3b82f6",
+            }}
           >
             {actionLoading === "refresh" ? "..." : "FORCE REFRESH"}
           </button>
           <button
             onClick={() => handleAction("rebuild")}
             disabled={!!actionLoading}
-            style={{ ...styles.actionBtn, borderColor: "#22c55e", color: "#22c55e" }}
+            style={{
+              ...styles.actionBtn,
+              borderColor: "#22c55e",
+              color: "#22c55e",
+            }}
           >
             {actionLoading === "rebuild" ? "..." : "FORCE REBUILD"}
           </button>
           <button
             onClick={() => handleAction("translate")}
             disabled={!!actionLoading}
-            style={{ ...styles.actionBtn, borderColor: "#a855f7", color: "#a855f7" }}
+            style={{
+              ...styles.actionBtn,
+              borderColor: "#a855f7",
+              color: "#a855f7",
+            }}
           >
             {actionLoading === "translate" ? "..." : "FORCE TRANSLATE"}
           </button>
           <button
             onClick={() => handleAction("recreate-cache")}
             disabled={!!actionLoading}
-            style={{ ...styles.actionBtn, borderColor: "#f59e0b", color: "#f59e0b" }}
+            style={{
+              ...styles.actionBtn,
+              borderColor: "#f59e0b",
+              color: "#f59e0b",
+            }}
           >
             {actionLoading === "recreate-cache" ? "..." : "RECREATE CACHE"}
           </button>
-          <button onClick={handleLogout} style={{ ...styles.actionBtn, borderColor: "#ef4444", color: "#ef4444" }}>
+          <button
+            onClick={handleLogout}
+            style={{
+              ...styles.actionBtn,
+              borderColor: "#ef4444",
+              color: "#ef4444",
+            }}
+          >
             LOGOUT
           </button>
         </div>
@@ -216,9 +251,21 @@ export default function AdminDashboard() {
         <>
           {/* Overview Cards */}
           <div style={styles.cardRow}>
-            <StatCard label="TOTAL ARTICLES" value={s.overview.totalArticles} color="#f59e0b" />
-            <StatCard label="TODAY" value={s.overview.todayArticles} color="#22c55e" />
-            <StatCard label="SOURCES" value={s.overview.sourcesCount} color="#3b82f6" />
+            <StatCard
+              label="TOTAL ARTICLES"
+              value={s.overview.totalArticles}
+              color="#f59e0b"
+            />
+            <StatCard
+              label="TODAY"
+              value={s.overview.todayArticles}
+              color="#22c55e"
+            />
+            <StatCard
+              label="SOURCES"
+              value={s.overview.sourcesCount}
+              color="#3b82f6"
+            />
             <StatCard
               label="SCRAPE RATE"
               value={`${s.scraping.successRate}%`}
@@ -231,17 +278,35 @@ export default function AdminDashboard() {
             <ProgressCard
               title="SCRAPING PROGRESS"
               items={[
-                { label: "Scraped", value: s.scraping.scraped, color: "#22c55e" },
-                { label: "Pending", value: s.scraping.pending, color: "#f59e0b" },
+                {
+                  label: "Scraped",
+                  value: s.scraping.scraped,
+                  color: "#22c55e",
+                },
+                {
+                  label: "Pending",
+                  value: s.scraping.pending,
+                  color: "#f59e0b",
+                },
                 { label: "Failed", value: s.scraping.failed, color: "#ef4444" },
               ]}
-              total={s.scraping.scraped + s.scraping.pending + s.scraping.failed}
+              total={
+                s.scraping.scraped + s.scraping.pending + s.scraping.failed
+              }
             />
             <ProgressCard
               title="TRANSLATION PROGRESS"
               items={[
-                { label: "Translated", value: s.translation.translated, color: "#3b82f6" },
-                { label: "Pending", value: s.translation.untranslated, color: "#f59e0b" },
+                {
+                  label: "Translated",
+                  value: s.translation.translated,
+                  color: "#3b82f6",
+                },
+                {
+                  label: "Pending",
+                  value: s.translation.untranslated,
+                  color: "#f59e0b",
+                },
               ]}
               total={s.translation.translated + s.translation.untranslated}
             />
@@ -249,15 +314,38 @@ export default function AdminDashboard() {
 
           {/* Translation Terminal */}
           <div style={{ ...styles.card, marginBottom: 12 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-              <h3 style={{ ...styles.cardTitle, margin: 0 }}>TRANSLATION TERMINAL</h3>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 12,
+              }}
+            >
+              <h3 style={{ ...styles.cardTitle, margin: 0 }}>
+                TRANSLATION TERMINAL
+              </h3>
               <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                 {actionLoading === "translate" && (
-                  <span style={{ fontSize: 10, color: "#a855f7", letterSpacing: "0.1em" }}>TRANSLATING...</span>
+                  <span
+                    style={{
+                      fontSize: 10,
+                      color: "#a855f7",
+                      letterSpacing: "0.1em",
+                    }}
+                  >
+                    TRANSLATING...
+                  </span>
                 )}
                 <button
                   onClick={() => setTranslateLogs([])}
-                  style={{ ...styles.actionBtn, padding: "4px 10px", fontSize: 9, borderColor: "#52525b", color: "#52525b" }}
+                  style={{
+                    ...styles.actionBtn,
+                    padding: "4px 10px",
+                    fontSize: 9,
+                    borderColor: "#52525b",
+                    color: "#52525b",
+                  }}
                 >
                   CLEAR
                 </button>
@@ -278,18 +366,25 @@ export default function AdminDashboard() {
             >
               {translateLogs.length === 0 ? (
                 <p style={{ color: "#52525b", margin: 0 }}>
-                  Waiting for translation events... Press FORCE TRANSLATE to start.
+                  Waiting for translation events... Press FORCE TRANSLATE to
+                  start.
                 </p>
               ) : (
                 translateLogs.map((log, i) => (
                   <div key={i} style={{ display: "flex", gap: 8 }}>
-                    <span style={{ color: "#52525b", flexShrink: 0 }}>{formatTime(log.time)}</span>
+                    <span style={{ color: "#52525b", flexShrink: 0 }}>
+                      {formatTime(log.time)}
+                    </span>
                     <span
                       style={{
-                        color: log.status === "error" ? "#ef4444"
-                          : log.status === "ok" ? "#22c55e"
-                          : log.status === "done" ? "#a855f7"
-                          : "#a1a1aa",
+                        color:
+                          log.status === "error"
+                            ? "#ef4444"
+                            : log.status === "ok"
+                              ? "#22c55e"
+                              : log.status === "done"
+                                ? "#a855f7"
+                                : "#a1a1aa",
                       }}
                     >
                       {log.message}
@@ -306,9 +401,24 @@ export default function AdminDashboard() {
             <div style={styles.card}>
               <h3 style={styles.cardTitle}>SENTIMENT</h3>
               <div style={styles.sentimentGrid}>
-                <SentimentBar label="BULLISH" value={s.sentiment.bullish || 0} color="#22c55e" total={s.overview.totalArticles} />
-                <SentimentBar label="BEARISH" value={s.sentiment.bearish || 0} color="#ef4444" total={s.overview.totalArticles} />
-                <SentimentBar label="NEUTRAL" value={s.sentiment.neutral || 0} color="#52525b" total={s.overview.totalArticles} />
+                <SentimentBar
+                  label="BULLISH"
+                  value={s.sentiment.bullish || 0}
+                  color="#22c55e"
+                  total={s.overview.totalArticles}
+                />
+                <SentimentBar
+                  label="BEARISH"
+                  value={s.sentiment.bearish || 0}
+                  color="#ef4444"
+                  total={s.overview.totalArticles}
+                />
+                <SentimentBar
+                  label="NEUTRAL"
+                  value={s.sentiment.neutral || 0}
+                  color="#52525b"
+                  total={s.overview.totalArticles}
+                />
               </div>
             </div>
 
@@ -350,7 +460,9 @@ export default function AdminDashboard() {
               <h3 style={styles.cardTitle}>ACTIVITY LOG</h3>
               <div style={styles.logContainer}>
                 {activities.length === 0 ? (
-                  <p style={{ color: "#52525b", fontSize: 12 }}>No recent activity</p>
+                  <p style={{ color: "#52525b", fontSize: 12 }}>
+                    No recent activity
+                  </p>
                 ) : (
                   activities.map((a, i) => {
                     const cfg = activityConfig[a.type] || activityConfig.error;
@@ -367,7 +479,9 @@ export default function AdminDashboard() {
                           {cfg.icon}
                         </span>
                         <span style={styles.logMessage}>{a.message}</span>
-                        {a.detail && <span style={styles.logDetail}>{a.detail}</span>}
+                        {a.detail && (
+                          <span style={styles.logDetail}>{a.detail}</span>
+                        )}
                         <span style={styles.logTime}>{formatTime(a.time)}</span>
                       </div>
                     );
@@ -382,7 +496,9 @@ export default function AdminDashboard() {
               <div style={styles.listContainer}>
                 {s.recentArticles?.map((a) => (
                   <div key={a._id} style={styles.recentItem}>
-                    <div style={styles.recentTitle}>{a.title?.substring(0, 50)}...</div>
+                    <div style={styles.recentTitle}>
+                      {a.title?.substring(0, 50)}...
+                    </div>
                     <div style={styles.recentMeta}>
                       <span>{a.source}</span>
                       <span
@@ -456,8 +572,18 @@ function SentimentBar({ label, value, color, total }) {
   const pct = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
   return (
     <div style={{ marginBottom: 10 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-        <span style={{ fontSize: 11, color: "#a1a1aa", letterSpacing: "0.1em" }}>{label}</span>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: 4,
+        }}
+      >
+        <span
+          style={{ fontSize: 11, color: "#a1a1aa", letterSpacing: "0.1em" }}
+        >
+          {label}
+        </span>
         <span style={{ fontSize: 12, color, fontWeight: 700 }}>
           {value} ({pct}%)
         </span>

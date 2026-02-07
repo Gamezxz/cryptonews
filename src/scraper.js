@@ -4,8 +4,8 @@ import { connectDB } from "./db/connection.js";
 import { NewsItem } from "./db/models.js";
 import { activityBus } from "./dashboard.js";
 
-const AI_API_KEY = "3439bee081604b91bc8262a5fa8cd315.42NAKBcYGbemMJN2";
-const AI_BASE_URL = "https://api.z.ai/api/coding/paas/v4";
+const AI_API_KEY = process.env.AI_API_KEY;
+const AI_BASE_URL = process.env.AI_BASE_URL;
 
 // Scrape full article content from URL
 async function scrapeArticle(url) {
@@ -187,18 +187,20 @@ export async function batchScrapeRecent(limit = 10) {
   for (let i = 0; i < items.length; i += concurrency) {
     const chunk = items.slice(i, i + concurrency);
     const results = await Promise.allSettled(
-      chunk.map(item => scrapeAndSummarize(item._id))
+      chunk.map((item) => scrapeAndSummarize(item._id)),
     );
 
     for (const r of results) {
-      if (r.status === 'fulfilled' && r.value) {
+      if (r.status === "fulfilled" && r.value) {
         success++;
       } else {
         failed++;
       }
     }
 
-    console.log(`  Progress: ${success + failed}/${items.length} (${success} ok, ${failed} fail)`);
+    console.log(
+      `  Progress: ${success + failed}/${items.length} (${success} ok, ${failed} fail)`,
+    );
 
     // Brief delay between chunks
     if (i + concurrency < items.length) {

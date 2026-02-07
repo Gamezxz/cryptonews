@@ -19946,30 +19946,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/news/the-white-whale-up-10x-in-a-week-lighter-tge-saylor-buys-109m-btc": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "next-action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/news/[slug]",
-      "dataRoute": "/news/the-white-whale-up-10x-in-a-week-lighter-tge-saylor-buys-109m-btc.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/news/the-zcash-situation-explained-interview-with-zec-bull-mert-btc-below-90k-zec-fal": {
       "experimentalBypassFor": [
         {
@@ -23777,6 +23753,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/news/[slug]",
       "dataRoute": "/news/xrp-spot-etfs-lead-crypto-inflows-but-prices-refuse-to-budge.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/news/xrp-still-in-bull-market-versus-bitcoin-and-xrpbtc-chart-puts-51-upside-on-the-m": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "next-action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/news/[slug]",
+      "dataRoute": "/news/xrp-still-in-bull-market-versus-bitcoin-and-xrpbtc-chart-puts-51-upside-on-the-m.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
