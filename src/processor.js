@@ -6,13 +6,14 @@ import { updateCache } from "./utils/cache.js";
 import { activityBus } from "./dashboard.js";
 import { generateMarketInsight } from "./insight.js";
 
-const TRANSLATE_BATCH_SIZE = 10; // Translate 10 items per API call
-const DELAY_BETWEEN_BATCHES = 500; // 0.5 second between batches
+const TRANSLATE_BATCH_SIZE = 5; // Translate 5 items per API call (reduced to avoid timeouts)
+const DELAY_BETWEEN_BATCHES = 2000; // 2 seconds between batches
 const DELAY_BETWEEN_SCRAPES = 500; // 0.5 seconds between scrapes
 const SCRAPE_CONCURRENCY = 3; // Scrape 3 articles at a time
 const IDLE_WAIT = 5000; // 5 seconds when nothing to do
 const INSIGHT_INTERVAL = 10; // Generate insight every N translations
 const CACHE_UPDATE_INTERVAL = 5; // Update cache every N operations
+const MAX_TRANSLATE_RETRIES = 3; // Max retries before skipping an item
 
 let running = false;
 let translateCounter = 0;
@@ -54,6 +55,10 @@ export async function startProcessor() {
 async function translatePhase() {
   const items = await NewsItem.find({
     translatedTitle: { $in: ["", null] },
+    $or: [
+      { translateRetries: { $exists: false } },
+      { translateRetries: { $lt: MAX_TRANSLATE_RETRIES } },
+    ],
   })
     .sort({ pubDate: -1 })
     .limit(TRANSLATE_BATCH_SIZE)
@@ -69,6 +74,8 @@ async function translatePhase() {
     const results = await translateBatch(items);
 
     let successCount = 0;
+    const successIds = new Set();
+
     for (const r of results) {
       const item = items[r.id];
       if (item && r.translatedTitle) {
@@ -78,14 +85,26 @@ async function translatePhase() {
             translatedTitle: r.translatedTitle,
             translatedContent: r.translatedContent,
             sentiment: r.sentiment,
+            translateRetries: 0,
           },
         );
         activityBus.emit("translate_log", {
           message: `  ✓ ${r.translatedTitle.substring(0, 50)}... [${r.sentiment}]`,
           status: "ok",
         });
+        successIds.add(r.id);
         successCount++;
         translateCounter++;
+      }
+    }
+
+    // Increment retry count for items that failed in this batch
+    for (let i = 0; i < items.length; i++) {
+      if (!successIds.has(i)) {
+        await NewsItem.updateOne(
+          { _id: items[i]._id },
+          { $inc: { translateRetries: 1 } },
+        );
       }
     }
 
@@ -104,8 +123,9 @@ async function translatePhase() {
         activityBus.emit("news_update");
       }
     } else {
+      const failedTitles = items.slice(0, 3).map(i => i.title?.substring(0, 40)).join(', ');
       activityBus.emit("translate_log", {
-        message: `  ✗ Batch translation failed`,
+        message: `  ✗ Batch failed (${items.length} items): ${failedTitles}...`,
         status: "error",
       });
     }
@@ -114,6 +134,13 @@ async function translatePhase() {
       message: `  ✗ Translation error: ${err.message}`,
       status: "error",
     });
+    // Increment retries for all items on error
+    for (const item of items) {
+      await NewsItem.updateOne(
+        { _id: item._id },
+        { $inc: { translateRetries: 1 } },
+      );
+    }
   }
 
   await new Promise((r) => setTimeout(r, DELAY_BETWEEN_BATCHES));

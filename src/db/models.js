@@ -85,6 +85,10 @@ const newsItemSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    translateRetries: {
+      type: Number,
+      default: 0,
+    },
     scrapingStatus: {
       type: String,
       enum: ["pending", "scraped", "failed", ""],

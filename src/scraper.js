@@ -51,7 +51,7 @@ async function summarizeArticle(fullContent, title) {
     const response = await axios.post(
       `${AI_BASE_URL}/chat/completions`,
       {
-        model: "glm-4.7",
+        model: "GLM-4.5-Air",
         messages: [
           {
             role: "system",
@@ -71,7 +71,7 @@ Output ONLY valid JSON:
             content: `Title: ${title}\n\nArticle:\n${truncated}`,
           },
         ],
-        max_tokens: 4000,
+        max_tokens: 8000,
         temperature: 0.3,
       },
       {
@@ -79,12 +79,13 @@ Output ONLY valid JSON:
           Authorization: `Bearer ${AI_API_KEY}`,
           "Content-Type": "application/json",
         },
-        timeout: 120000,
+        timeout: 90000,
       },
     );
 
+    const message = response.data.choices[0]?.message;
     const responseContent =
-      response.data.choices[0]?.message?.content?.trim() || "";
+      message?.content?.trim() || message?.reasoning_content?.trim() || "";
 
     const jsonMatch = responseContent.match(/\{[\s\S]*\}/);
     if (jsonMatch) {

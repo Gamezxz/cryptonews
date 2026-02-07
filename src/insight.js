@@ -13,13 +13,15 @@ export async function generateMarketInsight() {
   try {
     await connectDB();
 
-    // Get 20 latest translated articles
+    // Get 20 latest articles with full content (EN)
     const articles = await NewsItem.find({
       translatedTitle: { $exists: true, $nin: ["", null] },
     })
       .sort({ pubDate: -1 })
       .limit(20)
-      .select("title translatedTitle sentiment category source pubDate")
+      .select(
+        "title translatedTitle sentiment category source pubDate fullContent content",
+      )
       .lean();
 
     if (articles.length < 3) {
@@ -43,21 +45,29 @@ export async function generateMarketInsight() {
       }
     }
 
-    const total = sentimentCounts.bullish + sentimentCounts.bearish + sentimentCounts.neutral;
+    const total =
+      sentimentCounts.bullish +
+      sentimentCounts.bearish +
+      sentimentCounts.neutral;
     const sentimentPercent = {
-      bullish: total > 0 ? Math.round((sentimentCounts.bullish / total) * 100) : 0,
-      bearish: total > 0 ? Math.round((sentimentCounts.bearish / total) * 100) : 0,
-      neutral: total > 0 ? Math.round((sentimentCounts.neutral / total) * 100) : 0,
+      bullish:
+        total > 0 ? Math.round((sentimentCounts.bullish / total) * 100) : 0,
+      bearish:
+        total > 0 ? Math.round((sentimentCounts.bearish / total) * 100) : 0,
+      neutral:
+        total > 0 ? Math.round((sentimentCounts.neutral / total) * 100) : 0,
     };
 
-    // Build prompt for AI
+    // Build prompt for AI — send full article content (EN), truncate each to ~500 chars
     const articleList = articles
-      .map((a, i) => `${i + 1}. [${a.sentiment || "unknown"}] ${a.title} | ${a.translatedTitle}`)
-      .join("\n");
+      .map((a, i) => {
+        const body = (a.fullContent || a.content || "").slice(0, 500);
+        return `--- Article ${i + 1} [${a.sentiment || "unknown"}] ---\nTitle: ${a.title}\n${body}`;
+      })
+      .join("\n\n");
 
-    const prompt = `You are a crypto market analyst. Based on these 20 latest crypto news headlines, provide a detailed market insight summary.
+    const prompt = `You are a crypto market analyst. Based on the full content of these 20 latest crypto news articles, provide a detailed market insight summary.
 
-Articles:
 ${articleList}
 
 Sentiment stats (last 100 articles): Bullish ${sentimentPercent.bullish}%, Bearish ${sentimentPercent.bearish}%, Neutral ${sentimentPercent.neutral}%
@@ -87,21 +97,23 @@ Rules:
     const response = await axios.post(
       `${AI_BASE_URL}/chat/completions`,
       {
-        model: "glm-4.7",
+        model: "GLM-4.5-Air",
         messages: [{ role: "user", content: prompt }],
         temperature: 0.3,
-        max_tokens: 4096,
+        max_tokens: 8000,
       },
       {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${AI_API_KEY}`,
         },
-        timeout: 120000,
+        timeout: 90000,
       },
     );
 
-    const content = response.data.choices?.[0]?.message?.content?.trim();
+    const message = response.data.choices?.[0]?.message;
+    const content =
+      message?.content?.trim() || message?.reasoning_content?.trim();
     if (!content) {
       throw new Error("Empty AI response");
     }
