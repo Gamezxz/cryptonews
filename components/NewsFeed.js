@@ -93,7 +93,10 @@ export default function NewsFeed({ news: initialNews }) {
 
   return (
     <>
-      <div className="container" style={{ marginTop: "20px" }}>
+      <div
+        className="container"
+        style={{ marginTop: "20px", marginBottom: "20px" }}
+      >
         <div className="widgets-row">
           <FearGreedIndex />
           <CryptoPriceTicker />
