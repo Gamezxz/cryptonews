@@ -2034,29 +2034,58 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   CRYPTO PRICE TICKER WIDGET
+   WIDGETS ROW (FearGreed + Ticker side by side)
+   ═══════════════════════════════════════════════════════════ */
+
+.widgets-row {
+    display: flex;
+    gap: 16px;
+    align-items: stretch;
+}
+
+.widgets-row .fng-widget {
+    flex: 0 0 340px;
+    margin-bottom: 0;
+}
+
+.widgets-row .ticker-widget {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+    .widgets-row {
+        flex-direction: column;
+    }
+
+    .widgets-row .fng-widget {
+        flex: none;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CRYPTO PRICE TICKER WIDGET — COMPACT
    ═══════════════════════════════════════════════════════════ */
 
 .ticker-widget {
     background: var(--bg-card);
     border: 1px solid var(--border-mid);
     border-radius: 6px;
-    padding: 16px 20px;
-    margin-bottom: 16px;
+    padding: 12px 16px;
 }
 
 .ticker-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
-    padding-bottom: 10px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
     border-bottom: 1px solid var(--border-subtle);
 }
 
 .ticker-title {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     color: var(--accent);
     letter-spacing: 1px;
@@ -2064,15 +2093,15 @@ body::after {
 
 .ticker-status {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 9px;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 4px;
 }
 
 .ticker-dot {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
     display: inline-block;
 }
@@ -2090,7 +2119,6 @@ body::after {
 .ticker-offline {
     color: var(--text-muted);
 }
-
 .ticker-offline .ticker-dot {
     background: var(--red);
 }
@@ -2105,51 +2133,53 @@ body::after {
     }
 }
 
-.ticker-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+/* Compact list */
+.ticker-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
-.ticker-card {
+.ticker-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
     background: var(--bg-elevated);
     border: 1px solid var(--border-subtle);
-    border-radius: 5px;
-    padding: 12px;
-}
-
-.ticker-card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 6px;
-}
-
-.ticker-coin {
-    display: flex;
-    align-items: baseline;
-    gap: 4px;
+    border-radius: 4px;
+    flex-wrap: wrap;
 }
 
 .ticker-coin-name {
     font-family: var(--font-mono);
-    font-size: 14px;
+    font-size: 11px;
     font-weight: 800;
     color: var(--text-primary);
+    min-width: 36px;
 }
 
-.ticker-coin-pair {
+.ticker-price-sm {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--text-primary);
+    transition: color 0.15s;
+}
+
+.ticker-price-sm.flash-up {
+    color: var(--green);
+}
+.ticker-price-sm.flash-down {
+    color: var(--red);
+}
+
+.ticker-change-sm {
     font-family: var(--font-mono);
     font-size: 10px;
-    color: var(--text-muted);
-}
-
-.ticker-change {
-    font-family: var(--font-mono);
-    font-size: 11px;
     font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 3px;
+    padding: 1px 4px;
+    border-radius: 2px;
 }
 
 .ticker-up {
@@ -2162,105 +2192,35 @@ body::after {
     background: rgba(239, 68, 68, 0.12);
 }
 
-.ticker-price {
-    font-family: var(--font-mono);
-    font-size: 20px;
-    font-weight: 900;
-    color: var(--text-primary);
-    margin-bottom: 8px;
-    transition: color 0.15s;
-}
-
-.ticker-price.flash-up {
-    color: var(--green);
-}
-
-.ticker-price.flash-down {
-    color: var(--red);
-}
-
-/* RSI Gauge */
-.ticker-rsi {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 8px;
-}
-
-.ticker-rsi-label {
+.ticker-rsi-badge {
     font-family: var(--font-mono);
     font-size: 9px;
-    color: var(--text-muted);
-    min-width: 22px;
-}
-
-.ticker-rsi-bar {
-    flex: 1;
-    height: 5px;
-    background: var(--bg-surface);
-    border-radius: 3px;
-    overflow: hidden;
-    position: relative;
-}
-
-.ticker-rsi-fill {
-    height: 100%;
-    border-radius: 3px;
-    transition: width 0.5s ease;
-}
-
-.ticker-rsi-value {
-    font-family: var(--font-mono);
-    font-size: 11px;
     font-weight: 700;
-    min-width: 32px;
-    text-align: right;
 }
 
-.ticker-rsi-tag {
+.ticker-ma-sm {
     font-family: var(--font-mono);
-    font-size: 8px;
-    font-weight: 700;
-    padding: 1px 4px;
-    border: 1px solid;
-    border-radius: 2px;
-    letter-spacing: 0.3px;
-}
-
-/* MA Section */
-.ticker-ma {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-
-.ticker-ma-row {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    font-size: 9px;
+    color: var(--text-secondary);
 }
 
 .ticker-ma-label {
-    font-family: var(--font-mono);
-    font-size: 9px;
     color: var(--text-muted);
+    margin-right: 2px;
 }
 
-.ticker-ma-val {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--text-secondary);
-    font-weight: 600;
+.ticker-ma-sep {
+    color: var(--text-muted);
+    margin: 0 3px;
 }
 
-.ticker-signal {
+.ticker-signal-sm {
     font-family: var(--font-mono);
     font-size: 8px;
     font-weight: 800;
-    padding: 1px 5px;
+    padding: 1px 4px;
     border-radius: 2px;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
     margin-left: auto;
 }
 
@@ -2277,15 +2237,16 @@ body::after {
 }
 
 @media (max-width: 600px) {
-    .ticker-grid {
-        grid-template-columns: 1fr;
+    .ticker-row {
+        gap: 6px;
+        padding: 5px 6px;
     }
 
-    .ticker-price {
-        font-size: 18px;
+    .ticker-price-sm {
+        font-size: 12px;
     }
 
-    .ticker-card {
-        padding: 10px;
+    .ticker-ma-sm {
+        display: none;
     }
 }

@@ -96,8 +96,10 @@ export default function NewsFeed({ news: initialNews }) {
       <MarketInsight />
 
       <div className="container" style={{ marginTop: "20px" }}>
-        <CryptoPriceTicker />
-        <FearGreedIndex />
+        <div className="widgets-row">
+          <FearGreedIndex />
+          <CryptoPriceTicker />
+        </div>
       </div>
 
       <div className="tag-filter">
