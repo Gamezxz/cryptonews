@@ -1,8 +1,8 @@
 import axios from "axios";
 import { loadCache } from "./utils/cache.js";
 
-const AI_API_KEY = "REDACTED_API_KEY";
-const AI_BASE_URL = "https://api.z.ai/api/coding/paas/v4";
+const AI_API_KEY = process.env.AI_API_KEY;
+const AI_BASE_URL = process.env.AI_BASE_URL;
 
 // In-memory article index
 let cachedArticles = null;
@@ -16,19 +16,126 @@ const RATE_WINDOW = 60 * 1000;
 
 // Stop words for keyword extraction
 const STOP_WORDS = new Set([
-  "the", "a", "an", "is", "are", "was", "were", "be", "been", "being",
-  "have", "has", "had", "do", "does", "did", "will", "would", "could",
-  "should", "may", "might", "can", "shall", "to", "of", "in", "for",
-  "on", "with", "at", "by", "from", "as", "into", "about", "between",
-  "through", "after", "before", "above", "below", "and", "but", "or",
-  "not", "no", "nor", "so", "yet", "both", "either", "neither", "each",
-  "every", "all", "any", "few", "more", "most", "other", "some", "such",
-  "than", "too", "very", "just", "also", "how", "what", "which", "who",
-  "whom", "this", "that", "these", "those", "i", "me", "my", "we", "our",
-  "you", "your", "he", "him", "his", "she", "her", "it", "its", "they",
-  "them", "their", "ไหม", "อะไร", "เท่าไหร่", "ยังไง", "ทำไม", "เมื่อไหร่",
-  "ครับ", "ค่ะ", "นะ", "จ้า", "ที่", "และ", "หรือ", "แต่", "ของ", "ใน",
-  "จาก", "กับ", "ให้", "ได้", "มี", "เป็น", "ว่า", "ไป", "มา", "จะ",
+  "the",
+  "a",
+  "an",
+  "is",
+  "are",
+  "was",
+  "were",
+  "be",
+  "been",
+  "being",
+  "have",
+  "has",
+  "had",
+  "do",
+  "does",
+  "did",
+  "will",
+  "would",
+  "could",
+  "should",
+  "may",
+  "might",
+  "can",
+  "shall",
+  "to",
+  "of",
+  "in",
+  "for",
+  "on",
+  "with",
+  "at",
+  "by",
+  "from",
+  "as",
+  "into",
+  "about",
+  "between",
+  "through",
+  "after",
+  "before",
+  "above",
+  "below",
+  "and",
+  "but",
+  "or",
+  "not",
+  "no",
+  "nor",
+  "so",
+  "yet",
+  "both",
+  "either",
+  "neither",
+  "each",
+  "every",
+  "all",
+  "any",
+  "few",
+  "more",
+  "most",
+  "other",
+  "some",
+  "such",
+  "than",
+  "too",
+  "very",
+  "just",
+  "also",
+  "how",
+  "what",
+  "which",
+  "who",
+  "whom",
+  "this",
+  "that",
+  "these",
+  "those",
+  "i",
+  "me",
+  "my",
+  "we",
+  "our",
+  "you",
+  "your",
+  "he",
+  "him",
+  "his",
+  "she",
+  "her",
+  "it",
+  "its",
+  "they",
+  "them",
+  "their",
+  "ไหม",
+  "อะไร",
+  "เท่าไหร่",
+  "ยังไง",
+  "ทำไม",
+  "เมื่อไหร่",
+  "ครับ",
+  "ค่ะ",
+  "นะ",
+  "จ้า",
+  "ที่",
+  "และ",
+  "หรือ",
+  "แต่",
+  "ของ",
+  "ใน",
+  "จาก",
+  "กับ",
+  "ให้",
+  "ได้",
+  "มี",
+  "เป็น",
+  "ว่า",
+  "ไป",
+  "มา",
+  "จะ",
 ]);
 
 async function getArticles() {
@@ -49,10 +156,9 @@ async function getArticles() {
     pubDate: a.pubDate || "",
     slug: a.slug || "",
     // Pre-compute searchable blob
-    _blob: [
-      a.title, a.translatedTitle, a.aiSummary,
-      ...(a.keyPoints || []),
-    ].join(" ").toLowerCase(),
+    _blob: [a.title, a.translatedTitle, a.aiSummary, ...(a.keyPoints || [])]
+      .join(" ")
+      .toLowerCase(),
   }));
   lastCacheLoad = now;
   return cachedArticles;
@@ -100,8 +206,12 @@ function findRelevantArticles(articles, keywords, limit = 12) {
 function buildContext(articles) {
   return articles
     .map((a, i) => {
-      const date = a.pubDate ? new Date(a.pubDate).toLocaleDateString("en-US") : "N/A";
-      const points = a.keyPoints.length ? `\nKey Points: ${a.keyPoints.join("; ")}` : "";
+      const date = a.pubDate
+        ? new Date(a.pubDate).toLocaleDateString("en-US")
+        : "N/A";
+      const points = a.keyPoints.length
+        ? `\nKey Points: ${a.keyPoints.join("; ")}`
+        : "";
       return `[${i + 1}] ${a.title} (${a.translatedTitle})\nSentiment: ${a.sentiment} | Source: ${a.source} | ${date}\nSummary: ${a.aiSummary}${points}`;
     })
     .join("\n\n");

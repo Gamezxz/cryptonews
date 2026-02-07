@@ -5,8 +5,8 @@ import { connectDB } from "./db/connection.js";
 import { NewsItem } from "./db/models.js";
 import { activityBus } from "./dashboard.js";
 
-const AI_API_KEY = "REDACTED_API_KEY";
-const AI_BASE_URL = "https://api.z.ai/api/coding/paas/v4";
+const AI_API_KEY = process.env.AI_API_KEY;
+const AI_BASE_URL = process.env.AI_BASE_URL;
 const INSIGHT_PATH = path.join(process.cwd(), "data", "insight.json");
 
 export async function generateMarketInsight() {

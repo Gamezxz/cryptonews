@@ -41,15 +41,32 @@ async function main() {
   await connectDB();
 
   // Express middleware
-  app.use(express.json());
+  app.use(express.json({ limit: "1mb" }));
 
-  // CORS for frontend
+  // Security headers
   app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
+    res.header("X-Content-Type-Options", "nosniff");
+    res.header("X-Frame-Options", "DENY");
+    res.header("X-XSS-Protection", "1; mode=block");
+    res.header("Referrer-Policy", "strict-origin-when-cross-origin");
+    next();
+  });
+
+  // CORS — restrict to allowed origins
+  const allowedOrigins = (process.env.ALLOWED_ORIGINS || "")
+    .split(",")
+    .filter(Boolean);
+  app.use((req, res, next) => {
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+      res.header("Access-Control-Allow-Origin", origin);
+    }
     res.header(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type, Accept",
     );
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    if (req.method === "OPTIONS") return res.sendStatus(204);
     next();
   });
 
@@ -66,28 +83,57 @@ async function main() {
     }
   });
 
+  // Helper: get real client IP (trust proxy only from known sources)
+  function getClientIP(req) {
+    const forwarded = req.headers["x-forwarded-for"];
+    if (forwarded) {
+      // Take the last IP before our proxy (rightmost is most trustworthy)
+      const ips = forwarded.split(",").map((s) => s.trim());
+      return ips[0];
+    }
+    return req.socket.remoteAddress;
+  }
+
+  // Helper: validate slug format (only lowercase alphanumeric and hyphens)
+  function isValidSlug(slug) {
+    return /^[a-z0-9][a-z0-9-]{0,200}$/.test(slug);
+  }
+
   // API: read from cache.json (fast, no MongoDB query)
   app.get("/api/cache", async (req, res) => {
     try {
       const cachePath = path.join(process.cwd(), "data", "cache.json");
       const data = await fs.readFile(cachePath, "utf-8");
       const items = JSON.parse(data);
-      const limit = parseInt(req.query.limit) || 200;
+      const limit = Math.min(
+        Math.max(parseInt(req.query.limit, 10) || 200, 1),
+        500,
+      );
       res.json({
         success: true,
         count: Math.min(items.length, limit),
         data: items.slice(0, limit),
       });
     } catch (err) {
-      res.status(500).json({ success: false, error: err.message });
+      console.error("[API] Cache error:", err.message);
+      res.status(500).json({ success: false, error: "Failed to load cache" });
     }
   });
 
   // API: read from MongoDB (slower, used as fallback)
   app.get("/api/news", async (req, res) => {
     try {
-      const category = req.query.category || "all";
-      const limit = parseInt(req.query.limit) || 100;
+      const category =
+        typeof req.query.category === "string" ? req.query.category : "all";
+      if (category !== "all" && !/^[a-zA-Z0-9-]+$/.test(category)) {
+        return res
+          .status(400)
+          .json({ success: false, error: "Invalid category" });
+      }
+      const limit = Math.min(
+        Math.max(parseInt(req.query.limit, 10) || 100, 1),
+        500,
+      );
       const news = await getNews(category, limit);
       res.json({
         success: true,
@@ -95,7 +141,8 @@ async function main() {
         data: news,
       });
     } catch (err) {
-      res.status(500).json({ success: false, error: err.message });
+      console.error("[API] News error:", err.message);
+      res.status(500).json({ success: false, error: "Failed to fetch news" });
     }
   });
 
@@ -106,7 +153,8 @@ async function main() {
       activityBus.emit("news_update");
       res.json({ success: true, message: "News refreshed" });
     } catch (err) {
-      res.status(500).json({ success: false, error: err.message });
+      console.error("[API] Refresh error:", err.message);
+      res.status(500).json({ success: false, error: "Refresh failed" });
     }
   });
 
@@ -115,7 +163,8 @@ async function main() {
       await buildStaticSite();
       res.json({ success: true, message: "Site rebuilt successfully" });
     } catch (err) {
-      res.status(500).json({ success: false, error: err.message });
+      console.error("[API] Rebuild error:", err.message);
+      res.status(500).json({ success: false, error: "Rebuild failed" });
     }
   });
 
@@ -126,18 +175,21 @@ async function main() {
       activityBus.emit("admin", { message: "Cache recreated manually" });
       res.json({ success: true, message: "Cache.json recreated successfully" });
     } catch (err) {
-      res.status(500).json({ success: false, error: err.message });
+      console.error("[API] Cache recreate error:", err.message);
+      res.status(500).json({ success: false, error: "Cache recreate failed" });
     }
   });
 
   // Get single news item by slug
   app.get("/api/news/by-slug/:slug", async (req, res) => {
     try {
+      if (!isValidSlug(req.params.slug)) {
+        return res.status(400).json({ success: false, error: "Invalid slug" });
+      }
       const article = await NewsItem.findOne({ slug: req.params.slug }).lean();
       if (!article) {
         return res.status(404).json({ success: false, error: "Not found" });
       }
-      // Get related articles
       const related = await NewsItem.find({
         _id: { $ne: article._id },
         categories: { $in: article.categories || [article.category] },
@@ -149,26 +201,38 @@ async function main() {
 
       res.json({ success: true, data: article, related });
     } catch (err) {
-      res.status(500).json({ success: false, error: err.message });
+      console.error("[API] Slug lookup error:", err.message);
+      res
+        .status(500)
+        .json({ success: false, error: "Failed to fetch article" });
     }
   });
 
   // Get single news item by ID
   app.get("/api/news/:id", async (req, res) => {
     try {
+      if (!/^[a-f0-9]{24}$/.test(req.params.id)) {
+        return res.status(400).json({ success: false, error: "Invalid ID" });
+      }
       const item = await NewsItem.findById(req.params.id).lean();
       if (!item) {
         return res.status(404).json({ success: false, error: "Not found" });
       }
       res.json({ success: true, data: item });
     } catch (err) {
-      res.status(500).json({ success: false, error: err.message });
+      console.error("[API] News by ID error:", err.message);
+      res
+        .status(500)
+        .json({ success: false, error: "Failed to fetch article" });
     }
   });
 
   // Trigger scrape + summarize for a single article
   app.post("/api/news/:id/scrape", async (req, res) => {
     try {
+      if (!/^[a-f0-9]{24}$/.test(req.params.id)) {
+        return res.status(400).json({ success: false, error: "Invalid ID" });
+      }
       const result = await scrapeAndSummarize(req.params.id);
       if (!result) {
         return res
@@ -177,14 +241,15 @@ async function main() {
       }
       res.json({ success: true, data: result });
     } catch (err) {
-      res.status(500).json({ success: false, error: err.message });
+      console.error("[API] Scrape error:", err.message);
+      res.status(500).json({ success: false, error: "Scraping failed" });
     }
   });
 
   // AI Chat endpoint
   app.post("/api/chat", async (req, res) => {
     try {
-      const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+      const ip = getClientIP(req);
       if (!checkRateLimit(ip)) {
         return res
           .status(429)
@@ -207,7 +272,23 @@ async function main() {
           .json({ success: false, error: "Message too long (max 500)" });
       }
 
-      const result = await handleChat(message.trim(), history || []);
+      // Validate history array
+      const safeHistory = [];
+      if (Array.isArray(history)) {
+        for (const msg of history.slice(-10)) {
+          if (
+            msg &&
+            typeof msg.role === "string" &&
+            typeof msg.content === "string" &&
+            ["user", "assistant"].includes(msg.role) &&
+            msg.content.length <= 2000
+          ) {
+            safeHistory.push({ role: msg.role, content: msg.content });
+          }
+        }
+      }
+
+      const result = await handleChat(message.trim(), safeHistory);
       res.json({ success: true, ...result });
     } catch (err) {
       console.error("[Chat] Error:", err.message);
@@ -226,8 +307,10 @@ async function main() {
   });
 
   // Fallback for /news/* routes not found as static files
-  // Serves a client-side page that fetches article data from API
   app.get("/news/:slug", async (req, res) => {
+    if (!isValidSlug(req.params.slug)) {
+      return res.status(400).send("Invalid slug");
+    }
     const staticFile = path.join(
       process.cwd(),
       "output",
@@ -235,12 +318,15 @@ async function main() {
       req.params.slug,
       "index.html",
     );
+    // Verify resolved path stays within output directory
+    const outputDir = path.resolve(process.cwd(), "output");
+    if (!path.resolve(staticFile).startsWith(outputDir)) {
+      return res.status(400).send("Invalid path");
+    }
     try {
       await fs.access(staticFile);
-      // Static file exists, let express.static handle it (shouldn't reach here normally)
       res.sendFile(staticFile);
     } catch {
-      // No static file — serve client-side fallback
       const fallbackPath = path.join(
         process.cwd(),
         "public",

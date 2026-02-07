@@ -37,11 +37,19 @@ function addActivity(type, message, detail = "") {
 
 // Listen to activity bus events
 activityBus.on("fetch", (data) => {
-  addActivity("fetch", `Fetched ${data.saved} new, ${data.updated} updated articles`, data.source || "");
+  addActivity(
+    "fetch",
+    `Fetched ${data.saved} new, ${data.updated} updated articles`,
+    data.source || "",
+  );
 });
 
 activityBus.on("translate", (data) => {
-  addActivity("translate", `Translated ${data.count} articles`, data.errors ? `${data.errors} errors` : "");
+  addActivity(
+    "translate",
+    `Translated ${data.count} articles`,
+    data.errors ? `${data.errors} errors` : "",
+  );
 });
 
 activityBus.on("scrape", (data) => {
@@ -85,7 +93,11 @@ async function collectStats() {
     await connectDB();
 
     const now = new Date();
-    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const todayStart = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+    );
 
     const [
       totalArticles,
@@ -102,12 +114,24 @@ async function collectStats() {
     ] = await Promise.all([
       NewsItem.countDocuments({}),
       NewsItem.countDocuments({ createdAt: { $gte: todayStart } }),
-      NewsItem.countDocuments({ scrapingStatus: { $in: ["", "pending", null] } }),
+      NewsItem.countDocuments({
+        scrapingStatus: { $in: ["", "pending", null] },
+      }),
       NewsItem.countDocuments({ scrapingStatus: "scraped" }),
       NewsItem.countDocuments({ scrapingStatus: "failed" }),
-      NewsItem.countDocuments({ translatedTitle: { $exists: true, $nin: ["", null] } }),
-      NewsItem.countDocuments({ $or: [{ translatedTitle: "" }, { translatedTitle: null }, { translatedTitle: { $exists: false } }] }),
-      NewsItem.aggregate([{ $group: { _id: "$sentiment", count: { $sum: 1 } } }]),
+      NewsItem.countDocuments({
+        translatedTitle: { $exists: true, $nin: ["", null] },
+      }),
+      NewsItem.countDocuments({
+        $or: [
+          { translatedTitle: "" },
+          { translatedTitle: null },
+          { translatedTitle: { $exists: false } },
+        ],
+      }),
+      NewsItem.aggregate([
+        { $group: { _id: "$sentiment", count: { $sum: 1 } } },
+      ]),
       NewsItem.aggregate([
         { $group: { _id: "$source", count: { $sum: 1 } } },
         { $sort: { count: -1 } },
@@ -149,16 +173,20 @@ async function collectStats() {
         pending: scrapePending,
         scraped: scrapeScraped,
         failed: scrapeFailed,
-        successRate: scrapeScraped + scrapeFailed > 0
-          ? ((scrapeScraped / (scrapeScraped + scrapeFailed)) * 100).toFixed(1)
-          : 0,
+        successRate:
+          scrapeScraped + scrapeFailed > 0
+            ? ((scrapeScraped / (scrapeScraped + scrapeFailed)) * 100).toFixed(
+                1,
+              )
+            : 0,
       },
       translation: {
         translated: translatedCount,
         untranslated: untranslatedCount,
-        progress: totalArticles > 0
-          ? ((translatedCount / totalArticles) * 100).toFixed(1)
-          : 0,
+        progress:
+          totalArticles > 0
+            ? ((translatedCount / totalArticles) * 100).toFixed(1)
+            : 0,
       },
       sentiment,
       sources,
@@ -174,8 +202,11 @@ async function collectStats() {
 }
 
 export function initDashboard(httpServer) {
+  const allowedOrigins = (process.env.ALLOWED_ORIGINS || "")
+    .split(",")
+    .filter(Boolean);
   io = new Server(httpServer, {
-    cors: { origin: "*" },
+    cors: { origin: allowedOrigins.length > 0 ? allowedOrigins : false },
     path: "/socket.io",
   });
 
@@ -225,7 +256,11 @@ export function initDashboard(httpServer) {
         socket.emit("action_ack", { action, status: "done" });
       } catch (err) {
         addActivity("error", `Action '${action}' failed`, err.message);
-        socket.emit("action_ack", { action, status: "error", error: err.message });
+        socket.emit("action_ack", {
+          action,
+          status: "error",
+          error: err.message,
+        });
       }
     });
 
