@@ -93,14 +93,14 @@ export default function NewsFeed({ news: initialNews }) {
 
   return (
     <>
-      <MarketInsight />
-
       <div className="container" style={{ marginTop: "20px" }}>
         <div className="widgets-row">
           <FearGreedIndex />
           <CryptoPriceTicker />
         </div>
       </div>
+
+      <MarketInsight />
 
       <div className="tag-filter">
         <div className="container">
