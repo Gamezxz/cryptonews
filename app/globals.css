@@ -205,6 +205,72 @@ body::after {
     padding: 12px 24px;
 }
 
+/* Search Bar */
+.search-bar {
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 12px 0;
+}
+
+.search-bar .container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 24px;
+}
+
+.search-wrapper {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    font-size: 16px;
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.search-input {
+    width: 100%;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-mid);
+    border-radius: 4px;
+    padding: 8px 36px 8px 36px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.search-input::placeholder {
+    color: var(--text-muted);
+}
+
+.search-input:focus {
+    border-color: var(--accent);
+}
+
+.search-clear {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+}
+
+.search-clear:hover {
+    color: var(--text-primary);
+}
+
 .tag-btn {
     display: inline-flex;
     align-items: center;
