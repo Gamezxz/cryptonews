@@ -1995,6 +1995,7 @@ body::after {
     font-size: 11px;
     font-weight: 600;
     text-align: right;
+    white-space: nowrap;
 }
 
 .fng-footer {
@@ -2044,7 +2045,7 @@ body::after {
 }
 
 .widgets-row .fng-widget {
-    flex: 0 0 340px;
+    flex: 0 0 380px;
     margin-bottom: 0;
 }
 
