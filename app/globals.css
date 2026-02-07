@@ -85,8 +85,6 @@ body::after {
     background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-void) 100%);
     border-bottom: 1px solid var(--border-subtle);
     padding: 20px 0;
-    position: sticky;
-    top: 0;
     z-index: 100;
     backdrop-filter: blur(12px);
 }
