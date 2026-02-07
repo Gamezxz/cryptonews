@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { io } from "socket.io-client";
 import NewsCard from "./NewsCard";
 import MarketInsight from "./MarketInsight";
+import CryptoPriceTicker from "./CryptoPriceTicker";
 import FearGreedIndex from "./FearGreedIndex";
 
 function getBaseUrl() {
@@ -95,6 +96,7 @@ export default function NewsFeed({ news: initialNews }) {
       <MarketInsight />
 
       <div className="container" style={{ marginTop: "20px" }}>
+        <CryptoPriceTicker />
         <FearGreedIndex />
       </div>
 

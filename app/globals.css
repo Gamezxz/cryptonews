@@ -2032,3 +2032,260 @@ body::after {
         font-size: 10px;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   CRYPTO PRICE TICKER WIDGET
+   ═══════════════════════════════════════════════════════════ */
+
+.ticker-widget {
+    background: var(--bg-card);
+    border: 1px solid var(--border-mid);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+}
+
+.ticker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.ticker-title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 1px;
+}
+
+.ticker-status {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.ticker-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.ticker-online {
+    color: var(--green);
+}
+
+.ticker-online .ticker-dot {
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+    animation: tickerPulse 2s infinite;
+}
+
+.ticker-offline {
+    color: var(--text-muted);
+}
+
+.ticker-offline .ticker-dot {
+    background: var(--red);
+}
+
+@keyframes tickerPulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+}
+
+.ticker-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.ticker-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: 5px;
+    padding: 12px;
+}
+
+.ticker-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.ticker-coin {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.ticker-coin-name {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.ticker-coin-pair {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+.ticker-change {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.ticker-up {
+    color: var(--green);
+    background: rgba(34, 197, 94, 0.12);
+}
+
+.ticker-down {
+    color: var(--red);
+    background: rgba(239, 68, 68, 0.12);
+}
+
+.ticker-price {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    transition: color 0.15s;
+}
+
+.ticker-price.flash-up {
+    color: var(--green);
+}
+
+.ticker-price.flash-down {
+    color: var(--red);
+}
+
+/* RSI Gauge */
+.ticker-rsi {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.ticker-rsi-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-muted);
+    min-width: 22px;
+}
+
+.ticker-rsi-bar {
+    flex: 1;
+    height: 5px;
+    background: var(--bg-surface);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+}
+
+.ticker-rsi-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+.ticker-rsi-value {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 32px;
+    text-align: right;
+}
+
+.ticker-rsi-tag {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    font-weight: 700;
+    padding: 1px 4px;
+    border: 1px solid;
+    border-radius: 2px;
+    letter-spacing: 0.3px;
+}
+
+/* MA Section */
+.ticker-ma {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.ticker-ma-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.ticker-ma-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-muted);
+}
+
+.ticker-ma-val {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.ticker-signal {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    font-weight: 800;
+    padding: 1px 5px;
+    border-radius: 2px;
+    letter-spacing: 0.5px;
+    margin-left: auto;
+}
+
+.signal-bull {
+    color: var(--green);
+    background: rgba(34, 197, 94, 0.12);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.signal-bear {
+    color: var(--red);
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+@media (max-width: 600px) {
+    .ticker-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ticker-price {
+        font-size: 18px;
+    }
+
+    .ticker-card {
+        padding: 10px;
+    }
+}
