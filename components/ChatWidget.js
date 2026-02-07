@@ -108,6 +108,26 @@ export default function ChatWidget() {
             </button>
           </div>
 
+          <div className="chat-input-area">
+            <input
+              ref={inputRef}
+              type="text"
+              className="chat-input"
+              placeholder="ถามเกี่ยวกับข่าว crypto..."
+              value={input}
+              onChange={(e) => setInput(e.target.value.slice(0, 500))}
+              onKeyDown={handleKeyDown}
+              disabled={loading}
+            />
+            <button
+              className="chat-send"
+              onClick={handleSend}
+              disabled={loading || !input.trim()}
+            >
+              ›
+            </button>
+          </div>
+
           <div className="chat-messages">
             {messages.length === 0 && (
               <div className="chat-welcome">
@@ -169,26 +189,6 @@ export default function ChatWidget() {
             )}
 
             <div ref={messagesEndRef} />
-          </div>
-
-          <div className="chat-input-area">
-            <input
-              ref={inputRef}
-              type="text"
-              className="chat-input"
-              placeholder="ถามเกี่ยวกับข่าว crypto..."
-              value={input}
-              onChange={(e) => setInput(e.target.value.slice(0, 500))}
-              onKeyDown={handleKeyDown}
-              disabled={loading}
-            />
-            <button
-              className="chat-send"
-              onClick={handleSend}
-              disabled={loading || !input.trim()}
-            >
-              ›
-            </button>
           </div>
         </div>
       )}
