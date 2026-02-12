@@ -46,6 +46,57 @@ function calculateSMA(data, period) {
   return slice.reduce((sum, val) => sum + val, 0) / period;
 }
 
+function calculateEMA(data, period) {
+  if (data.length < period) return null;
+  const k = 2 / (period + 1);
+  let ema = data.slice(0, period).reduce((s, v) => s + v, 0) / period;
+  for (let i = period; i < data.length; i++) {
+    ema = data[i] * k + ema * (1 - k);
+  }
+  return ema;
+}
+
+function calculateEMASeries(data, period) {
+  if (data.length < period) return [];
+  const k = 2 / (period + 1);
+  let ema = data.slice(0, period).reduce((s, v) => s + v, 0) / period;
+  const series = [ema];
+  for (let i = period; i < data.length; i++) {
+    ema = data[i] * k + ema * (1 - k);
+    series.push(ema);
+  }
+  return series;
+}
+
+function calculateMACD(closes, fast = 8, slow = 21, signal = 5) {
+  const emaFast = calculateEMASeries(closes, fast);
+  const emaSlow = calculateEMASeries(closes, slow);
+  if (emaFast.length === 0 || emaSlow.length === 0) return null;
+  // Align series — emaSlow starts later
+  const offset = slow - fast;
+  const macdLine = [];
+  for (let i = 0; i < emaSlow.length; i++) {
+    macdLine.push(emaFast[i + offset] - emaSlow[i]);
+  }
+  if (macdLine.length < signal) return null;
+  const signalLine = calculateEMASeries(macdLine, signal);
+  const lastMACD = macdLine[macdLine.length - 1];
+  const prevMACD = macdLine[macdLine.length - 2];
+  const lastSignal = signalLine[signalLine.length - 1];
+  const prevSignal = signalLine[signalLine.length - 2];
+  // Cross detection: MACD crosses above signal = bullish
+  const crossUp = prevMACD <= prevSignal && lastMACD > lastSignal;
+  const crossDown = prevMACD >= prevSignal && lastMACD < lastSignal;
+  return {
+    macd: lastMACD,
+    signal: lastSignal,
+    histogram: lastMACD - lastSignal,
+    crossUp,
+    crossDown,
+    bullish: lastMACD > lastSignal,
+  };
+}
+
 // Build static site function
 async function buildStaticSite() {
   console.log("Building Next.js static site...");
@@ -367,10 +418,20 @@ async function main() {
           if (!resp.ok) throw new Error(`Klines error: ${symbol}`);
           const klines = await resp.json();
           const closes = klines.map((k) => parseFloat(k[4]));
+          const macdResult = calculateMACD(closes, 8, 21, 5);
           results[symbol] = {
             rsi: parseFloat((calculateRSI(closes, 14) ?? 0).toFixed(2)),
+            rsi5: parseFloat((calculateRSI(closes, 5) ?? 0).toFixed(2)),
             ma7: parseFloat((calculateSMA(closes, 7) ?? 0).toFixed(2)),
             ma25: parseFloat((calculateSMA(closes, 25) ?? 0).toFixed(2)),
+            ema13: parseFloat((calculateEMA(closes, 13) ?? 0).toFixed(2)),
+            macd: macdResult
+              ? {
+                  bullish: macdResult.bullish,
+                  histogram: parseFloat(macdResult.histogram.toFixed(4)),
+                }
+              : null,
+            lastClose: closes[closes.length - 1],
           };
         }),
       );

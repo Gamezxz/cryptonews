@@ -203,11 +203,29 @@ export default function CryptoPriceTicker() {
                   {formatMA(ind.ma25, coin.symbol)}
                 </span>
               )}
-              {ind && ind.ma7 && ind.ma25 && (
-                <span
-                  className={`ticker-signal-sm ${ind.ma7 > ind.ma25 ? "signal-bull" : "signal-bear"}`}
-                >
-                  {ind.ma7 > ind.ma25 ? "BULL" : "BEAR"}
+              {ind && (
+                <span className="ticker-indicators">
+                  {ind.macd && (
+                    <span
+                      className={`ticker-ind-badge ${ind.macd.bullish ? "ind-bull" : "ind-bear"}`}
+                    >
+                      {ind.macd.bullish ? "↑" : "↓"} MACD
+                    </span>
+                  )}
+                  <span
+                    className={`ticker-ind-badge ${
+                      ind.rsi5 >= 15 && ind.rsi5 <= 95 ? "ind-bull" : "ind-bear"
+                    }`}
+                  >
+                    {ind.rsi5 >= 15 && ind.rsi5 <= 95 ? "↑" : "↓"} RSI
+                  </span>
+                  {ind.ema13 && ind.lastClose && (
+                    <span
+                      className={`ticker-ind-badge ${ind.lastClose > ind.ema13 ? "ind-bull" : "ind-bear"}`}
+                    >
+                      {ind.lastClose > ind.ema13 ? "↑" : "↓"} EMA
+                    </span>
+                  )}
                 </span>
               )}
             </div>

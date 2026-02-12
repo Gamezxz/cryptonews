@@ -2306,6 +2306,34 @@ body::after {
     border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
+.ticker-indicators {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+}
+
+.ticker-ind-badge {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+.ind-bull {
+    color: var(--green);
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.35);
+}
+
+.ind-bear {
+    color: var(--red);
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
 @media (max-width: 600px) {
     .ticker-row {
         gap: 6px;
@@ -2318,5 +2346,10 @@ body::after {
 
     .ticker-ma-sm {
         display: none;
+    }
+
+    .ticker-ind-badge {
+        font-size: 7px;
+        padding: 1px 4px;
     }
 }
