@@ -413,7 +413,7 @@ async function main() {
       await Promise.all(
         symbols.map(async (symbol) => {
           const resp = await fetch(
-            `https://fapi.binance.com/fapi/v1/klines?symbol=${symbol}&interval=1h&limit=100`,
+            `https://fapi.binance.com/fapi/v1/klines?symbol=${symbol}&interval=1d&limit=100`,
           );
           if (!resp.ok) throw new Error(`Klines error: ${symbol}`);
           const klines = await resp.json();
