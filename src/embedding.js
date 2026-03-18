@@ -61,7 +61,7 @@ async function refreshCache() {
     },
   )
     .sort({ pubDate: -1 })
-    .limit(2000)
+    .limit(500)
     .lean();
 
   embeddingCache = articles;
